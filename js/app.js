@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const API = 'http://localhost:3000/api';
+    const API = 'http://3.138.195.46/api';
 
     // Estado de sesión 
     let sesionUsuario = JSON.parse(localStorage.getItem('compudesign_usuario')) || null;
