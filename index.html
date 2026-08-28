@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompuDesign | Tu tienda de tecnología</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="bg-glow glow-3"></div>
+
+    <header>
+        <div class="container navbar">
+            <div class="logo">
+                <img src="./assets/img/logo-compudesign.png" alt="CompuDesign">
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-btn active" data-target="vista-inicio">INICIO</a></li>
+                    <li class="dropdown-parent">
+                        <a href="#" class="nav-btn" data-target="vista-inicio" data-scroll-to="seccion-destacados">PRODUCTOS DESTACADOS ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="nav-btn" data-target="vista-inicio" data-scroll-to="seccion-destacados" data-featured-filter="">Todos</a></li>
+                            <li><a href="#" class="nav-btn" data-target="vista-inicio" data-scroll-to="seccion-destacados" data-featured-filter="laptops">Laptops</a></li>
+                            <li><a href="#" class="nav-btn" data-target="vista-inicio" data-scroll-to="seccion-destacados" data-featured-filter="desktops">Desktops</a></li>
+                            <li><a href="#" class="nav-btn" data-target="vista-inicio" data-scroll-to="seccion-destacados" data-featured-filter="monitores">Monitores</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="nav-btn" data-target="vista-catalogo">CATÁLOGO</a></li>
+                    <li><a href="#" class="nav-btn" data-target="vista-acerca">ACERCA DE</a></li>
+                    <li><a href="#" class="nav-btn" data-target="vista-contacto">CONTÁCTANOS</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-icons">
+                <button class="icon-btn nav-btn" data-target="vista-login" title="Usuario" id="user-nav-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                </button>
+                <button class="icon-btn nav-btn cart-icon-wrapper" data-target="vista-carrito" title="Carrito">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============================================ -->
+        <!-- VISTA: INICIO -->
+        <!-- ============================================ -->
+        <section id="vista-inicio" class="vista active">
+            <div class="hero-banner container mt-40">
+                <button id="prev-slide" class="slider-arrow">&lt;</button>
+                <div class="hero-content">
+                    <h1 id="banner-title">Encuentra la mejor selección de <br><span class="text-blue">computadoras ASUS</span></h1>
+                    <p id="banner-desc" class="mt-20">Brindamos los mejores equipos para tus creaciones, diseños y<br>ediciones.</p>
+                    <button class="btn-primary mt-40 nav-btn" data-target="vista-catalogo">Explorar ahora</button>
+                </div>
+                <div class="hero-image">
+                    <div class="hero-img-frame">
+                        <div class="hero-img-frame-inner">
+                            <img id="banner-img" src="./assets/img/banner-asus.png" alt="Banner Principal">
+                        </div>
+                    </div>
+                </div>
+                <button id="next-slide" class="slider-arrow">&gt;</button>
+            </div>
+
+            <div class="container">
+                <div class="sobre-compudesign mt-60 relative">
+                    <h2 class="titulo-linea-centrada">Sobre <span class="text-blue">CompuDesign</span></h2>
+                    <p class="mt-20 text-muted">Ofrecemos equipos de cómputo ASUS de alto rendimiento, pensados especialmente para<br>diseñadores, editores de contenido y usuarios que buscan potencia y calidad en su trabajo diario.<br>Aquí podrás encontrar equipos cuidadosamente seleccionados, con información clara sobre sus<br>características y rendimiento, para ayudarte a elegir el computador que mejor se adapte a tus<br>necesidades, ya sea para trabajo creativo o para uso cotidiano.</p>
+                </div>
+
+                <div class="seccion-centrada mt-60">
+                    <h2 class="titulo-linea-centrada">Categorías</h2>
+                    <div class="categorias-grid mt-40">
+                        <div class="cat-card nav-btn" data-target="vista-catalogo" data-filter="laptops">
+                            <img src="./assets/img/icon-laptop.png" alt="Laptops" class="cat-icon">
+                            <span>Laptops</span>
+                        </div>
+                        <div class="cat-card nav-btn" data-target="vista-catalogo" data-filter="desktops">
+                            <img src="./assets/img/icon-desktop.png" alt="Desktops" class="cat-icon">
+                            <span>Desktops</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-60 mb-20" id="seccion-destacados">
+                    <h2 class="titulo-linea-izquierda">Productos destacados</h2>
+                    <div id="filtro-destacados-label" class="text-muted mt-10" style="font-size:0.85rem; min-height:20px;"></div>
+                    <div id="productos-destacados-container" class="grid-productos mt-40"></div>
+                </div>
+
+                <!-- HEADER SERVICIOS -->
+                <div class="servicios-header-block mt-60">
+                    <div>
+                        <h1 style="font-size: 2.8rem; font-weight: 700; line-height:1.2;">Nuestros <span class="text-blue">servicios</span></h1>
+                        <p class="mt-15 text-muted" style="font-size: 1rem; line-height: 1.8; max-width: 480px;">Seleccione el servicio que necesita, complete el formulario y le confirmaremos su cita. Nuestro equipo estará listo para atenderle.</p>
+                    </div>
+                    <div class="servicios-badge-hint" id="servicio-hint-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Selecciona un servicio para comenzar
+                    </div>
+                </div>
+
+                <!-- LAYOUT PRINCIPAL SERVICIOS -->
+                <div class="servicios-layout mt-35">
+
+                    <!-- COLUMNA IZQUIERDA: Cards seleccionables -->
+                    <div class="servicios-cards">
+
+                        <!-- Card Soporte Técnico -->
+                        <div class="servicio-card" id="card-soporte" data-servicio="soporte">
+                            <div class="servicio-card-selected-bar"></div>
+                            <div class="servicio-card-inner">
+                                <!-- Imagen tipo Figma: herramientas/llave inglesa -->
+                                <div class="servicio-img-wrap servicio-img-soporte">
+                                    <svg viewBox="0 0 80 80" width="72" height="72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="40" cy="40" r="38" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+                                        <!-- laptop base -->
+                                        <rect x="17" y="24" width="46" height="30" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                        <!-- pantalla -->
+                                        <rect x="21" y="27" width="38" height="22" rx="2" fill="#0f172a"/>
+                                        <!-- engranaje en pantalla -->
+                                        <circle cx="40" cy="38" r="6" fill="none" stroke="#f97316" stroke-width="2"/>
+                                        <circle cx="40" cy="38" r="2.5" fill="#f97316"/>
+                                        <line x1="40" y1="30" x2="40" y2="32.5" stroke="#f97316" stroke-width="1.8" stroke-linecap="round"/>
+                                        <line x1="40" y1="43.5" x2="40" y2="46" stroke="#f97316" stroke-width="1.8" stroke-linecap="round"/>
+                                        <line x1="32" y1="38" x2="34.5" y2="38" stroke="#f97316" stroke-width="1.8" stroke-linecap="round"/>
+                                        <line x1="45.5" y1="38" x2="48" y2="38" stroke="#f97316" stroke-width="1.8" stroke-linecap="round"/>
+                                        <line x1="34.3" y1="32.3" x2="36.1" y2="34.1" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
+                                        <line x1="43.9" y1="41.9" x2="45.7" y2="43.7" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
+                                        <line x1="45.7" y1="32.3" x2="43.9" y2="34.1" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
+                                        <line x1="36.1" y1="41.9" x2="34.3" y2="43.7" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
+                                        <!-- teclado base -->
+                                        <path d="M13 54 h54 l-4 6 H17 z" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
+                                    </svg>
+                                </div>
+                                <div class="servicio-card-info">
+                                    <div class="servicio-card-tag">Técnico</div>
+                                    <h3>SOPORTE TÉCNICO</h3>
+                                    <p>Diagnóstico y solución de fallas en línea. Optimización, instalación de software y asesoría especializada para tus equipos ASUS.</p>
+                                </div>
+                            </div>
+                            <div class="servicio-card-footer">
+                                <span class="servicio-disponible-badge">● Disponible hoy</span>
+                                <span class="servicio-card-cta">Seleccionar →</span>
+                            </div>
+                        </div>
+
+                        <!-- Asesoría Virtual -->
+                        <div class="servicio-card" id="card-asesoria" data-servicio="asesoria">
+                            <div class="servicio-card-selected-bar"></div>
+                            <div class="servicio-card-inner">
+                               
+                                <div class="servicio-img-wrap servicio-img-asesoria">
+                                    <svg viewBox="0 0 80 80" width="72" height="72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="40" cy="40" r="38" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+                                        <!-- cabeza -->
+                                        <circle cx="40" cy="28" r="11" fill="#fdba74"/>
+                                        <!-- cuerpo -->
+                                        <path d="M22 62 c0-10 8-16 18-16 s18 6 18 16z" fill="#3b82f6"/>
+                                        <!-- headset arco -->
+                                        <path d="M27 26 a13 13 0 0 1 26 0" stroke="#1e293b" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                        <!-- almohadillas -->
+                                        <rect x="23" y="24" width="6" height="9" rx="3" fill="#1e293b"/>
+                                        <rect x="51" y="24" width="6" height="9" rx="3" fill="#1e293b"/>
+                                        <!-- micrófono -->
+                                        <path d="M54 30 q6 2 4 10" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
+                                        <circle cx="58" cy="40" r="2.5" fill="#f97316"/>
+                                    </svg>
+                                </div>
+                                <div class="servicio-card-info">
+                                    <div class="servicio-card-tag">Virtual</div>
+                                    <h3>ASESORÍA VIRTUAL</h3>
+                                    <p>Consultoría personalizada en línea con un experto. Te ayudamos a elegir el equipo ideal y resolver tus dudas tecnológicas.</p>
+                                </div>
+                            </div>
+                            <div class="servicio-card-footer">
+                                <span class="servicio-disponible-badge">● Disponible hoy</span>
+                                <span class="servicio-card-cta">Seleccionar →</span>
+                            </div>
+                        </div>
+
+                    </div><!-- /servicios-TARJETAS -->
+
+                    <!-- COLUMNA DERECHA: Formulario integrado -->
+                    <div class="servicio-form-panel" id="servicio-form-panel">
+                        <!-- Header dinámico del form -->
+                        <div class="servicio-form-header" id="servicio-form-header">
+                            <div class="servicio-form-header-idle">
+                                <div class="servicio-form-header-icon">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                </div>
+                                <div>
+                                    <p class="servicio-form-header-label">Formulario de solicitud</p>
+                                    <p class="servicio-form-header-sub" id="servicio-form-subtitle">← Selecciona un servicio para continuar</p>
+                                </div>
+                            </div>
+                            <div class="servicio-form-selected-chip" id="servicio-selected-chip" style="display:none;">
+                                <span id="chip-icon">🔧</span>
+                                <span id="chip-text">Soporte Técnico</span>
+                                <button class="chip-remove" id="btn-deselect-servicio" title="Cambiar servicio">✕</button>
+                            </div>
+                        </div>
+
+                        <div class="servicio-form-body">
+                            <div class="servicio-form-group">
+                                <label class="servicio-form-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    Nombre completo
+                                </label>
+                                <input type="text" id="servicio-nombre" class="servicio-form-input" placeholder="Ej: María García López">
+                            </div>
+                            <div class="servicio-form-group">
+                                <label class="servicio-form-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                    Correo electrónico
+                                </label>
+                                <input type="email" id="servicio-email" class="servicio-form-input" placeholder="correo@ejemplo.com">
+                            </div>
+                            <div class="servicio-form-group">
+                                <label class="servicio-form-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    Mensaje / Descripción del problema
+                                </label>
+                                <textarea rows="4" id="servicio-mensaje" class="servicio-form-input servicio-form-textarea" placeholder="Describe con detalle tu solicitud o problema..."></textarea>
+                            </div>
+
+                            <div class="servicio-form-nota" id="servicio-form-nota" style="display:none;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                <span id="servicio-form-nota-text">Te enviaremos las fechas disponibles a tu correo.</span>
+                            </div>
+
+                            <button class="btn-enviar-servicio" id="btn-enviar-servicio" disabled>
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                Enviar solicitud
+                            </button>
+                            <p class="servicio-form-privacy">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                Tu información es confidencial y no será compartida con terceros.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- MODAL: Selector de Fechas — Soporte Técnico   -->
+                <div id="modal-soporte-overlay" class="modal-overlay">
+                    <div class="modal-box modal-fechas-box">
+                        <div class="modal-fechas-left">
+                            <div class="modal-fechas-icon-wrap">
+                                <svg viewBox="0 0 80 80" width="110" height="110" fill="none">
+                                    <circle cx="40" cy="40" r="38" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.25)" stroke-width="1.5"/>
+                                    <!-- laptop base -->
+                                    <rect x="14" y="20" width="52" height="32" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                    <!-- pantalla -->
+                                    <rect x="18" y="23" width="44" height="26" rx="2" fill="#0f172a"/>
+                                    <!-- engranaje en pantalla -->
+                                    <circle cx="40" cy="36" r="7" fill="none" stroke="#f97316" stroke-width="2.2"/>
+                                    <circle cx="40" cy="36" r="3" fill="#f97316"/>
+                                    <line x1="40" y1="27" x2="40" y2="29.5" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="40" y1="42.5" x2="40" y2="45" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="31" y1="36" x2="33.5" y2="36" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="46.5" y1="36" x2="49" y2="36" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="34.1" y1="30.1" x2="35.9" y2="31.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                    <line x1="44.1" y1="40.1" x2="45.9" y2="41.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                    <line x1="45.9" y1="30.1" x2="44.1" y2="31.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                    <line x1="35.9" y1="40.1" x2="34.1" y2="41.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                    <!-- teclado -->
+                                    <path d="M10 52 h60 l-4 7 H14 z" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
+                                </svg>
+                            </div>
+                            <h3 class="modal-fechas-titulo">💻 Soporte Técnico</h3>
+                            <p class="modal-fechas-desc">Elige tu fecha preferida y recibirás la confirmación en tu correo electrónico.</p>
+                            <div class="modal-fechas-info-box">
+                                <p><strong>Solicitante:</strong></p>
+                                <p id="modal-fechas-nombre" class="modal-fechas-info-val">—</p>
+                                <p class="mt-5"><strong>Correo:</strong></p>
+                                <p id="modal-fechas-email" class="modal-fechas-info-val">—</p>
+                            </div>
+                        </div>
+                        <div class="modal-fechas-right">
+                            <div class="modal-fechas-header-right">
+                                <h4>Fechas disponibles</h4>
+                                <span class="modal-mes-badge">Mayo 2026</span>
+                            </div>
+                            <div class="fechas-lista mt-20">
+                                <label class="fecha-option">
+                                    <input type="radio" name="fecha-soporte" value="Martes 5 de mayo 2026 — 10:00 a.m.">
+                                    <span class="fecha-checkbox-custom"></span>
+                                    <div class="fecha-detail">
+                                        <span class="fecha-day">Martes · 5 de mayo 2026</span>
+                                        <span class="fecha-date">10:00 a.m.</span>
+                                    </div>
+                                </label>
+                                <label class="fecha-option">
+                                    <input type="radio" name="fecha-soporte" value="Jueves 7 de mayo 2026 — 2:00 p.m.">
+                                    <span class="fecha-checkbox-custom"></span>
+                                    <div class="fecha-detail">
+                                        <span class="fecha-day">Jueves · 7 de mayo 2026</span>
+                                        <span class="fecha-date">2:00 p.m.</span>
+                                    </div>
+                                </label>
+                                <label class="fecha-option">
+                                    <input type="radio" name="fecha-soporte" value="Sábado 9 de mayo 2026 — 9:00 a.m.">
+                                    <span class="fecha-checkbox-custom"></span>
+                                    <div class="fecha-detail">
+                                        <span class="fecha-day">Sábado · 9 de mayo 2026</span>
+                                        <span class="fecha-date">9:00 a.m.</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="modal-fechas-actions mt-20">
+                                <button class="btn-primary" id="btn-confirmar-fecha">Confirmar fecha</button>
+                                <button class="btn-cerrar-modal" id="btn-cerrar-soporte">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODAL: Confirmación — Soporte Técnico          -->
+                <div id="modal-soporte-confirm-overlay" class="modal-overlay">
+                    <div class="modal-box modal-confirm-pro">
+                        <div class="mcp-top-stripe"></div>
+                        <div class="mcp-body">
+                            <div class="mcp-icon-wrap">
+                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                    <circle cx="32" cy="32" r="30" fill="#16a34a" opacity="0.15"/>
+                                    <circle cx="32" cy="32" r="24" fill="#22c55e"/>
+                                    <path d="M20 32 l9 9 16-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h2 class="mcp-title">¡Soporte agendado con éxito!</h2>
+                            <p class="mcp-subtitle">Tu solicitud de soporte técnico ha sido registrada. Nuestro equipo se pondrá en contacto contigo en la fecha seleccionada.</p>
+
+                            <div class="mcp-info-grid">
+                                <div class="mcp-info-item">
+                                    <span class="mcp-info-label">👤 Solicitante</span>
+                                    <span class="mcp-info-value" id="confirm-soporte-nombre">—</span>
+                                </div>
+                                <div class="mcp-info-item">
+                                    <span class="mcp-info-label">📅 Fecha agendada</span>
+                                    <span class="mcp-info-value" id="confirm-soporte-fecha">—</span>
+                                </div>
+                                <div class="mcp-info-item">
+                                    <span class="mcp-info-label">📧 Confirmación a</span>
+                                    <span class="mcp-info-value" id="confirm-soporte-email">—</span>
+                                </div>
+                            </div>
+
+                            <div class="mcp-radicado-box">
+                                <span class="mcp-radicado-label">N.º de Radicado</span>
+                                <span class="mcp-radicado-num" id="numero-radicado-soporte">—</span>
+                            </div>
+
+                            <p class="mcp-nota">Guarda este número de radicado. Lo necesitarás para consultar el estado de tu solicitud.</p>
+
+                            <div class="mcp-actions">
+                                <button class="btn-primary" id="btn-cerrar-soporte-confirm">Entendido</button>
+                                <button class="btn-cerrar-modal nav-btn" data-target="vista-contacto">¿Dudas? Contáctanos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODAL: Confirmación — Asesoría Virtual         -->
+                <div id="modal-asesoria-overlay" class="modal-overlay">
+                    <div class="modal-box modal-confirm-pro">
+                        <div class="mcp-top-stripe mcp-stripe-blue"></div>
+                        <div class="mcp-body">
+                            <div class="mcp-icon-wrap">
+                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                    <circle cx="32" cy="32" r="30" fill="#1d4ed8" opacity="0.15"/>
+                                    <circle cx="32" cy="32" r="24" fill="#3b82f6"/>
+                                    <path d="M20 32 l9 9 16-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h2 class="mcp-title">¡Asesoría agendada con éxito!</h2>
+                            <p class="mcp-subtitle">Tu asesoría virtual ha sido registrada. Pronto uno de nuestros asesores se comunicará contigo para brindarte la orientación que necesitas.</p>
+
+                            <div class="mcp-info-grid">
+                                <div class="mcp-info-item">
+                                    <span class="mcp-info-label">👤 Solicitante</span>
+                                    <span class="mcp-info-value" id="confirm-asesoria-nombre">—</span>
+                                </div>
+                                <div class="mcp-info-item">
+                                    <span class="mcp-info-label">💼 Tipo de servicio</span>
+                                    <span class="mcp-info-value">Asesoría Virtual</span>
+                                </div>
+                                <div class="mcp-info-item">
+                                    <span class="mcp-info-label">📧 Confirmación a</span>
+                                    <span class="mcp-info-value" id="confirm-asesoria-email">—</span>
+                                </div>
+                                <div class="mcp-info-item">
+                                    <span class="mcp-info-label">⏱ Tiempo de respuesta</span>
+                                    <span class="mcp-info-value">24–48 horas hábiles</span>
+                                </div>
+                            </div>
+
+                            <div class="mcp-radicado-box mcp-radicado-blue">
+                                <span class="mcp-radicado-label">N.º de Radicado</span>
+                                <span class="mcp-radicado-num" id="numero-radicado-asesoria">—</span>
+                            </div>
+
+                            <p class="mcp-nota">Guarda este número de radicado. Lo necesitarás para consultar el estado de tu solicitud.</p>
+
+                            <div class="mcp-actions">
+                                <button class="btn-primary" id="btn-cerrar-asesoria">Entendido</button>
+                                <button class="btn-cerrar-modal nav-btn" data-target="vista-contacto">¿Dudas? Contáctanos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: CATÁLOGO -->
+        <section id="vista-catalogo" class="vista">
+            <div class="vista-header-strip">
+                <div class="container">
+                    <h1 style="font-size: 2.5rem; font-weight: 700;">Catálogo de productos</h1>
+                    <p class="text-muted mt-10">Descubre nuestra selección de computadoras y accesorios.</p>
+                </div>
+            </div>
+            
+            <!-- Filtros superiores -->
+            <div class="container mt-40">
+                <div class="filtros-bar">
+                    <select class="filtro-select" id="filtro-categoria-top">
+                        <option value="">Categoría </option>
+                        <option value="laptops">Laptops</option>
+                        <option value="desktops">Desktops</option>
+                        <option value="monitores">Monitores</option>
+                    </select>
+                    <select class="filtro-select" id="filtro-precio-top">
+                        <option value="">Precio </option>
+                        <option value="0-2000000">$0 – $2.000.000</option>
+                        <option value="2000000-5000000">$2.000.000 – $5.000.000</option>
+                        <option value="5000000-10000000">$5.000.000 – $10.000.000</option>
+                        <option value="10000000-99999999">$10.000.000+</option>
+                    </select>
+                    <div class="filtros-ordenar">
+                        <span class="text-muted" style="font-size:0.9rem;">Ordenar por:</span>
+                        <select class="filtro-select" id="filtro-ordenar">
+                            <option value="nombre">Nombre</option>
+                            <option value="precio-asc">Precio: menor a mayor</option>
+                            <option value="precio-desc">Precio: mayor a menor</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container layout-catalogo mt-30">
+                <aside class="filtros">
+                    <h3 class="text-light">Categorías</h3>
+                    <ul class="mt-20 filtros-lista" id="filtro-categoria-lista">
+                        <li><label class="filtro-radio-label"><input type="radio" name="cat" value="" checked> Todos</label></li>
+                        <li><label class="filtro-radio-label"><input type="radio" name="cat" value="laptops"> Portátiles <span class="filtro-count">(4)</span></label></li>
+                        <li><label class="filtro-radio-label"><input type="radio" name="cat" value="desktops"> Escritorio <span class="filtro-count">(4)</span></label></li>
+                        <li><label class="filtro-radio-label"><input type="radio" name="cat" value="monitores"> Monitores <span class="filtro-count">(2)</span></label></li>
+                    </ul>
+
+                    <h3 class="mt-40 text-light">Precio</h3>
+                    <div class="precio-range mt-20">
+                        <div class="precio-inputs">
+                            <input type="number" id="precio-min" placeholder="0" class="input-transparente text-light text-center" min="0" max="20000000">
+                            <span class="text-light">–</span>
+                            <input type="number" id="precio-max" placeholder="20000000" class="input-transparente text-light text-center" min="0" max="20000000">
+                        </div>
+                        <button class="btn-filtro-precio mt-10" id="btn-aplicar-precio">Aplicar</button>
+                    </div>
+                </aside>
+                
+                <div class="catalogo-main">
+                    <div id="catalogo-resultado-info" class="resultado-info text-muted text-sm mb-20"></div>
+                    <div id="catalogo-productos-container" class="grid-productos-4"></div>
+                    <div id="sin-resultados" class="sin-resultados" style="display:none;">
+                        <p>No se encontraron productos con los filtros seleccionados.</p>
+                        <button class="btn-link mt-20" id="btn-limpiar-filtros">Limpiar filtros</button>
+                    </div>
+                    <div class="paginacion mt-40" id="paginacion-catalogo"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: CARRITO -->
+        <section id="vista-carrito" class="vista">
+            <div class="vista-header-strip">
+                <div class="container">
+                    <h1 style="font-size: 2.5rem; font-weight: 700;">Carrito de compras</h1>
+                    <p class="text-muted mt-10">Revisa, comprueba y completa tu pedido de forma segura</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="stepper mt-60" id="stepper-carrito">
+                    <div class="step"><div class="step-circle active">1</div><span>Carrito</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><div class="step-circle">2</div><span>Envío</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><div class="step-circle">3</div><span>Pago</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><div class="step-circle">4</div><span>Confirmación</span></div>
+                </div>
+
+                <!-- Carrito vacío -->
+                <div id="cart-empty-view" class="cart-empty mt-60" style="display:none;">
+                    <div class="cart-empty-icon">🛒</div>
+                    <h2 class="mt-20">Tu carrito está vacío</h2>
+                    <p class="text-muted mt-10">Agrega productos desde el catálogo para continuar.</p>
+                    <button class="btn-primary mt-40 nav-btn" data-target="vista-catalogo">Ir al catálogo</button>
+                </div>
+
+                <!-- Carrito con productos -->
+                <div id="cart-filled-view" class="checkout-layout mt-60" style="display:none;">
+                    <div class="checkout-main panel-claro" id="cart-items-container">
+                        <h3>Tus productos</h3>
+                    </div>
+
+                    <aside class="checkout-sidebar panel-claro">
+                        <h3>Resumen de compra</h3>
+                        <div class="resumen-linea mt-20"><p>Subtotal</p><p id="cart-subtotal">$0.00</p></div>
+                        <div class="resumen-linea"><p>Envío</p><p>Gratis</p></div>
+                        <div class="resumen-linea"><p>IVA (19%)</p><p id="cart-taxes">$0.00</p></div>
+                        <div class="promo-box mt-20">
+                            <input type="text" placeholder="Código promocional" class="input-transparente text-dark m-0">
+                            <button class="btn-blue">Aplicar</button>
+                        </div>
+                        <hr class="hr-claro">
+                        <div class="resumen-linea total-line"><h3>Total:</h3><h3 id="cart-total">$0.00</h3></div>
+                        <button class="btn-primary w-100 mt-20 nav-btn" data-target="vista-envio">Continuar al envío</button>
+                        <div class="seguro-icons mt-15">
+                            <span>🔒 Pago seguro</span>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: ENVÍO -->
+        <section id="vista-envio" class="vista">
+            <div class="vista-header-strip">
+                <div class="container">
+                    <h1 style="font-size: 2rem; font-weight: 700;">Proceso de compra</h1>
+                </div>
+            </div>
+            <div class="container">
+                <div class="stepper mt-60">
+                    <div class="step"><div class="step-circle done">✓</div><span>Carrito</span></div>
+                    <div class="step-line active-line"></div>
+                    <div class="step"><div class="step-circle active">2</div><span>Envío</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><div class="step-circle">3</div><span>Pago</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><div class="step-circle">4</div><span>Confirmación</span></div>
+                </div>
+
+                <div class="checkout-layout mt-60">
+                    <div class="checkout-main">
+                        <div class="panel-claro mb-20">
+                            <h3 class="mb-30">Datos del envío</h3>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre completo</label>
+                                    <input type="text" id="envio-nombre" class="input-form" placeholder="Ej: Juan Pérez">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono</label>
+                                    <input type="text" id="envio-telefono" class="input-form" placeholder="Ej: 300 000 0000">
+                                </div>
+                            </div>
+                            <div class="form-group mt-15">
+                                <label class="form-label">Dirección</label>
+                                <input type="text" id="envio-direccion" class="input-form" placeholder="Calle, número, barrio">
+                            </div>
+                            <div class="form-grid-2 mt-15">
+                                <div class="form-group">
+                                    <label class="form-label">Departamento</label>
+                                    <select id="envio-departamento" class="input-form select-colombia">
+                                        <option value="">Selecciona un departamento</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ciudad / Municipio</label>
+                                    <select id="envio-ciudad" class="input-form select-colombia" disabled>
+                                        <option value="">Primero selecciona un departamento</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-claro mt-20">
+                            <h3 class="mb-20">Métodos de envío</h3>
+                            <div class="radio-card select-envio active" data-envio="Gratis" data-label="Envío estándar">
+                                <div>
+                                    <span class="text-blue font-bold">🚚 Envío estándar</span>
+                                    <br><span class="text-sm text-muted">entrega 3-5 días</span>
+                                </div>
+                                <div class="font-bold text-dark">Gratis</div>
+                            </div>
+                            <div class="radio-card select-envio mb-0" data-envio="15000" data-label="Envío express">
+                                <div>
+                                    <span class="text-blue font-bold">🚀 Envío express</span>
+                                    <br><span class="text-sm text-muted">entrega 1-2 días</span>
+                                </div>
+                                <div class="font-bold text-dark">$15.000</div>
+                            </div>
+                        </div>
+                        <button class="btn-link mt-20 nav-btn text-light" data-target="vista-carrito">← Volver al carrito</button>
+                    </div>
+
+                    <aside class="checkout-sidebar panel-claro">
+                        <h3>Resumen del pedido</h3>
+                        <div id="envio-items-resumen" class="mt-20"></div>
+                        <hr class="hr-claro">
+                        <div class="resumen-linea"><p>Subtotal</p><p class="checkout-subtotal-value">$0.00</p></div>
+                        <div class="resumen-linea"><p>Envío</p><p id="envio-costo-label">Gratis</p></div>
+                        <div class="resumen-linea"><p>IVA (19%)</p><p class="checkout-taxes-value">$0.00</p></div>
+                        <hr class="hr-claro">
+                        <div class="resumen-linea total-line"><h3>Total:</h3><h3 class="checkout-total-value">$0.00</h3></div>
+                        <button class="btn-primary w-100 mt-20" id="btn-continuar-pago">Continuar al pago</button>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: PAGO -->
+        <section id="vista-pago" class="vista">
+            <div class="vista-header-strip">
+                <div class="container">
+                    <h1 style="font-size: 2rem; font-weight: 700;">Proceso de compra</h1>
+                </div>
+            </div>
+            <div class="container">
+                <div class="stepper mt-60">
+                    <div class="step"><div class="step-circle done">✓</div><span>Carrito</span></div>
+                    <div class="step-line active-line"></div>
+                    <div class="step"><div class="step-circle done">✓</div><span>Envío</span></div>
+                    <div class="step-line active-line"></div>
+                    <div class="step"><div class="step-circle active">3</div><span>Pago</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><div class="step-circle">4</div><span>Confirmación</span></div>
+                </div>
+
+                <div class="checkout-layout mt-60">
+                    <div class="checkout-main">
+                        <div class="panel-claro mb-20">
+                            <h3 class="mb-30">Datos del cliente</h3>
+                            <div class="form-group">
+                                <label class="form-label">Nombre completo</label>
+                                <input type="text" id="pago-nombre" class="input-form" placeholder="Tu nombre completo">
+                            </div>
+                            <div class="form-group mt-15">
+                                <label class="form-label">Correo electrónico</label>
+                                <input type="email" id="pago-email" class="input-form" placeholder="correo@ejemplo.com">
+                            </div>
+                            <div class="form-grid-2 mt-15">
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono</label>
+                                    <input type="text" id="pago-telefono" class="input-form" placeholder="300 000 0000">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Dirección</label>
+                                    <input type="text" id="pago-direccion" class="input-form" placeholder="Tu dirección">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-claro mt-20">
+                            <h3 class="mb-20">Métodos de pago</h3>
+                            <div class="metodos-pago-grid">
+                                <button class="btn-pago" data-metodo="nequi">
+                                    <span class="pago-logo-wrap">
+                                        <img src="./assets/img/nequi.png" alt="Nequi">
+                                    </span>
+                                    <span class="pago-label">Nequi</span>
+                                </button>
+                                <button class="btn-pago" data-metodo="daviplata">
+                                    <span class="pago-logo-wrap">
+                                        <img src="./assets/img/daviplata.png" alt="DaviPlata">
+                                    </span>
+                                    <span class="pago-label">DaviPlata</span>
+                                </button>
+                                <button class="btn-pago" data-metodo="tarjeta">
+                                    <span class="pago-logo-wrap">
+                                        <img src="./assets/img/tarjeta.png" alt="Tarjeta">
+                                    </span>
+                                    <span class="pago-label">Tarjeta de crédito / débito</span>
+                                </button>
+                                <button class="btn-pago" data-metodo="contraentrega">
+                                    <span class="pago-logo-wrap">
+                                        <img src="./assets/img/contraentrega.png" alt="Contraentrega">
+                                    </span>
+                                    <span class="pago-label">Contraentrega</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <aside class="checkout-sidebar panel-claro">
+                        <h3>Resumen del pedido</h3>
+                        <div id="pago-items-resumen" class="mt-20"></div>
+                        <hr class="hr-claro">
+                        <div class="resumen-linea"><p>Subtotal</p><p class="checkout-subtotal-value">$0.00</p></div>
+                        <div class="resumen-linea"><p>Envío</p><p id="pago-envio-label">Gratis</p></div>
+                        <div class="resumen-linea"><p>IVA (19%)</p><p class="checkout-taxes-value">$0.00</p></div>
+                        <hr class="hr-claro">
+                        <div class="resumen-linea total-line"><h3>Total:</h3><h3 class="checkout-total-value">$0.00</h3></div>
+                        <button class="btn-primary w-100 mt-20" id="btn-confirmar-pedido">Confirmar pedido</button>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: CONFIRMACIÓN -->
+        <section id="vista-confirmacion" class="vista text-center">
+            <div class="container min-h-60 flex-col-center">
+                <div class="confirmacion-check mt-40">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                        <circle cx="40" cy="40" r="38" fill="#22c55e" stroke="#16a34a" stroke-width="2"/>
+                        <path d="M22 40l12 12 24-24" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1 class="mt-40" style="font-size: 2.5rem;">¡Compra realizada con éxito!</h1>
+                <p class="mt-20 text-muted" style="font-size: 1.1rem; line-height: 1.8;">Tu pedido ha sido procesado con éxito. Te hemos enviado un correo<br>con los detalles de tu compra.</p>
+                
+                <div class="pedido-box mt-40">
+                    <h2 id="numero-pedido">Pedido #14332</h2>
+                </div>
+
+                <button class="btn-primary mt-40 nav-btn" data-target="vista-inicio" style="padding: 15px 40px; font-size: 1.1rem;" id="btn-volver-inicio-confirm">Volver al inicio</button>
+                <p class="mt-40 text-muted">Gracias por tu compra. Ante cualquier duda o consulta, no<br>dudes en contactarnos.</p>
+                <div class="mt-20 flex-center" style="gap: 20px;">
+                    <button class="btn-link nav-btn" data-target="vista-catalogo">→ Seguir comprando</button>
+                    <button class="btn-link nav-btn text-light" style="border-color: rgba(255,255,255,0.2)" data-target="vista-contacto">✉ Enviar mensaje</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: ACERCA DE -->
+        <section id="vista-acerca" class="vista">
+            <div class="acerca-hero">
+                <div class="container text-center">
+                    <h1 style="font-size: 3rem; font-weight: 700;">Acerca de <span class="text-blue">ASUS</span></h1>
+                    <p class="mt-30 text-muted" style="max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.9; font-size: 1.05rem;">Sus equipos están pensados para adaptarse a diferentes necesidades, desde el uso diario hasta trabajos profesionales, ofreciendo tecnología confiable que mejora la productividad, la creatividad y el entretenimiento.</p>
+                    <p class="mt-20" style="color: rgba(255,255,255,0.85); line-height: 1.8; font-size: 1rem;">Elegir ASUS significa contar con potencia, durabilidad y tecnología de vanguardia en cada experiencia digital.</p>
+                </div>
+            </div>
+            
+            <div class="container mt-80">
+                <div class="acerca-features">
+                    <div class="feature-text">
+                        <h2 class="text-blue" style="font-size: 2rem; line-height: 1.3;">Especialmente creadores<br>y profesionales creativos</h2>
+                        <div class="feature-detail mt-40">
+                            <p><strong class="text-light">Pantalla:</strong> <span class="text-muted">OLED o 4K con alta precisión de color (Pantone y DCI-P3) para trabajos visuales profesionales.</span></p>
+                            <p class="mt-20"><strong class="text-light">Rendimiento:</strong> <span class="text-muted">Procesadores y tarjetas gráficas de alto rendimiento para tareas exigentes como renderizado y edición avanzada.</span></p>
+                        </div>
+                        <a href="https://www.asus.com/co/" target="_blank" rel="noopener noreferrer" class="leer-mas mt-30 d-block">Leer más →</a>
+                    </div>
+                    <div class="feature-image">
+                        <img src="./assets/img/acerca-1.png" alt="Creadores">
+                    </div>
+                </div>
+
+                <div class="acerca-features mt-80 reverse">
+                    <div class="feature-image">
+                        <img src="./assets/img/acerca-2.jpg" alt="Calidad">
+                    </div>
+                    <div class="feature-text">
+                        <h2 class="text-blue" style="font-size: 2rem; line-height: 1.3;">Para trabajar desde la<br>calidad y comodidad</h2>
+                        <div class="feature-detail mt-40">
+                            <p><strong class="text-light">Pantalla:</strong> <span class="text-muted">Pantallas de buena calidad, pero sin la precisión de color necesaria para edición profesional.</span></p>
+                            <p class="mt-20"><strong class="text-light">Rendimiento:</strong> <span class="text-muted">Equilibrado para uso general como ofimática, navegación y entretenimiento.</span></p>
+                        </div>
+                        <a href="https://www.asus.com/co/" target="_blank" rel="noopener noreferrer" class="leer-mas mt-30 d-block">Leer más →</a>
+                    </div>
+                </div>
+
+                <div class="acerca-cards-grid mt-80 mb-60">
+                    <div class="acerca-card text-center">
+                        <div class="acerca-card-icon">🎨</div>
+                        <h3 style="font-size: 1.5rem; margin-top: 20px;">ASUS ProArt</h3>
+                        <p class="text-muted mt-30 text-sm" style="line-height: 1.9;">Ideal para creadores y profesionales del diseño que necesitan máxima potencia y precisión visual. Diseñados específicamente para acelerar flujos de trabajo creativos como edición en <strong class="text-orange">Adobe Premiere, Photoshop</strong> o <strong class="text-orange">DaVinci Resolve</strong> gracias a su alto rendimiento y pantallas con gran precisión de color.</p>
+                    </div>
+                    <div class="acerca-card text-center">
+                        <div class="acerca-card-icon">💼</div>
+                        <h3 style="font-size: 1.5rem; margin-top: 20px;">ASUS Estándar</h3>
+                        <p class="text-muted mt-30 text-sm" style="line-height: 1.9;">Perfecto para estudiantes, trabajo de oficina y uso cotidiano.</p>
+                        <p class="text-muted mt-20 text-sm" style="line-height: 1.9;">Estos equipos suelen incorporar <strong class="text-orange">procesadores Intel Core</strong> o <strong class="text-orange">AMD Ryzen</strong> de gama media, junto con memoria RAM y almacenamiento SSD.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: CONTÁCTANOS -->
+        <section id="vista-contacto" class="vista">
+            <div class="acerca-hero">
+                <div class="container text-center">
+                    <h1 style="font-size: 3rem; font-weight: 700;">Contáctanos</h1>
+                    <p class="mt-20 text-muted" style="max-width: 600px; margin: 20px auto 0; line-height: 1.8;">¿Tienes preguntas o necesitas ayuda? Ponte en contacto con nosotros completando el siguiente formulario o utilizando cualquiera de los medios de comunicación que te ofrecemos a continuación:</p>
+                </div>
+            </div>
+            
+            <div class="container contacto-layout mt-60 mb-60">
+                <div class="form-gris flex-2 border-radius-large text-left">
+                    <h3 class="text-dark mb-40" style="font-size: 1.5rem;">Envíanos un mensaje</h3>
+                    <label class="text-dark font-bold text-sm">Nombre completo</label>
+                    <input type="text" id="contacto-nombre" class="input-transparente mt-10 mb-20" placeholder="Tu nombre completo">
+                    <label class="text-dark font-bold text-sm">Correo electrónico</label>
+                    <input type="email" id="contacto-email" class="input-transparente mt-10 mb-20" placeholder="correo@ejemplo.com">
+                    <label class="text-dark font-bold text-sm">Mensaje</label>
+                    <textarea rows="5" id="contacto-mensaje" class="input-transparente mt-10 mb-0" placeholder="Escribe tu mensaje aquí..."></textarea>
+                    <div class="text-right mt-20">
+                        <button class="btn-primary" id="btn-enviar-contacto">Enviar mensaje</button>
+                    </div>
+                </div>
+                
+                <div class="form-gris flex-1 border-radius-large h-fit text-left">
+                    <h3 class="text-dark mb-40" style="font-size: 1.5rem;">Otras formas de contacto</h3>
+                    <div class="contacto-item">
+                        <div class="contact-icon-box bg-green">
+                            <svg width="35" height="35" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-dark">Whatsapp</h4>
+                            <p class="text-sm text-dark mt-5">+57 312 0000000</p>
+                        </div>
+                    </div>
+                    <hr class="hr-claro" style="margin: 30px 0;">
+                    <div class="contacto-item">
+                        <div class="contact-icon-box bg-blue">
+                            <svg width="35" height="35" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-dark">Email</h4>
+                            <p class="text-sm text-blue mt-5">contacto@compudesign.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: LOGIN -->
+            <section id="vista-login" class="vista">
+        <div class="auth-wrapper">
+            <div class="auth-box">
+                <div class="auth-logo">
+                    <img src="./assets/img/logo-compudesign.png" alt="Logo">
+                </div>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-login">Iniciar sesión</button>
+                    <button class="auth-tab" id="tab-registro">Registrarse</button>
+                </div>
+
+                <!-- ── FORM LOGIN ── -->
+                <div id="form-login" class="auth-form active">
+                    <h2 class="auth-title">Iniciar sesión</h2>
+
+                    <!-- Mensaje de error/éxito -->
+                    <div id="msg-login" class="auth-msg" style="display:none;"></div>
+
+                    <div class="form-group-auth mt-30">
+                        <label class="auth-label">E-mail</label>
+                        <input type="email" id="login-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+                    </div>
+                    <div class="form-group-auth mt-20">
+                        <label class="auth-label">Contraseña</label>
+                        <input type="password" id="login-password" class="auth-input" placeholder="••••••••" autocomplete="current-password">
+                    </div>
+                    <div class="text-center mt-15">
+                        <a href="#" class="auth-link-small">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <button class="btn-auth mt-30" id="btn-login">Inicia sesión</button>
+
+                    <!-- Botón cerrar sesión -->
+                    <button id="btn-cerrar-sesion" class="btn-auth-outline mt-15" style="display:none;">
+                        Cerrar sesión
+                    </button>
+
+                    <p class="auth-switch-text mt-20">¿No tienes cuenta?
+                        <button class="auth-switch-btn" id="switch-to-registro">Regístrate aquí</button>
+                    </p>
+                </div>
+
+            <!-- ── FORM REGISTRO ── -->
+            <div id="form-registro" class="auth-form">
+                <h2 class="auth-title">Registrarse</h2>
+
+                <!-- Mensaje de error/éxito -->
+                <div id="msg-registro" class="auth-msg" style="display:none;"></div>
+
+                <div class="form-group-auth mt-30">
+                    <label class="auth-label">Nombre y apellidos</label>
+                    <input type="text" id="registro-nombre" class="auth-input" placeholder="Tu nombre completo" autocomplete="name">
+                </div>
+                <div class="form-group-auth mt-20">
+                    <label class="auth-label">E-mail</label>
+                    <input type="email" id="registro-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+                </div>
+                <div class="form-group-auth mt-20">
+                    <label class="auth-label">Contraseña</label>
+                    <input type="password" id="registro-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                </div>
+                <div class="form-group-auth mt-20">
+                    <label class="auth-label">Teléfono <span style="font-size:0.8em;opacity:0.6;">(opcional)</span></label>
+                    <input type="tel" id="registro-telefono" class="auth-input" placeholder="Ej: 3001234567">
+                </div>
+                <button class="btn-auth mt-30" id="btn-registro">Regístrate</button>
+                <p class="auth-switch-text mt-20">¿Ya tienes cuenta?
+                    <button class="auth-switch-btn" id="switch-to-login">Inicia sesión aquí</button>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+                    <!-- Registro Form -->
+                    <div id="form-registro" class="auth-form">
+                        <h2 class="auth-title">Registrarse</h2>
+                        <div class="form-group-auth mt-30">
+                            <label class="auth-label">Nombre y apellidos</label>
+                            <input type="text" class="auth-input" placeholder="Tu nombre completo">
+                        </div>
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">E-mail</label>
+                            <input type="email" class="auth-input" placeholder="tucorreo@ejemplo.com">
+                        </div>
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">Contraseña</label>
+                            <input type="password" class="auth-input" placeholder="Mínimo 8 caracteres">
+                        </div>
+                        <button class="btn-auth mt-30">Regístrate</button>
+                        <p class="auth-switch-text mt-20">¿Ya tienes cuenta? <button class="auth-switch-btn" id="switch-to-login">Inicia sesión aquí</button></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: DETALLE DE PRODUCTO -->
+    <div id="product-modal-overlay" class="modal-overlay">
+        <div class="modal-box">
+            <button id="modal-close-btn" class="modal-close-btn" title="Cerrar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="modal-content">
+                <div class="modal-img-side" id="modal-img-side" style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+                    <!-- Visor 3D -->
+                    <div id="modal-3d-viewer" style="display:none; width:100%; height:300px; border-radius:12px; overflow:hidden; background:#0f172a;"></div>
+                    <!-- Imagen normal -->
+                    <img id="modal-img" src="" alt="" style="width:100%; object-fit:contain;">
+                    <!-- Botón toggle debajo -->
+                    <div id="modal-view-toggle" style="display:none; width:100%;">
+                        <button id="btn-toggle-3d" style="
+                            width:100%;
+                            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+                            color:#fff;
+                            border: 1px solid #3b82f6;
+                            border-radius:10px;
+                            padding:10px 0;
+                            font-size:14px;
+                            font-weight:600;
+                            cursor:pointer;
+                            letter-spacing:0.5px;
+                            transition: all .2s;
+                        ">🎲 Ver en 3D</button>
+                    </div>
+                </div>
+                <div class="modal-info-side">
+                    <span id="modal-category-badge" class="modal-badge"></span>
+                    <h2 id="modal-title" class="modal-title"></h2>
+                    <p id="modal-desc" class="modal-desc"></p>
+                    <div class="modal-price-row">
+                        <span id="modal-price" class="modal-price"></span>
+                    </div>
+                    <div class="modal-divider"></div>
+                    <p class="modal-specs-label">Especificaciones</p>
+                    <ul id="modal-specs-list" class="modal-specs-list"></ul>
+                    <button id="modal-add-to-cart-btn" class="btn-primary w-100 add-to-cart-btn mt-20" data-id="">
+                        Añadir al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Confirmación Contacto -->
+    <div id="modal-contacto-overlay" class="modal-overlay">
+        <div class="modal-box modal-confirm-pro" style="max-width:460px;">
+            <div class="mcp-top-stripe mcp-stripe-blue"></div>
+            <div class="mcp-body">
+                <div class="mcp-icon-wrap">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="30" fill="#1d4ed8" opacity="0.15"/>
+                        <circle cx="32" cy="32" r="24" fill="#3b82f6"/>
+                        <path d="M20 32 l9 9 16-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2 class="mcp-title">¡Mensaje enviado!</h2>
+                <p class="mcp-subtitle">Gracias por contactarnos. Hemos recibido tu mensaje y te responderemos en un plazo de 24 a 48 horas hábiles.</p>
+                <div class="mcp-info-grid" style="grid-template-columns:1fr;">
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">👤 Remitente</span>
+                        <span class="mcp-info-value" id="confirm-contacto-nombre">—</span>
+                    </div>
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">📧 Respuesta a</span>
+                        <span class="mcp-info-value" id="confirm-contacto-email">—</span>
+                    </div>
+                </div>
+                <div class="mcp-actions">
+                    <button class="btn-primary" id="btn-cerrar-contacto">Entendido</button>
+                    <button class="btn-cerrar-modal" id="btn-cerrar-contacto-2">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-60">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <h4 class="text-light" style="font-size: 0.9rem; letter-spacing: 1px;">ENLACES RÁPIDOS</h4>
+                <ul class="mt-20">
+                    <li><a href="#" class="nav-btn text-muted" data-target="vista-inicio">Inicio</a></li>
+                    <li><a href="#" class="nav-btn text-muted" data-target="vista-acerca">Sobre nosotros</a></li>
+                    <li><a href="#" class="nav-btn text-muted" data-target="vista-catalogo">Productos destacados</a></li>
+                    <li><a href="#" class="nav-btn text-muted" data-target="vista-acerca">Acerca de</a></li>
+                </ul>
+            </div>
+            <div class="footer-logo">
+                <img src="./assets/img/logo-compudesign.png" alt="CompuDesign" style="height:40px;">
+                <div class="footer-social mt-20">
+                    <a href="#" class="social-icon" title="Instagram">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon" title="Facebook">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="container copyright mt-20 text-muted text-sm">
+            <p>Terms of Use & Privacy Policy</p>
+            <p>&copy;2024 Gravity Team. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <!-- TIDIO CHATBOT -->
+    <script src="//code.tidio.co/mcjasqsrjsejlk0mhxo8veqme2879xpv.js" async></script>
+    
+    <script src="./js/app.js"></script>
+
+    <!-- Three.js Visor 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+    (function () {
+        let renderer, scene, camera, animId, currentModel;
+        let showing3D = false;
+
+        const MODEL_MAP = {
+            1 : './assets/models/rog-gaming-desktop.glb',
+            2 : './assets/models/rog-gaming-laptop.glb',
+            3 : './assets/models/msi-aegis-desktop.glb',
+            4 : './assets/models/proart-monitor-4k.glb',
+            5 : './assets/models/expertbook-laptop.glb',
+            6 : './assets/models/tuf-desktop.glb',
+            7 : './assets/models/vivobook-laptop.glb',
+            8 : './assets/models/rog-swift-monitor.glb',
+            9 : './assets/models/zenbook-14-laptop.glb',
+            10: './assets/models/proart-desktop.glb'
+        };
+
+        const BG = { laptops:0x1e3a5f, desktops:0x1a1a2e, monitores:0x0f2027 };
+
+        function stopRenderer() {
+            if (animId) cancelAnimationFrame(animId);
+            if (renderer) { renderer.dispose(); renderer = null; }
+            currentModel = null; scene = null;
+        }
+
+        function buildFallback(category) {
+            const g = new THREE.Group();
+            const mat = new THREE.MeshStandardMaterial({ color:0x2563eb, metalness:0.8, roughness:0.2 });
+            if (category === 'laptops') {
+                const base = new THREE.Mesh(new THREE.BoxGeometry(2.2,0.12,1.5), mat);
+                base.position.y = -0.3;
+                const lid = new THREE.Mesh(new THREE.BoxGeometry(2.1,1.4,0.08), mat);
+                lid.position.set(0,0.45,-0.72); lid.rotation.x = -0.25;
+                const screen = new THREE.Mesh(new THREE.BoxGeometry(1.9,1.2,0.01),
+                    new THREE.MeshStandardMaterial({color:0x0ea5e9,emissive:0x0ea5e9,emissiveIntensity:0.4}));
+                screen.position.set(0,0.45,-0.68); screen.rotation.x = -0.25;
+                g.add(base, lid, screen);
+            } else if (category === 'monitores') {
+                const panel = new THREE.Mesh(new THREE.BoxGeometry(2.4,1.4,0.1),
+                    new THREE.MeshStandardMaterial({color:0x1e293b,metalness:0.9,roughness:0.1}));
+                const face = new THREE.Mesh(new THREE.BoxGeometry(2.2,1.2,0.02),
+                    new THREE.MeshStandardMaterial({color:0x38bdf8,emissive:0x0284c7,emissiveIntensity:0.5}));
+                face.position.z = 0.06;
+                const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,0.6,12), mat);
+                pole.position.y = -0.95;
+                const base = new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.5,0.05,16), mat);
+                base.position.y = -1.25;
+                g.add(panel, face, pole, base);
+            } else {
+                const tower = new THREE.Mesh(new THREE.BoxGeometry(0.8,1.8,1.2), mat);
+                const glass = new THREE.Mesh(new THREE.BoxGeometry(0.05,1.6,1.0),
+                    new THREE.MeshStandardMaterial({color:0x7dd3fc,transparent:true,opacity:0.3,metalness:1}));
+                glass.position.x = 0.43;
+                const rgb = new THREE.Mesh(new THREE.BoxGeometry(0.02,1.4,0.02),
+                    new THREE.MeshStandardMaterial({color:0xf97316,emissive:0xf97316,emissiveIntensity:0.8}));
+                rgb.position.set(0.38,0,0.45);
+                g.add(tower, glass, rgb);
+            }
+            return g;
+        }
+
+        function loadGLB(url, ok, fail) {
+            // Verifica primero si el archivo existe
+            fetch(url, { method: 'HEAD' })
+                .then(res => {
+                    if (!res.ok) { fail(new Error('404')); return; }
+                    // Cargar Imagen defecto si no está disponible
+                    if (!window.THREE || !window.THREE.GLTFLoader) {
+                        const s = document.createElement('script');
+                        s.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js';
+                        s.onload = () => {
+                            const loader = new THREE.GLTFLoader();
+                            loader.load(url, g => ok(g.scene), undefined, fail);
+                        };
+                        s.onerror = fail;
+                        document.head.appendChild(s);
+                    } else {
+                        const loader = new THREE.GLTFLoader();
+                        loader.load(url, g => ok(g.scene), undefined, fail);
+                    }
+                })
+                .catch(fail);
+        }
+
+        function placeModel(model) {
+            const box  = new THREE.Box3().setFromObject(model);
+            const size = box.getSize(new THREE.Vector3());
+            const sc   = 2.0 / Math.max(size.x, size.y, size.z);
+            model.scale.setScalar(sc);
+            model.position.sub(box.getCenter(new THREE.Vector3()).multiplyScalar(sc));
+            model.position.y -= 0.5;
+            model.castShadow = true;
+            currentModel = model;
+            scene.add(model);
+        }
+
+        function startScene(container, productId, category) {
+            stopRenderer();
+
+            renderer = new THREE.WebGLRenderer({ antialias:true, alpha:false });
+            renderer.setSize(container.clientWidth||420, container.clientHeight||320);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.8;
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            container.innerHTML = '';
+            container.appendChild(renderer.domElement);
+
+            scene = new THREE.Scene();
+
+            // ── Fondo degradado categoría ──
+            const bgColors = {
+                laptops  : { top: '#0f1e3d', bot: '#1a0a2e' },
+                desktops : { top: '#0d1117', bot: '#1a1a2e' },
+                monitores: { top: '#0a1628', bot: '#0f2027' }
+            };
+            const bg = bgColors[category] || bgColors.laptops;
+            // Fondo con canvas degradado
+            const bgCanvas = document.createElement('canvas');
+            bgCanvas.width = 4; bgCanvas.height = 256;
+            const bgCtx = bgCanvas.getContext('2d');
+            const grad = bgCtx.createLinearGradient(0,0,0,256);
+            grad.addColorStop(0, bg.top); grad.addColorStop(1, bg.bot);
+            bgCtx.fillStyle = grad; bgCtx.fillRect(0,0,4,256);
+            const bgTex = new THREE.CanvasTexture(bgCanvas);
+            scene.background = bgTex;
+
+            // Niebla suave al fondo
+            scene.fog = new THREE.FogExp2(bg.bot, 0.04);
+
+            camera = new THREE.PerspectiveCamera(42, (container.clientWidth||420)/(container.clientHeight||320), 0.1, 100);
+            camera.position.set(0, 1.7, 3.8);
+
+            // ── Iluminación ──
+            scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+
+            // Luz principal frontal-superior 
+            const key = new THREE.DirectionalLight(0xffffff, 2.5);
+            key.position.set(2, 4, 4); key.castShadow = true;
+            key.shadow.mapSize.width = 2048; key.shadow.mapSize.height = 2048;
+            key.shadow.camera.near = 0.5; key.shadow.camera.far = 20;
+            key.shadow.bias = -0.001;
+            scene.add(key);
+
+            // Luz de relleno izquierda 
+            const fill = new THREE.DirectionalLight(0x4488ff, 1.8);
+            fill.position.set(-3, 2, 2); scene.add(fill);
+
+            // Luz trasera 
+            const back = new THREE.DirectionalLight(0xff6600, 1.5);
+            back.position.set(0, 1, -4); scene.add(back);
+
+            // Luz inferior  
+            const bottom = new THREE.PointLight(0x2255aa, 1.2, 6);
+            bottom.position.set(0, -1.0, 1); scene.add(bottom);
+
+            // Luz naranja lateral derecha 
+            const accent = new THREE.PointLight(0xf97316, 2.0, 5);
+            accent.position.set(2.5, 0.5, 1.5); scene.add(accent);
+
+            // Luz azul lateral izquierda
+            const cool = new THREE.PointLight(0x00aaff, 1.5, 5);
+            cool.position.set(-2.5, 0.5, 1.5); scene.add(cool);
+
+            // ── Partículas flotantes ──
+            const pg = new THREE.BufferGeometry();
+            const pc = 200;
+            const pa = new Float32Array(pc*3);
+            for(let i=0;i<pc*3;i++) pa[i]=(Math.random()-.5)*14;
+            pg.setAttribute('position',new THREE.BufferAttribute(pa,3));
+            const parts = new THREE.Points(pg, new THREE.PointsMaterial({
+                color:0x4488ff, size:0.035, transparent:true, opacity:0.5, sizeAttenuation:true
+            }));
+            scene.add(parts);
+
+            // Partículas naranjas 
+            const pg2 = new THREE.BufferGeometry();
+            const pa2 = new Float32Array(80*3);
+            for(let i=0;i<80*3;i++) pa2[i]=(Math.random()-.5)*10;
+            pg2.setAttribute('position',new THREE.BufferAttribute(pa2,3));
+            const sparks = new THREE.Points(pg2, new THREE.PointsMaterial({
+                color:0xf97316, size:0.025, transparent:true, opacity:0.4
+            }));
+            scene.add(sparks);
+
+            // ── Plataforma brillante ───
+            const platMat = new THREE.MeshStandardMaterial({
+                color:0x1e293b, metalness:1.0, roughness:0.1,
+                envMapIntensity: 1.5
+            });
+            const plat = new THREE.Mesh(new THREE.CylinderGeometry(1.3,1.3,0.06,64), platMat);
+            plat.position.y=-0.75; plat.receiveShadow=true; scene.add(plat);
+
+            // Reflejo/glow en plataforma
+            const glowMat = new THREE.MeshStandardMaterial({
+                color:0x2563eb, emissive:0x2563eb, emissiveIntensity:0.3,
+                transparent:true, opacity:0.15
+            });
+            const glow = new THREE.Mesh(new THREE.CylinderGeometry(1.4,1.4,0.01,64), glowMat);
+            glow.position.y=-0.71; scene.add(glow);
+
+            // Anillo naranja exterior giratorio
+            const ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.5,0.025,8,128),
+                new THREE.MeshStandardMaterial({color:0xf97316,emissive:0xf97316,emissiveIntensity:1.0}));
+            ring1.rotation.x=Math.PI/2; ring1.position.y=-0.72; scene.add(ring1);
+
+            // Anillo azul interior giratorio (sentido contrario)
+            const ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.1,0.015,8,128),
+                new THREE.MeshStandardMaterial({color:0x3b82f6,emissive:0x3b82f6,emissiveIntensity:0.8}));
+            ring2.rotation.x=Math.PI/2; ring2.position.y=-0.72; scene.add(ring2);
+
+            // ── Grid de fondo (piso) ──────────────────────────────────────
+            const gridHelper = new THREE.GridHelper(12, 20, 0x1e3a5f, 0x0f172a);
+            gridHelper.position.y = -0.78;
+            gridHelper.material.opacity = 0.3;
+            gridHelper.material.transparent = true;
+            scene.add(gridHelper);
+
+            // ── Cargar modelo ─────────────────────────────────────────────
+            let loaded=false;
+            loadGLB(MODEL_MAP[productId],
+                m => { placeModel(m); loaded=true; },
+                () => { placeModel(buildFallback(category)); loaded=true; }
+            );
+            setTimeout(()=>{ if(!loaded){ placeModel(buildFallback(category)); loaded=true; } }, 1500);
+
+            // ── Controles mouse ────
+            let drag=false, px=0, py=0, autoRot=true;
+            renderer.domElement.style.cursor = 'grab';
+            renderer.domElement.addEventListener('mousedown', e=>{
+                drag=true; px=e.clientX; py=e.clientY;
+                autoRot=false; renderer.domElement.style.cursor='grabbing';
+            });
+            renderer.domElement.addEventListener('mousemove', e=>{
+                if(!drag||!currentModel) return;
+                currentModel.rotation.y+=(e.clientX-px)*0.012;
+                currentModel.rotation.x=Math.max(-0.5,Math.min(0.5,currentModel.rotation.x+(e.clientY-py)*0.006));
+                px=e.clientX; py=e.clientY;
+            });
+            renderer.domElement.addEventListener('mouseup', ()=>{
+                drag=false; renderer.domElement.style.cursor='grab';
+                setTimeout(()=>autoRot=true, 2500);
+            });
+            renderer.domElement.addEventListener('mouseleave', ()=>{ drag=false; });
+            renderer.domElement.addEventListener('wheel', e=>{
+                e.preventDefault();
+                camera.position.z=Math.max(2,Math.min(6,camera.position.z+e.deltaY*0.008));
+            }, { passive:false });
+
+            // Touch
+            renderer.domElement.addEventListener('touchstart', e=>{ px=e.touches[0].clientX; autoRot=false; });
+            renderer.domElement.addEventListener('touchmove', e=>{
+                if(!currentModel) return;
+                currentModel.rotation.y+=(e.touches[0].clientX-px)*0.012;
+                px=e.touches[0].clientX;
+            });
+            renderer.domElement.addEventListener('touchend', ()=>setTimeout(()=>autoRot=true,2500));
+
+            // ── Loop de animación ─────────────────────────────────────────
+            let t=0;
+            function loop() {
+                animId=requestAnimationFrame(loop);
+                t+=0.01;
+                if(currentModel&&autoRot) currentModel.rotation.y+=0.007;
+                // Flotación suave del modelo
+                if(currentModel) currentModel.position.y = Math.sin(t*0.8)*0.05;
+                // Rotación anillos
+                ring1.rotation.z+=0.006;
+                ring2.rotation.z-=0.004;
+                // Partículas
+                parts.rotation.y+=0.0008;
+                sparks.rotation.y-=0.001;
+                // Pulso del glow
+                glow.material.emissiveIntensity = 0.3 + Math.sin(t*2)*0.15;
+                // Pulso accent light
+                accent.intensity = 2.0 + Math.sin(t*1.5)*0.5;
+                renderer.render(scene,camera);
+            }
+            loop();
+        }
+
+        window.init3DViewer = function(productId, category) {
+            const viewer  = document.getElementById('modal-3d-viewer');
+            const img     = document.getElementById('modal-img');
+            const wrap    = document.getElementById('modal-view-toggle');
+            const btn     = document.getElementById('btn-toggle-3d');
+            if (!viewer) return;
+
+            stopRenderer();
+            viewer.style.display='none'; viewer.innerHTML='';
+            img.style.display='block';
+            wrap.style.display='block';
+            btn.innerHTML='🎲 Ver en 3D';
+            showing3D=false;
+
+            btn.onclick = function() {
+                showing3D=!showing3D;
+                if (showing3D) {
+                    img.style.display='none';
+                    viewer.style.display='block';
+                    btn.innerHTML='🖼️ Ver imagen';
+                    startScene(viewer, productId, category);
+                } else {
+                    stopRenderer();
+                    viewer.style.display='none'; viewer.innerHTML='';
+                    img.style.display='block';
+                    btn.innerHTML='🎲 Ver en 3D';
+                }
+            };
+        };
+
+        // Limpiar al cerrar modal
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('modal-close-btn')?.addEventListener('click', () => {
+                stopRenderer();
+                const v=document.getElementById('modal-3d-viewer');
+                const i=document.getElementById('modal-img');
+                const w=document.getElementById('modal-view-toggle');
+                const b=document.getElementById('btn-toggle-3d');
+                if(v){v.style.display='none';v.innerHTML='';}
+                if(i) i.style.display='block';
+                if(w) w.style.display='none';
+                if(b) b.innerHTML='🎲 Ver en 3D';
+                showing3D=false;
+            });
+        });
+    })();
+    </script>
+</body>
+</html>
