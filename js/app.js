@@ -165,8 +165,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? btn.getAttribute('data-featured-filter')
                 : undefined;
             navigateTo(targetId, filter, scrollTo, featuredFilter, btn);
+            closeMobileMenu();
         });
     });
+
+    // 3.1 MENÚ MÓVIL (hamburguesa)
+    const menuToggleBtn = document.getElementById('menu-toggle-btn');
+    const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+    const navEl = document.querySelector('nav');
+
+    function openMobileMenu() {
+        document.body.classList.add('nav-open');
+        menuToggleBtn?.setAttribute('aria-expanded', 'true');
+    }
+    function closeMobileMenu() {
+        document.body.classList.remove('nav-open');
+        menuToggleBtn?.setAttribute('aria-expanded', 'false');
+        document.querySelectorAll('.dropdown-parent.open').forEach(el => el.classList.remove('open'));
+    }
+    function toggleMobileMenu() {
+        document.body.classList.contains('nav-open') ? closeMobileMenu() : openMobileMenu();
+    }
+    menuToggleBtn?.addEventListener('click', toggleMobileMenu);
+    mobileNavOverlay?.addEventListener('click', closeMobileMenu);
+
+    // En móvil, el submenú de "Productos destacados" se abre al tocar la flecha,
+    // en vez de depender del hover (que no existe en pantallas táctiles).
+    document.querySelectorAll('.dropdown-parent > a').forEach(dropdownLink => {
+        dropdownLink.addEventListener('click', (e) => {
+            if (window.innerWidth > 900) return; // en desktop se comporta normal (hover)
+            const parent = dropdownLink.closest('.dropdown-parent');
+            const isOpen = parent.classList.contains('open');
+            // Primer tap solo despliega el submenú; un segundo tap navega normalmente
+            if (!isOpen) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                document.querySelectorAll('.dropdown-parent.open').forEach(el => { if (el !== parent) el.classList.remove('open'); });
+                parent.classList.add('open');
+            }
+        });
+    });
+
+    window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobileMenu(); });
 
 
     // 4. CATÁLOGO: RENDERIZADO Y FILTROS

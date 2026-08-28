@@ -1757,3 +1757,228 @@ footer { border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
     border-color: #ef4444;
     color: #ef4444;
 }
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE / ADAPTABLE A MÓVIL Y TABLET
+   ══════════════════════════════════════════════════════════════ */
+
+/* --- Botón hamburguesa: oculto por defecto (solo se ve en móvil) --- */
+#menu-toggle-btn { display: none; }
+.mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 150;
+}
+
+/* ==================================================================
+   TABLET GRANDE / LAPTOP PEQUEÑO  (<= 1024px)
+   ================================================================== */
+@media (max-width: 1024px) {
+    .container { padding: 0 16px; }
+
+    .grid-productos, .grid-productos-4 { grid-template-columns: repeat(3, 1fr); }
+
+    .servicios-layout { grid-template-columns: 1fr; }
+
+    .acerca-features { gap: 40px; }
+    .feature-image img { max-height: 300px; }
+
+    .hero-content h1 { font-size: 2.4rem; }
+}
+
+/* ==================================================================
+   TABLET / MENÚ HAMBURGUESA  (<= 900px)
+   ================================================================== */
+@media (max-width: 900px) {
+    /* --- Header y navegación --- */
+    .navbar { height: 68px; }
+    .logo img { height: 28px; }
+
+    nav { 
+        position: fixed;
+        top: 68px;
+        right: -100%;
+        width: min(78vw, 320px);
+        height: calc(100vh - 68px);
+        background: rgba(15, 16, 20, 0.98);
+        backdrop-filter: blur(16px);
+        border-left: 1px solid rgba(255,255,255,0.08);
+        z-index: 200;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+        padding: 10px 0 30px;
+    }
+    body.nav-open nav { right: 0; }
+    body.nav-open { overflow: hidden; }
+    body.nav-open .mobile-nav-overlay { display: block; }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px 0;
+    }
+    .nav-links > li { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-links a {
+        display: block;
+        padding: 16px 24px;
+        font-size: 0.85rem;
+    }
+    .nav-links a.active { border-bottom: none; background: rgba(0,102,255,0.1); }
+
+    /* Submenú "Productos destacados" se abre tocando, apilado dentro del panel */
+    .dropdown-menu {
+        display: none;
+        position: static;
+        background: rgba(255,255,255,0.03);
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        min-width: 0;
+        backdrop-filter: none;
+    }
+    .dropdown-parent.open .dropdown-menu { display: block; }
+    .dropdown-parent::after { display: none !important; }
+    .dropdown-menu li a { padding: 14px 24px 14px 40px; font-size: 0.8rem; }
+
+    /* --- Botón hamburguesa visible --- */
+    #menu-toggle-btn { display: flex; }
+
+    .nav-icons { gap: 2px; }
+}
+
+/* Cuando la ventana es amplia (desktop) nos aseguramos de que el menú
+   nunca quede "abierto" por accidente al redimensionar */
+@media (min-width: 901px) {
+    nav { position: static; width: auto; height: auto; background: none; padding: 0; }
+    .mobile-nav-overlay { display: none !important; }
+}
+
+/* ==================================================================
+   TABLET VERTICAL / MÓVIL GRANDE  (<= 768px)
+   ================================================================== */
+@media (max-width: 768px) {
+    .container { padding: 0 18px; }
+
+    /* Títulos generales */
+    .titulo-linea-centrada, .titulo-linea-izquierda { font-size: 1.5rem; }
+
+    /* --- Hero / banner principal --- */
+    .hero-banner { flex-direction: column; gap: 22px; text-align: center; }
+    .hero-content { order: 1; }
+    .hero-content h1 { font-size: 1.9rem; }
+    .hero-content p { font-size: 0.9rem; }
+    .hero-content .btn-primary { width: 100%; }
+    .hero-image { order: 2; width: 100%; }
+    .hero-img-frame img { max-width: 100%; }
+    .slider-arrow { display: none; } /* en móvil se prioriza el swipe/orden vertical */
+
+    /* --- Sobre CompuDesign --- */
+    .sobre-compudesign { padding: 30px 20px; }
+    .sobre-compudesign p br { display: none; }
+    .sobre-compudesign p { font-size: 0.9rem; }
+
+    /* --- Categorías --- */
+    .categorias-grid { flex-direction: column; align-items: stretch; gap: 16px; }
+    .cat-card { width: 100%; padding: 22px; }
+
+    /* --- Header de servicios --- */
+    .servicios-header-block { flex-direction: column; align-items: stretch; }
+    .servicios-header-block h1 { font-size: 2rem !important; }
+    .servicios-badge-hint { align-self: flex-start; }
+
+    /* --- Productos destacados / grid --- */
+    .grid-productos, .grid-productos-4 { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    /* --- Catálogo: filtros arriba, apilados --- */
+    .layout-catalogo { flex-direction: column; gap: 20px; }
+    .filtros { width: 100%; }
+    .filtros-bar { gap: 10px; }
+    .filtros-ordenar { margin-left: 0; width: 100%; justify-content: space-between; }
+    .paginacion { justify-content: center; flex-wrap: wrap; }
+
+    /* --- Carrito / envío / pago --- */
+    .checkout-layout { flex-direction: column; }
+    .checkout-sidebar { position: static; width: 100%; }
+    .form-grid-2 { grid-template-columns: 1fr; }
+    .metodos-pago-grid { grid-template-columns: 1fr; }
+    .stepper { max-width: 100%; }
+    .step span { font-size: 0.65rem; }
+    .step-circle { width: 36px; height: 36px; font-size: 0.8rem; }
+
+    /* --- Acerca de --- */
+    .acerca-features, .acerca-features.reverse { flex-direction: column; gap: 24px; text-align: center; }
+    .feature-text { text-align: center; }
+    .feature-detail { border-left: none; border-top: 3px solid var(--primary-blue); padding-left: 0; padding-top: 14px; }
+    .acerca-cards-grid { grid-template-columns: 1fr; }
+
+    /* --- Contáctanos --- */
+    .contacto-layout { flex-direction: column; }
+
+    /* --- Auth (login/registro) --- */
+    .auth-box { padding: 28px 22px; border-radius: 18px; }
+    .auth-title { font-size: 1.4rem; }
+
+    /* --- Footer --- */
+    .footer-content { flex-direction: column; gap: 30px; }
+    .footer-social { justify-content: flex-start; }
+    .copyright { flex-direction: column; gap: 6px; text-align: center; }
+
+    /* --- Modal de producto --- */
+    .modal-content { flex-direction: column; }
+    .modal-img-side { border-radius: 24px 24px 0 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 26px 20px; }
+    .modal-info-side { padding: 26px 22px 26px; }
+    .modal-title { font-size: 1.3rem; }
+    .modal-price { font-size: 1.6rem; }
+
+    /* --- Modal de fechas (soporte técnico) --- */
+    .modal-fechas-box { flex-direction: column; max-width: 100%; }
+    .modal-fechas-left { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 26px 22px; }
+    .modal-fechas-right { padding: 22px; }
+
+    /* --- Info grid del comprobante --- */
+    .mcp-info-grid { grid-template-columns: 1fr !important; }
+
+    /* --- Servicio card interna --- */
+    .servicio-card-inner { gap: 14px; }
+}
+
+/* ==================================================================
+   MÓVIL  (<= 480px)
+   ================================================================== */
+@media (max-width: 480px) {
+    .container { padding: 0 14px; }
+
+    .hero-content h1 { font-size: 1.55rem; }
+    .titulo-linea-centrada, .titulo-linea-izquierda { font-size: 1.25rem; }
+
+    .grid-productos, .grid-productos-4 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .card-producto { padding: 14px; }
+    .img-container { height: 110px; }
+    .card-producto h3 { font-size: 0.82rem; }
+
+    .servicios-header-block h1 { font-size: 1.6rem !important; }
+
+    .metodos-pago-grid { gap: 10px; }
+    .btn-pago { padding: 14px; }
+
+    .auth-box { padding: 22px 16px; }
+    .auth-tabs { flex-wrap: wrap; }
+
+    .modal-title { font-size: 1.15rem; }
+    .modal-price { font-size: 1.4rem; }
+    .modal-img-side img { max-height: 200px; }
+
+    .stepper { padding-bottom: 24px; }
+    .step-circle { width: 32px; height: 32px; font-size: 0.75rem; }
+    .step-line { min-width: 24px; }
+    .step span { display: none; } /* en pantallas muy chicas, ocultamos etiquetas del stepper para evitar solapes */
+
+    .servicios-badge-hint { font-size: 0.75rem; padding: 8px 12px; }
+
+    .paginacion { gap: 6px; }
+    .page-btn { width: 32px; height: 32px; font-size: 0.78rem; }
+}
