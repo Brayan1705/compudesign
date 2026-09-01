@@ -314,7 +314,42 @@ INSERT INTO ESPECIFICACIONES (id_producto, nombre_spec, valor_spec) VALUES
 (5, 'Gráficos',         'Intel Iris Xe'),
 (5, 'Pantalla',         '14" FHD IPS'),
 (5, 'Almacenamiento',   '256GB SSD'),
-(5, 'Batería',          '72Wh, hasta 12 horas');
+(5, 'Batería',          '72Wh, hasta 12 horas'),
+-- ASUS TUF Desktop (id=6)
+(6, 'Procesador',       'Intel Core i5-12400F'),
+(6, 'RAM',              '16GB DDR4 3200MHz'),
+(6, 'Tarjeta gráfica',  'NVIDIA RTX 3050 8GB'),
+(6, 'Almacenamiento',   '512GB NVMe SSD'),
+(6, 'Sistema operativo','Windows 11 Home'),
+(6, 'Conectividad',     'WiFi 6, Bluetooth 5.2'),
+-- ASUS VivoBook Laptop (id=7)
+(7, 'Procesador',       'AMD Ryzen 5 5500U'),
+(7, 'RAM',              '8GB DDR4 3200MHz'),
+(7, 'Gráficos',         'AMD Radeon Graphics'),
+(7, 'Pantalla',         '15.6" FHD IPS'),
+(7, 'Almacenamiento',   '256GB NVMe SSD'),
+(7, 'Batería',          '42Wh, hasta 8 horas'),
+-- ASUS ROG Swift Monitor (id=8)
+(8, 'Panel',            '24" Fast IPS FHD (1920x1080)'),
+(8, 'Respuesta',        '1ms GTG'),
+(8, 'Frecuencia',       '165Hz'),
+(8, 'Tecnología',       'G-Sync Compatible, HDR10'),
+(8, 'Puertos',          '2x HDMI 2.0, 1x DisplayPort 1.2'),
+(8, 'Ajuste',           'Altura, inclinación y giro'),
+-- ASUS Zenbook 14 Laptop (id=9)
+(9, 'Procesador',       'Intel Core i5-1240P'),
+(9, 'RAM',              '16GB LPDDR5 5200MHz'),
+(9, 'Gráficos',         'Intel Iris Xe'),
+(9, 'Pantalla',         '14" 2.8K OLED 90Hz'),
+(9, 'Almacenamiento',   '512GB NVMe SSD'),
+(9, 'Batería',          '75Wh, hasta 18 horas'),
+-- ASUS ProArt Desktop (id=10)
+(10, 'Procesador',       'Intel Xeon W-2255'),
+(10, 'RAM',              '64GB DDR4 ECC'),
+(10, 'Tarjeta gráfica',  'NVIDIA RTX A4000 16GB'),
+(10, 'Almacenamiento',   '4TB NVMe SSD'),
+(10, 'Certificación',    'ISV para software profesional'),
+(10, 'Fuente de poder',  '750W 80+ Platinum');
 
 
 -- ============================================================

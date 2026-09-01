@@ -1,4 +1,6 @@
 
+require('dotenv').config();
+
 const express  = require('express');
 const mysql    = require('mysql2/promise');
 const bcrypt   = require('bcryptjs');
@@ -6,7 +8,7 @@ const cors     = require('cors');
 const path     = require('path');
 
 const app  = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 
 app.use(cors());
@@ -15,10 +17,10 @@ app.use(express.static(path.join(__dirname)));
 
 
 const pool = mysql.createPool({
-    host    : 'localhost',
-    user    : 'root',           
-    password: '1234',              
-    database: 'compudesign',
+    host    : process.env.DB_HOST,
+    user    : process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit   : 10,
     charset           : 'utf8mb4'
