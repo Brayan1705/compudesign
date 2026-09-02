@@ -1157,9 +1157,12 @@
             const size = box.getSize(new THREE.Vector3());
             const sc   = 2.0 / Math.max(size.x, size.y, size.z);
             model.scale.setScalar(sc);
-            model.position.sub(box.getCenter(new THREE.Vector3()).multiplyScalar(sc));
-            model.position.y -= 0.5;
-            model.castShadow = true;
+            const center = box.getCenter(new THREE.Vector3()).multiplyScalar(sc);
+            model.position.sub(center);
+            // Elevar el modelo para que flote justo sobre la plataforma, bien centrado
+            model.position.y += (size.y * sc) / 2 - 0.55;
+            model.userData.baseY = model.position.y;
+            model.traverse(o => { if (o.isMesh) o.castShadow = true; });
             currentModel = model;
             scene.add(model);
         }
@@ -1201,7 +1204,8 @@
             scene.fog = new THREE.FogExp2(bg.bot, 0.04);
 
             camera = new THREE.PerspectiveCamera(42, (container.clientWidth||420)/(container.clientHeight||320), 0.1, 100);
-            camera.position.set(0, 1.7, 3.8);
+            camera.position.set(0, 0.9, 3.8);
+            camera.lookAt(0, 0, 0);
 
             // ── Iluminación ──
             scene.add(new THREE.AmbientLight(0xffffff, 1.2));
@@ -1335,7 +1339,7 @@
                 t+=0.01;
                 if(currentModel&&autoRot) currentModel.rotation.y+=0.007;
                 // Flotación suave del modelo
-                if(currentModel) currentModel.position.y = Math.sin(t*0.8)*0.05;
+                if(currentModel) currentModel.position.y = (currentModel.userData.baseY||0) + Math.sin(t*0.8)*0.05;
                 // Rotación anillos
                 ring1.rotation.z+=0.006;
                 ring2.rotation.z-=0.004;
