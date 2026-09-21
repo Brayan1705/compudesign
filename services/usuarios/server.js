@@ -151,6 +151,47 @@ app.get('/api/usuarios/:id', async (req, res) => {
     }
 });
 
+// POST /api/usuarios/recuperar-password (Restablecer contraseña)
+app.post('/api/usuarios/recuperar-password', async (req, res) => {
+    const { correo, nueva_contrasena } = req.body;
+
+    if (!correo || !nueva_contrasena) {
+        return res.status(400).json({ ok: false, mensaje: 'El correo y la nueva contraseña son obligatorios.' });
+    }
+    if (nueva_contrasena.length < 8) {
+        return res.status(400).json({ ok: false, mensaje: 'La nueva contraseña debe tener al menos 8 caracteres.' });
+    }
+    if (!/\S+@\S+\.\S+/.test(correo)) {
+        return res.status(400).json({ ok: false, mensaje: 'El correo no tiene un formato válido.' });
+    }
+
+    try {
+        const [rows] = await pool.query(
+            'SELECT id_usuario FROM USUARIOS WHERE correo = ?',
+            [correo.toLowerCase().trim()]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ ok: false, mensaje: 'No encontramos ninguna cuenta registrada con este correo.' });
+        }
+
+        const hash = await bcrypt.hash(nueva_contrasena, 10);
+        await pool.query(
+            'UPDATE USUARIOS SET contrasena_hash = ? WHERE correo = ?',
+            [hash, correo.toLowerCase().trim()]
+        );
+
+        res.json({
+            ok: true,
+            mensaje: '¡Contraseña actualizada con éxito! Ya puedes iniciar sesión con tu nueva contraseña.'
+        });
+
+    } catch (err) {
+        console.error('Error /api/usuarios/recuperar-password:', err);
+        res.status(500).json({ ok: false, mensaje: 'Error interno al actualizar la contraseña.' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`👤 Microservicio de Usuarios corriendo en http://localhost:${PORT}`);
 });

@@ -19,19 +19,45 @@ document.addEventListener('DOMContentLoaded', () => {
     function actualizarNavUsuario() {
         const userIcon = document.getElementById('user-nav-icon');
         const userLabel = document.getElementById('user-nav-label');
+        const authTabs = document.querySelector('.auth-tabs');
+        const formPerfil = document.getElementById('form-perfil');
+        const formLogin = document.getElementById('form-login');
+        const formRegistro = document.getElementById('form-registro');
+        const formRecuperar = document.getElementById('form-recuperar');
 
         if (sesionUsuario) {
-            const nombre = sesionUsuario.nombre_completo.split(' ')[0];
+            const nombre = sesionUsuario.nombre_completo ? sesionUsuario.nombre_completo.split(' ')[0] : 'Usuario';
             if (userLabel) userLabel.textContent = nombre;
             if (userIcon) userIcon.title = `Sesión: ${sesionUsuario.nombre_completo}`;
-            // Mostrar botón cerrar sesión si existe
-            const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
-            if (btnCerrarSesion) btnCerrarSesion.style.display = 'inline-block';
+
+            // Rellenar datos en la tarjeta de perfil
+            const perfilNombre = document.getElementById('perfil-nombre');
+            const perfilCorreo = document.getElementById('perfil-correo');
+            const perfilSaludo = document.getElementById('perfil-saludo');
+            const perfilAvatar = document.getElementById('perfil-avatar-letra');
+
+            if (perfilNombre) perfilNombre.textContent = sesionUsuario.nombre_completo || 'Usuario';
+            if (perfilCorreo) perfilCorreo.textContent = sesionUsuario.correo || '';
+            if (perfilSaludo) perfilSaludo.textContent = `¡Hola, ${nombre}!`;
+            if (perfilAvatar) perfilAvatar.textContent = nombre.charAt(0).toUpperCase();
+
+            // Ocultar pestañas y mostrar solo el panel de perfil
+            if (authTabs) authTabs.style.display = 'none';
+            formLogin?.classList.remove('active');
+            formRegistro?.classList.remove('active');
+            formRecuperar?.classList.remove('active');
+            formPerfil?.classList.add('active');
+
         } else {
             if (userLabel) userLabel.textContent = '';
             if (userIcon) userIcon.title = 'Iniciar sesión';
-            const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
-            if (btnCerrarSesion) btnCerrarSesion.style.display = 'none';
+
+            // Restaurar pestañas y formulario de login
+            if (authTabs) authTabs.style.display = 'flex';
+            formPerfil?.classList.remove('active');
+            formRecuperar?.classList.remove('active');
+            formLogin?.classList.add('active');
+            formRegistro?.classList.remove('active');
         }
     }
 
@@ -817,12 +843,20 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.display = 'none';
     }
 
+    const formPerfil     = document.getElementById('form-perfil');
+    const formRecuperar  = document.getElementById('form-recuperar');
+    const msgRecuperar   = document.getElementById('msg-recuperar');
+    const authTabsWrap   = document.querySelector('.auth-tabs');
+
     // Mostrar form login
     function showLoginForm() {
         formLogin?.classList.add('active');
         formRegistro?.classList.remove('active');
+        formRecuperar?.classList.remove('active');
+        formPerfil?.classList.remove('active');
         tabLogin?.classList.add('active');
         tabRegistro?.classList.remove('active');
+        if (authTabsWrap) authTabsWrap.style.display = 'flex';
         limpiarMensaje(msgLogin);
     }
 
@@ -830,9 +864,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function showRegistroForm() {
         formRegistro?.classList.add('active');
         formLogin?.classList.remove('active');
+        formRecuperar?.classList.remove('active');
+        formPerfil?.classList.remove('active');
         tabRegistro?.classList.add('active');
         tabLogin?.classList.remove('active');
+        if (authTabsWrap) authTabsWrap.style.display = 'flex';
         limpiarMensaje(msgRegistro);
+    }
+
+    // Mostrar form recuperar contraseña
+    function showRecuperarForm() {
+        formRecuperar?.classList.add('active');
+        formLogin?.classList.remove('active');
+        formRegistro?.classList.remove('active');
+        formPerfil?.classList.remove('active');
+        if (authTabsWrap) authTabsWrap.style.display = 'none';
+        limpiarMensaje(msgRecuperar);
     }
 
     tabLogin?.addEventListener('click', showLoginForm);
@@ -840,15 +887,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('switch-to-registro')?.addEventListener('click', showRegistroForm);
     document.getElementById('switch-to-login')?.addEventListener('click', showLoginForm);
+    document.getElementById('link-olvido-password')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showRecuperarForm();
+    });
+    document.getElementById('switch-recuperar-to-login')?.addEventListener('click', showLoginForm);
 
-    // Si ya hay sesión activa, mostrar opción de cerrar sesión
+    // Botones del panel de perfil
+    document.getElementById('btn-perfil-catalogo')?.addEventListener('click', () => {
+        navigateTo('vista-catalogo');
+    });
+    document.getElementById('btn-perfil-logout')?.addEventListener('click', () => {
+        cerrarSesion();
+        showLoginForm();
+    });
+
+    // Ícono de usuario en el navbar
     document.getElementById('user-nav-icon')?.addEventListener('click', () => {
-        if (sesionUsuario) {
-            // Si está logueado, mostrar formulario con opción de cerrar sesión
-            showLoginForm();
-        } else {
-            showLoginForm();
-        }
+        navigateTo('vista-login');
+        actualizarNavUsuario();
     });
 
     // ── ENVIAR LOGIN ──
@@ -877,12 +934,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (json.ok) {
                 guardarSesion(json.usuario);
                 actualizarNavUsuario();
-                mostrarMensaje(msgLogin, json.mensaje, 'success');
                 // Limpiar campos
                 if (loginEmail)    loginEmail.value    = '';
                 if (loginPassword) loginPassword.value = '';
-                // Redirigir al inicio después de 1.5 s
-                setTimeout(() => navigateTo('vista-inicio'), 1500);
             } else {
                 mostrarMensaje(msgLogin, json.mensaje || 'Error al iniciar sesión.');
             }
@@ -923,13 +977,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Auto-login después de registrarse
                 guardarSesion(json.usuario);
                 actualizarNavUsuario();
-                mostrarMensaje(msgRegistro, json.mensaje, 'success');
                 // Limpiar campos
                 if (regNombre)    regNombre.value    = '';
                 if (regEmail)     regEmail.value     = '';
                 if (regPassword)  regPassword.value  = '';
                 if (regTelefono)  regTelefono.value  = '';
-                setTimeout(() => navigateTo('vista-inicio'), 1800);
             } else {
                 mostrarMensaje(msgRegistro, json.mensaje || 'Error al registrar la cuenta.');
             }
@@ -942,6 +994,62 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ── ENVIAR RECUPERACIÓN DE CONTRASEÑA ──
+    const btnRecuperarSubmit = document.getElementById('btn-recuperar-submit');
+    const recuperarEmailEl   = document.getElementById('recuperar-email');
+    const recuperarPassEl    = document.getElementById('recuperar-password');
+
+    btnRecuperarSubmit?.addEventListener('click', async () => {
+        const correo         = recuperarEmailEl?.value.trim();
+        const nuevaContrasena = recuperarPassEl?.value;
+
+        if (!correo || !nuevaContrasena) {
+            mostrarMensaje(msgRecuperar, 'Por favor completa todos los campos.');
+            return;
+        }
+        if (!correo.includes('@')) {
+            mostrarMensaje(msgRecuperar, 'Ingresa un correo electrónico válido.');
+            return;
+        }
+        if (nuevaContrasena.length < 8) {
+            mostrarMensaje(msgRecuperar, 'La nueva contraseña debe tener al menos 8 caracteres.');
+            return;
+        }
+
+        btnRecuperarSubmit.disabled = true;
+        btnRecuperarSubmit.textContent = 'Actualizando...';
+        limpiarMensaje(msgRecuperar);
+
+        try {
+            const res = await fetch(`${API}/usuarios/recuperar-password`, {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body   : JSON.stringify({ correo, nueva_contrasena: nuevaContrasena })
+            });
+            const json = await res.json();
+
+            if (json.ok) {
+                mostrarMensaje(msgRecuperar, json.mensaje, 'success');
+                if (recuperarEmailEl) recuperarEmailEl.value = '';
+                if (recuperarPassEl)  recuperarPassEl.value  = '';
+
+                // Volver a login tras 2 segundos con el correo pre-rellenado
+                setTimeout(() => {
+                    showLoginForm();
+                    if (loginEmail) loginEmail.value = correo;
+                }, 2000);
+            } else {
+                mostrarMensaje(msgRecuperar, json.mensaje || 'No se pudo actualizar la contraseña.');
+            }
+        } catch (err) {
+            mostrarMensaje(msgRecuperar, 'Error de conexión con el servidor. Intenta de nuevo.');
+            console.error('Error recuperar password:', err);
+        } finally {
+            btnRecuperarSubmit.disabled = false;
+            btnRecuperarSubmit.textContent = 'Actualizar contraseña';
+        }
+    });
+
     // Permitir submit con Enter en los inputs de auth
     [loginEmail, loginPassword].forEach(el => {
         el?.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnLogin?.click(); });
@@ -949,11 +1057,14 @@ document.addEventListener('DOMContentLoaded', () => {
     [regNombre, regEmail, regPassword, regTelefono].forEach(el => {
         el?.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnRegistro?.click(); });
     });
+    [recuperarEmailEl, recuperarPassEl].forEach(el => {
+        el?.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnRecuperarSubmit?.click(); });
+    });
 
-    // Botón cerrar sesión
+    // Botón cerrar sesión general
     document.getElementById('btn-cerrar-sesion')?.addEventListener('click', () => {
         cerrarSesion();
-        navigateTo('vista-inicio');
+        showLoginForm();
     });
 
     // 11. DEPARTAMENTOS Y CIUDADES DE COLOMBIA

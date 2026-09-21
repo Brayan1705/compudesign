@@ -875,74 +875,102 @@
                         <input type="password" id="login-password" class="auth-input" placeholder="••••••••" autocomplete="current-password">
                     </div>
                     <div class="text-center mt-15">
-                        <a href="#" class="auth-link-small">¿Olvidaste tu contraseña?</a>
+                        <a href="#" class="auth-link-small" id="link-olvido-password">¿Olvidaste tu contraseña?</a>
                     </div>
                     <button class="btn-auth mt-30" id="btn-login">Inicia sesión</button>
-
-                    <!-- Botón cerrar sesión -->
-                    <button id="btn-cerrar-sesion" class="btn-auth-outline mt-15" style="display:none;">
-                        Cerrar sesión
-                    </button>
 
                     <p class="auth-switch-text mt-20">¿No tienes cuenta?
                         <button class="auth-switch-btn" id="switch-to-registro">Regístrate aquí</button>
                     </p>
                 </div>
 
-            <!-- ── FORM REGISTRO ── -->
-            <div id="form-registro" class="auth-form">
-                <h2 class="auth-title">Registrarse</h2>
+                <!-- ── FORM REGISTRO ── -->
+                <div id="form-registro" class="auth-form">
+                    <h2 class="auth-title">Registrarse</h2>
 
-                <!-- Mensaje de error/éxito -->
-                <div id="msg-registro" class="auth-msg" style="display:none;"></div>
+                    <!-- Mensaje de error/éxito -->
+                    <div id="msg-registro" class="auth-msg" style="display:none;"></div>
 
-                <div class="form-group-auth mt-30">
-                    <label class="auth-label">Nombre y apellidos</label>
-                    <input type="text" id="registro-nombre" class="auth-input" placeholder="Tu nombre completo" autocomplete="name">
+                    <div class="form-group-auth mt-30">
+                        <label class="auth-label">Nombre y apellidos</label>
+                        <input type="text" id="registro-nombre" class="auth-input" placeholder="Tu nombre completo" autocomplete="name">
+                    </div>
+                    <div class="form-group-auth mt-20">
+                        <label class="auth-label">E-mail</label>
+                        <input type="email" id="registro-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+                    </div>
+                    <div class="form-group-auth mt-20">
+                        <label class="auth-label">Contraseña</label>
+                        <input type="password" id="registro-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                    </div>
+                    <div class="form-group-auth mt-20">
+                        <label class="auth-label">Teléfono <span style="font-size:0.8em;opacity:0.6;">(opcional)</span></label>
+                        <input type="tel" id="registro-telefono" class="auth-input" placeholder="Ej: 3001234567">
+                    </div>
+                    <button class="btn-auth mt-30" id="btn-registro">Regístrate</button>
+                    <p class="auth-switch-text mt-20">¿Ya tienes cuenta?
+                        <button class="auth-switch-btn" id="switch-to-login">Inicia sesión aquí</button>
+                    </p>
                 </div>
-                <div class="form-group-auth mt-20">
-                    <label class="auth-label">E-mail</label>
-                    <input type="email" id="registro-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
-                </div>
-                <div class="form-group-auth mt-20">
-                    <label class="auth-label">Contraseña</label>
-                    <input type="password" id="registro-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
-                </div>
-                <div class="form-group-auth mt-20">
-                    <label class="auth-label">Teléfono <span style="font-size:0.8em;opacity:0.6;">(opcional)</span></label>
-                    <input type="tel" id="registro-telefono" class="auth-input" placeholder="Ej: 3001234567">
-                </div>
-                <button class="btn-auth mt-30" id="btn-registro">Regístrate</button>
-                <p class="auth-switch-text mt-20">¿Ya tienes cuenta?
-                    <button class="auth-switch-btn" id="switch-to-login">Inicia sesión aquí</button>
-                </p>
-            </div>
 
-        </div>
-    </div>
-</section>
+                <!-- ── FORM RECUPERAR CONTRASEÑA ── -->
+                <div id="form-recuperar" class="auth-form">
+                    <h2 class="auth-title">Recuperar contraseña</h2>
+                    <p class="auth-subtitle mt-10 text-center text-muted text-sm">Ingresa tu correo registrado y tu nueva contraseña.</p>
 
-                    <!-- Registro Form -->
-                    <div id="form-registro" class="auth-form">
-                        <h2 class="auth-title">Registrarse</h2>
-                        <div class="form-group-auth mt-30">
-                            <label class="auth-label">Nombre y apellidos</label>
-                            <input type="text" class="auth-input" placeholder="Tu nombre completo">
+                    <div id="msg-recuperar" class="auth-msg" style="display:none;"></div>
+
+                    <div class="form-group-auth mt-20">
+                        <label class="auth-label">E-mail registrado</label>
+                        <input type="email" id="recuperar-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+                    </div>
+                    <div class="form-group-auth mt-20">
+                        <label class="auth-label">Nueva contraseña</label>
+                        <input type="password" id="recuperar-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                    </div>
+                    <button class="btn-auth mt-30" id="btn-recuperar-submit">Actualizar contraseña</button>
+
+                    <p class="auth-switch-text mt-20">
+                        <button class="auth-switch-btn" id="switch-recuperar-to-login">← Volver a Iniciar sesión</button>
+                    </p>
+                </div>
+
+                <!-- ── PANEL DE PERFIL (SESIÓN ACTIVA) ── -->
+                <div id="form-perfil" class="auth-form">
+                    <div class="perfil-card text-center">
+                        <div class="perfil-avatar-wrap">
+                            <div class="perfil-avatar" id="perfil-avatar-letra">U</div>
                         </div>
-                        <div class="form-group-auth mt-20">
-                            <label class="auth-label">E-mail</label>
-                            <input type="email" class="auth-input" placeholder="tucorreo@ejemplo.com">
+                        <h2 class="perfil-saludo mt-15" id="perfil-saludo">¡Hola, Usuario!</h2>
+                        <div class="perfil-status-badge mt-5">
+                            <span class="status-dot"></span> Cuenta activa
                         </div>
-                        <div class="form-group-auth mt-20">
-                            <label class="auth-label">Contraseña</label>
-                            <input type="password" class="auth-input" placeholder="Mínimo 8 caracteres">
+
+                        <div class="perfil-info-list mt-25">
+                            <div class="perfil-info-item">
+                                <span class="perfil-info-label">Nombre completo</span>
+                                <span class="perfil-info-val" id="perfil-nombre">Usuario</span>
+                            </div>
+                            <div class="perfil-info-item mt-10">
+                                <span class="perfil-info-label">Correo registrado</span>
+                                <span class="perfil-info-val" id="perfil-correo">correo@ejemplo.com</span>
+                            </div>
                         </div>
-                        <button class="btn-auth mt-30">Regístrate</button>
-                        <p class="auth-switch-text mt-20">¿Ya tienes cuenta? <button class="auth-switch-btn" id="switch-to-login">Inicia sesión aquí</button></p>
+
+                        <div class="perfil-actions mt-30">
+                            <button class="btn-auth" id="btn-perfil-catalogo">
+                                Explorar catálogo
+                            </button>
+                            <button class="btn-auth-outline mt-15" id="btn-perfil-logout">
+                                Cerrar sesión
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             </div>
-        </section>
+        </div>
+    </section>
 
     </main>
 
