@@ -762,21 +762,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                 });
 
-                let json;
+                let json = null;
                 try {
                     json = await res.json();
                 } catch (e) {
-                    json = { mensaje: 'Respuesta inválida del servidor.' };
+                    json = null;
                 }
 
-                if (!res.ok || !json.ok) {
+                if (!res.ok || !json || !json.ok) {
                     // FALLO REAL DE MICROSERVICIOS (ej: 503 Service Unavailable, 500, 400)
                     btnConfirmarPedido.disabled = false;
                     btnConfirmarPedido.textContent = 'Confirmar pedido';
 
-                    const motivo = json.mensaje || (res.status === 503 
-                        ? 'El microservicio de pedidos o catálogo no está disponible temporalmente.' 
-                        : 'No se pudo procesar la solicitud.');
+                    let motivo = (json && json.mensaje) ? json.mensaje : '';
+                    if (!motivo) {
+                        if (res.status === 503) {
+                            motivo = 'El microservicio de Pedidos o Catálogo está fuera de línea en este momento (Proceso detenido).';
+                        } else if (res.status === 502 || res.status === 504) {
+                            motivo = 'Tiempo de espera agotado al conectar con el microservicio.';
+                        } else {
+                            motivo = 'No se pudo procesar la solicitud en el servidor.';
+                        }
+                    }
 
                     mostrarErrorCheckout(`🚨 Error al procesar el pedido (HTTP ${res.status}): ${motivo}`);
                     return; // Detiene completamente el flujo: NO vacía carrito, NO avanza a confirmación
