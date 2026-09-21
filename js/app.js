@@ -1340,19 +1340,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn-cerrar-soporte')?.addEventListener('click',
         () => cerrarModal('modal-soporte-overlay'));
+    document.getElementById('btn-x-soporte')?.addEventListener('click',
+        () => cerrarModal('modal-soporte-overlay'));
+
+    const limpiarFormServicio = () => {
+        deseleccionarServicio();
+        const n = document.getElementById('servicio-nombre');
+        const e = document.getElementById('servicio-email');
+        const m = document.getElementById('servicio-mensaje');
+        if (n) n.value = '';
+        if (e) e.value = '';
+        if (m) m.value = '';
+    };
+
     document.getElementById('btn-cerrar-soporte-confirm')?.addEventListener('click', () => {
         cerrarModal('modal-soporte-confirm-overlay');
-        deseleccionarServicio();
-        document.getElementById('servicio-nombre').value  = '';
-        document.getElementById('servicio-email').value   = '';
-        document.getElementById('servicio-mensaje').value = '';
+        limpiarFormServicio();
     });
+    document.getElementById('btn-x-soporte-confirm')?.addEventListener('click', () => {
+        cerrarModal('modal-soporte-confirm-overlay');
+        limpiarFormServicio();
+    });
+
     document.getElementById('btn-cerrar-asesoria')?.addEventListener('click', () => {
         cerrarModal('modal-asesoria-overlay');
-        deseleccionarServicio();
-        document.getElementById('servicio-nombre').value  = '';
-        document.getElementById('servicio-email').value   = '';
-        document.getElementById('servicio-mensaje').value = '';
+        limpiarFormServicio();
+    });
+    document.getElementById('btn-x-asesoria')?.addEventListener('click', () => {
+        cerrarModal('modal-asesoria-overlay');
+        limpiarFormServicio();
     });
 
     // 13. FORMULARIO DE CONTACTO

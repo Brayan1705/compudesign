@@ -967,13 +967,15 @@ footer { border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(6px);
-    z-index: 9999;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(8px);
+    z-index: 99999;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 20px 15px;
     animation: modalFadeIn 0.25s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .modal-overlay.active {
     display: flex;
@@ -989,11 +991,13 @@ footer { border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
     border-radius: 24px;
     width: 100%;
     max-width: 820px;
+    margin: auto;
     position: relative;
     box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
     animation: modalSlideUp 0.3s cubic-bezier(0.34,1.2,0.64,1);
     max-height: 90vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 @keyframes modalSlideUp {
     from { opacity: 0; transform: translateY(30px) scale(0.97); }
@@ -1624,7 +1628,9 @@ footer { border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
     max-width: 520px;
     padding: 0;
     border-radius: 22px;
-    overflow: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 90vh;
 }
 .mcp-top-stripe {
     height: 5px;
@@ -2031,6 +2037,50 @@ footer { border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
 
     /* --- Info grid del comprobante --- */
     .mcp-info-grid { grid-template-columns: 1fr !important; }
+
+    /* --- Modales en móvil --- */
+    .modal-overlay {
+        padding: 12px 10px !important;
+        align-items: flex-start !important;
+    }
+    .modal-box {
+        margin: 10px auto 30px !important;
+        max-height: calc(100vh - 20px) !important;
+    }
+    .modal-confirm-pro {
+        margin: 10px auto 30px !important;
+        max-height: calc(100vh - 20px) !important;
+        border-radius: 18px !important;
+    }
+    .mcp-body {
+        padding: 24px 18px 20px !important;
+    }
+    .mcp-icon-wrap {
+        margin-bottom: 12px !important;
+    }
+    .mcp-icon-wrap svg {
+        width: 48px !important;
+        height: 48px !important;
+    }
+    .mcp-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 8px !important;
+    }
+    .mcp-subtitle {
+        font-size: 0.82rem !important;
+        margin-bottom: 14px !important;
+        line-height: 1.5 !important;
+    }
+    .mcp-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        margin-top: 15px !important;
+    }
+    .mcp-actions button {
+        width: 100% !important;
+        padding: 12px !important;
+    }
 
     /* --- Servicio card interna --- */
     .servicio-card-inner { gap: 14px; }

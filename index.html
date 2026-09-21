@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CompuDesign | Tu tienda de tecnología</title>
-    <link rel="stylesheet" href="./css/styles.css?v=5">
+    <link rel="stylesheet" href="./css/styles.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -258,174 +258,6 @@
                         </div>
                     </div>
 
-                </div>
-
-                <!-- MODAL: Selector de Fechas — Soporte Técnico   -->
-                <div id="modal-soporte-overlay" class="modal-overlay">
-                    <div class="modal-box modal-fechas-box">
-                        <div class="modal-fechas-left">
-                            <div class="modal-fechas-icon-wrap">
-                                <svg viewBox="0 0 80 80" width="110" height="110" fill="none">
-                                    <circle cx="40" cy="40" r="38" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.25)" stroke-width="1.5"/>
-                                    <!-- laptop base -->
-                                    <rect x="14" y="20" width="52" height="32" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
-                                    <!-- pantalla -->
-                                    <rect x="18" y="23" width="44" height="26" rx="2" fill="#0f172a"/>
-                                    <!-- engranaje en pantalla -->
-                                    <circle cx="40" cy="36" r="7" fill="none" stroke="#f97316" stroke-width="2.2"/>
-                                    <circle cx="40" cy="36" r="3" fill="#f97316"/>
-                                    <line x1="40" y1="27" x2="40" y2="29.5" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="40" y1="42.5" x2="40" y2="45" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="31" y1="36" x2="33.5" y2="36" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="46.5" y1="36" x2="49" y2="36" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="34.1" y1="30.1" x2="35.9" y2="31.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
-                                    <line x1="44.1" y1="40.1" x2="45.9" y2="41.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
-                                    <line x1="45.9" y1="30.1" x2="44.1" y2="31.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
-                                    <line x1="35.9" y1="40.1" x2="34.1" y2="41.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
-                                    <!-- teclado -->
-                                    <path d="M10 52 h60 l-4 7 H14 z" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
-                                </svg>
-                            </div>
-                            <h3 class="modal-fechas-titulo">💻 Soporte Técnico</h3>
-                            <p class="modal-fechas-desc">Elige tu fecha preferida y recibirás la confirmación en tu correo electrónico.</p>
-                            <div class="modal-fechas-info-box">
-                                <p><strong>Solicitante:</strong></p>
-                                <p id="modal-fechas-nombre" class="modal-fechas-info-val">—</p>
-                                <p class="mt-5"><strong>Correo:</strong></p>
-                                <p id="modal-fechas-email" class="modal-fechas-info-val">—</p>
-                            </div>
-                        </div>
-                        <div class="modal-fechas-right">
-                            <div class="modal-fechas-header-right">
-                                <h4>Fechas disponibles</h4>
-                                <span class="modal-mes-badge">Mayo 2026</span>
-                            </div>
-                            <div class="fechas-lista mt-20">
-                                <label class="fecha-option">
-                                    <input type="radio" name="fecha-soporte" value="Martes 5 de mayo 2026 — 10:00 a.m.">
-                                    <span class="fecha-checkbox-custom"></span>
-                                    <div class="fecha-detail">
-                                        <span class="fecha-day">Martes · 5 de mayo 2026</span>
-                                        <span class="fecha-date">10:00 a.m.</span>
-                                    </div>
-                                </label>
-                                <label class="fecha-option">
-                                    <input type="radio" name="fecha-soporte" value="Jueves 7 de mayo 2026 — 2:00 p.m.">
-                                    <span class="fecha-checkbox-custom"></span>
-                                    <div class="fecha-detail">
-                                        <span class="fecha-day">Jueves · 7 de mayo 2026</span>
-                                        <span class="fecha-date">2:00 p.m.</span>
-                                    </div>
-                                </label>
-                                <label class="fecha-option">
-                                    <input type="radio" name="fecha-soporte" value="Sábado 9 de mayo 2026 — 9:00 a.m.">
-                                    <span class="fecha-checkbox-custom"></span>
-                                    <div class="fecha-detail">
-                                        <span class="fecha-day">Sábado · 9 de mayo 2026</span>
-                                        <span class="fecha-date">9:00 a.m.</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="modal-fechas-actions mt-20">
-                                <button class="btn-primary" id="btn-confirmar-fecha">Confirmar fecha</button>
-                                <button class="btn-cerrar-modal" id="btn-cerrar-soporte">Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MODAL: Confirmación — Soporte Técnico          -->
-                <div id="modal-soporte-confirm-overlay" class="modal-overlay">
-                    <div class="modal-box modal-confirm-pro">
-                        <div class="mcp-top-stripe"></div>
-                        <div class="mcp-body">
-                            <div class="mcp-icon-wrap">
-                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                                    <circle cx="32" cy="32" r="30" fill="#16a34a" opacity="0.15"/>
-                                    <circle cx="32" cy="32" r="24" fill="#22c55e"/>
-                                    <path d="M20 32 l9 9 16-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h2 class="mcp-title">¡Soporte agendado con éxito!</h2>
-                            <p class="mcp-subtitle">Tu solicitud de soporte técnico ha sido registrada. Nuestro equipo se pondrá en contacto contigo en la fecha seleccionada.</p>
-
-                            <div class="mcp-info-grid">
-                                <div class="mcp-info-item">
-                                    <span class="mcp-info-label">👤 Solicitante</span>
-                                    <span class="mcp-info-value" id="confirm-soporte-nombre">—</span>
-                                </div>
-                                <div class="mcp-info-item">
-                                    <span class="mcp-info-label">📅 Fecha agendada</span>
-                                    <span class="mcp-info-value" id="confirm-soporte-fecha">—</span>
-                                </div>
-                                <div class="mcp-info-item">
-                                    <span class="mcp-info-label">📧 Confirmación a</span>
-                                    <span class="mcp-info-value" id="confirm-soporte-email">—</span>
-                                </div>
-                            </div>
-
-                            <div class="mcp-radicado-box">
-                                <span class="mcp-radicado-label">N.º de Radicado</span>
-                                <span class="mcp-radicado-num" id="numero-radicado-soporte">—</span>
-                            </div>
-
-                            <p class="mcp-nota">Guarda este número de radicado. Lo necesitarás para consultar el estado de tu solicitud.</p>
-
-                            <div class="mcp-actions">
-                                <button class="btn-primary" id="btn-cerrar-soporte-confirm">Entendido</button>
-                                <button class="btn-cerrar-modal nav-btn" data-target="vista-contacto">¿Dudas? Contáctanos</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MODAL: Confirmación — Asesoría Virtual         -->
-                <div id="modal-asesoria-overlay" class="modal-overlay">
-                    <div class="modal-box modal-confirm-pro">
-                        <div class="mcp-top-stripe mcp-stripe-blue"></div>
-                        <div class="mcp-body">
-                            <div class="mcp-icon-wrap">
-                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                                    <circle cx="32" cy="32" r="30" fill="#1d4ed8" opacity="0.15"/>
-                                    <circle cx="32" cy="32" r="24" fill="#3b82f6"/>
-                                    <path d="M20 32 l9 9 16-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <h2 class="mcp-title">¡Asesoría agendada con éxito!</h2>
-                            <p class="mcp-subtitle">Tu asesoría virtual ha sido registrada. Pronto uno de nuestros asesores se comunicará contigo para brindarte la orientación que necesitas.</p>
-
-                            <div class="mcp-info-grid">
-                                <div class="mcp-info-item">
-                                    <span class="mcp-info-label">👤 Solicitante</span>
-                                    <span class="mcp-info-value" id="confirm-asesoria-nombre">—</span>
-                                </div>
-                                <div class="mcp-info-item">
-                                    <span class="mcp-info-label">💼 Tipo de servicio</span>
-                                    <span class="mcp-info-value">Asesoría Virtual</span>
-                                </div>
-                                <div class="mcp-info-item">
-                                    <span class="mcp-info-label">📧 Confirmación a</span>
-                                    <span class="mcp-info-value" id="confirm-asesoria-email">—</span>
-                                </div>
-                                <div class="mcp-info-item">
-                                    <span class="mcp-info-label">⏱ Tiempo de respuesta</span>
-                                    <span class="mcp-info-value">24–48 horas hábiles</span>
-                                </div>
-                            </div>
-
-                            <div class="mcp-radicado-box mcp-radicado-blue">
-                                <span class="mcp-radicado-label">N.º de Radicado</span>
-                                <span class="mcp-radicado-num" id="numero-radicado-asesoria">—</span>
-                            </div>
-
-                            <p class="mcp-nota">Guarda este número de radicado. Lo necesitarás para consultar el estado de tu solicitud.</p>
-
-                            <div class="mcp-actions">
-                                <button class="btn-primary" id="btn-cerrar-asesoria">Entendido</button>
-                                <button class="btn-cerrar-modal nav-btn" data-target="vista-contacto">¿Dudas? Contáctanos</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1062,6 +894,173 @@
         </div>
     </div>
 
+    <!-- MODAL: Selector de Fechas — Soporte Técnico -->
+    <div id="modal-soporte-overlay" class="modal-overlay">
+        <div class="modal-box modal-fechas-box">
+            <button class="modal-close-btn" id="btn-x-soporte" title="Cerrar">&times;</button>
+            <div class="modal-fechas-left">
+                <div class="modal-fechas-icon-wrap">
+                    <svg viewBox="0 0 80 80" width="110" height="110" fill="none">
+                        <circle cx="40" cy="40" r="38" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.25)" stroke-width="1.5"/>
+                        <rect x="14" y="20" width="52" height="32" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                        <rect x="18" y="23" width="44" height="26" rx="2" fill="#0f172a"/>
+                        <circle cx="40" cy="36" r="7" fill="none" stroke="#f97316" stroke-width="2.2"/>
+                        <circle cx="40" cy="36" r="3" fill="#f97316"/>
+                        <line x1="40" y1="27" x2="40" y2="29.5" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="40" y1="42.5" x2="40" y2="45" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="31" y1="36" x2="33.5" y2="36" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="46.5" y1="36" x2="49" y2="36" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="34.1" y1="30.1" x2="35.9" y2="31.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                        <line x1="44.1" y1="40.1" x2="45.9" y2="41.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                        <line x1="45.9" y1="30.1" x2="44.1" y2="31.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                        <line x1="35.9" y1="40.1" x2="34.1" y2="41.9" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M10 52 h60 l-4 7 H14 z" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
+                    </svg>
+                </div>
+                <h3 class="modal-fechas-titulo">💻 Soporte Técnico</h3>
+                <p class="modal-fechas-desc">Elige tu fecha preferida y recibirás la confirmación en tu correo electrónico.</p>
+                <div class="modal-fechas-info-box">
+                    <p><strong>Solicitante:</strong></p>
+                    <p id="modal-fechas-nombre" class="modal-fechas-info-val">—</p>
+                    <p class="mt-5"><strong>Correo:</strong></p>
+                    <p id="modal-fechas-email" class="modal-fechas-info-val">—</p>
+                </div>
+            </div>
+            <div class="modal-fechas-right">
+                <div class="modal-fechas-header-right">
+                    <h4>Fechas disponibles</h4>
+                    <span class="modal-mes-badge">Mayo 2026</span>
+                </div>
+                <div class="fechas-lista mt-20">
+                    <label class="fecha-option">
+                        <input type="radio" name="fecha-soporte" value="Martes 5 de mayo 2026 — 10:00 a.m.">
+                        <span class="fecha-checkbox-custom"></span>
+                        <div class="fecha-detail">
+                            <span class="fecha-day">Martes · 5 de mayo 2026</span>
+                            <span class="fecha-date">10:00 a.m.</span>
+                        </div>
+                    </label>
+                    <label class="fecha-option">
+                        <input type="radio" name="fecha-soporte" value="Jueves 7 de mayo 2026 — 2:00 p.m.">
+                        <span class="fecha-checkbox-custom"></span>
+                        <div class="fecha-detail">
+                            <span class="fecha-day">Jueves · 7 de mayo 2026</span>
+                            <span class="fecha-date">2:00 p.m.</span>
+                        </div>
+                    </label>
+                    <label class="fecha-option">
+                        <input type="radio" name="fecha-soporte" value="Sábado 9 de mayo 2026 — 9:00 a.m.">
+                        <span class="fecha-checkbox-custom"></span>
+                        <div class="fecha-detail">
+                            <span class="fecha-day">Sábado · 9 de mayo 2026</span>
+                            <span class="fecha-date">9:00 a.m.</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="modal-fechas-actions mt-20">
+                    <button class="btn-primary" id="btn-confirmar-fecha">Confirmar fecha</button>
+                    <button class="btn-cerrar-modal" id="btn-cerrar-soporte">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Confirmación — Soporte Técnico -->
+    <div id="modal-soporte-confirm-overlay" class="modal-overlay">
+        <div class="modal-box modal-confirm-pro">
+            <button class="modal-close-btn" id="btn-x-soporte-confirm" title="Cerrar">&times;</button>
+            <div class="mcp-top-stripe"></div>
+            <div class="mcp-body">
+                <div class="mcp-icon-wrap">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="30" fill="#16a34a" opacity="0.15"/>
+                        <circle cx="32" cy="32" r="24" fill="#22c55e"/>
+                        <path d="M20 32 l9 9 16-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2 class="mcp-title">¡Soporte agendado con éxito!</h2>
+                <p class="mcp-subtitle">Tu solicitud de soporte técnico ha sido registrada. Nuestro equipo se pondrá en contacto contigo en la fecha seleccionada.</p>
+
+                <div class="mcp-info-grid">
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">👤 Solicitante</span>
+                        <span class="mcp-info-value" id="confirm-soporte-nombre">—</span>
+                    </div>
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">📅 Fecha agendada</span>
+                        <span class="mcp-info-value" id="confirm-soporte-fecha">—</span>
+                    </div>
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">📧 Confirmación a</span>
+                        <span class="mcp-info-value" id="confirm-soporte-email">—</span>
+                    </div>
+                </div>
+
+                <div class="mcp-radicado-box">
+                    <span class="mcp-radicado-label">N.º de Radicado</span>
+                    <span class="mcp-radicado-num" id="numero-radicado-soporte">—</span>
+                </div>
+
+                <p class="mcp-nota">Guarda este número de radicado. Lo necesitarás para consultar el estado de tu solicitud.</p>
+
+                <div class="mcp-actions">
+                    <button class="btn-primary" id="btn-cerrar-soporte-confirm">Entendido</button>
+                    <button class="btn-cerrar-modal nav-btn" data-target="vista-contacto">¿Dudas? Contáctanos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Confirmación — Asesoría Virtual -->
+    <div id="modal-asesoria-overlay" class="modal-overlay">
+        <div class="modal-box modal-confirm-pro">
+            <button class="modal-close-btn" id="btn-x-asesoria" title="Cerrar">&times;</button>
+            <div class="mcp-top-stripe mcp-stripe-blue"></div>
+            <div class="mcp-body">
+                <div class="mcp-icon-wrap">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="30" fill="#1d4ed8" opacity="0.15"/>
+                        <circle cx="32" cy="32" r="24" fill="#3b82f6"/>
+                        <path d="M20 32 l9 9 16-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2 class="mcp-title">¡Asesoría agendada con éxito!</h2>
+                <p class="mcp-subtitle">Tu asesoría virtual ha sido registrada. Pronto uno de nuestros asesores se comunicará contigo para brindarte la orientación que necesitas.</p>
+
+                <div class="mcp-info-grid">
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">👤 Solicitante</span>
+                        <span class="mcp-info-value" id="confirm-asesoria-nombre">—</span>
+                    </div>
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">💼 Tipo de servicio</span>
+                        <span class="mcp-info-value">Asesoría Virtual</span>
+                    </div>
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">📧 Confirmación a</span>
+                        <span class="mcp-info-value" id="confirm-asesoria-email">—</span>
+                    </div>
+                    <div class="mcp-info-item">
+                        <span class="mcp-info-label">⏱ Tiempo de respuesta</span>
+                        <span class="mcp-info-value">24–48 horas hábiles</span>
+                    </div>
+                </div>
+
+                <div class="mcp-radicado-box mcp-radicado-blue">
+                    <span class="mcp-radicado-label">N.º de Radicado</span>
+                    <span class="mcp-radicado-num" id="numero-radicado-asesoria">—</span>
+                </div>
+
+                <p class="mcp-nota">Guarda este número de radicado. Lo necesitarás para consultar el estado de tu solicitud.</p>
+
+                <div class="mcp-actions">
+                    <button class="btn-primary" id="btn-cerrar-asesoria">Entendido</button>
+                    <button class="btn-cerrar-modal nav-btn" data-target="vista-contacto">¿Dudas? Contáctanos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="mt-60">
         <div class="container footer-content">
             <div class="footer-links">
@@ -1100,7 +1099,7 @@
     <!-- TIDIO CHATBOT -->
     <script src="//code.tidio.co/mcjasqsrjsejlk0mhxo8veqme2879xpv.js" async></script>
     
-    <script src="./js/app.js?v=5"></script>
+    <script src="./js/app.js?v=6"></script>
 
     <!-- Three.js Visor 3D -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
