@@ -1497,8 +1497,10 @@ footer { border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
     gap: 0;
     max-width: 680px;
     padding: 0;
-    overflow: hidden;
     border-radius: 22px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 90vh;
 }
 .modal-fechas-left {
     background: rgba(249,115,22,0.06);
@@ -2031,9 +2033,65 @@ footer { border-top: 1px solid var(--border-color); padding: 60px 0 30px; }
     .modal-price { font-size: 1.6rem; }
 
     /* --- Modal de fechas (soporte técnico) --- */
-    .modal-fechas-box { flex-direction: column; max-width: 100%; }
-    .modal-fechas-left { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 26px 22px; }
-    .modal-fechas-right { padding: 22px; }
+    .modal-fechas-box {
+        flex-direction: column !important;
+        max-width: 100% !important;
+        margin: 10px auto 40px !important;
+        max-height: calc(100vh - 20px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        border-radius: 18px !important;
+    }
+    .modal-fechas-left {
+        width: 100% !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+        padding: 16px 18px 12px !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }
+    .modal-fechas-icon-wrap {
+        margin-bottom: 0 !important;
+    }
+    .modal-fechas-icon-wrap svg {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    .modal-fechas-titulo {
+        font-size: 1.05rem !important;
+        margin-bottom: 0 !important;
+    }
+    .modal-fechas-desc {
+        display: none !important;
+    }
+    .modal-fechas-info-box {
+        margin-top: 4px !important;
+        padding: 8px 12px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+    .modal-fechas-right {
+        padding: 16px 18px 45px !important;
+    }
+    .modal-fechas-header-right h4 {
+        font-size: 1rem !important;
+    }
+    .modal-fechas-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        margin-top: 18px !important;
+        padding-bottom: 35px !important;
+    }
+    .modal-fechas-actions button {
+        width: 100% !important;
+        padding: 13px !important;
+        font-size: 0.95rem !important;
+    }
 
     /* --- Info grid del comprobante --- */
     .mcp-info-grid { grid-template-columns: 1fr !important; }

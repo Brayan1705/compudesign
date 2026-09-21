@@ -1258,6 +1258,62 @@ document.addEventListener('DOMContentLoaded', () => {
     function generarRadicado() {
         return Math.floor(100000000000 + Math.random() * 900000000000).toString();
     }
+
+    function generarFechasDisponibles() {
+        const hoy = new Date();
+        const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const meses = [
+            'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+            'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+        ];
+
+        const badgeMes = document.getElementById('modal-mes-badge');
+        if (badgeMes) {
+            const mesActual = meses[hoy.getMonth()];
+            badgeMes.textContent = `${mesActual.charAt(0).toUpperCase() + mesActual.slice(1)} ${hoy.getFullYear()}`;
+        }
+
+        const contenedor = document.getElementById('fechas-soporte-lista') || document.querySelector('.fechas-lista');
+        if (!contenedor) return;
+
+        contenedor.innerHTML = '';
+
+        const slots = [
+            { offset: 1, hora: '10:00 a.m.' },
+            { offset: 3, hora: '02:00 p.m.' },
+            { offset: 5, hora: '09:00 a.m.' }
+        ];
+
+        slots.forEach((slot, index) => {
+            const fecha = new Date(hoy);
+            fecha.setDate(hoy.getDate() + slot.offset);
+
+            if (fecha.getDay() === 0) { // Si es domingo, pasar a lunes
+                fecha.setDate(fecha.getDate() + 1);
+            }
+
+            const diaNombre = diasSemana[fecha.getDay()];
+            const diaNum    = fecha.getDate();
+            const mesNombre = meses[fecha.getMonth()];
+            const anio      = fecha.getFullYear();
+
+            const textoVisible  = `${diaNombre} · ${diaNum} de ${mesNombre} ${anio}`;
+            const valorCompleto = `${diaNombre} ${diaNum} de ${mesNombre} ${anio} — ${slot.hora}`;
+
+            const label = document.createElement('label');
+            label.className = 'fecha-option';
+            label.innerHTML = `
+                <input type="radio" name="fecha-soporte" value="${valorCompleto}" ${index === 0 ? 'checked' : ''}>
+                <span class="fecha-checkbox-custom"></span>
+                <div class="fecha-detail">
+                    <span class="fecha-day">${textoVisible}</span>
+                    <span class="fecha-date">${slot.hora}</span>
+                </div>
+            `;
+            contenedor.appendChild(label);
+        });
+    }
+
     function abrirModal(overlayId) {
         document.getElementById(overlayId).classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -1310,7 +1366,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (servicioSeleccionado === 'soporte') {
             document.getElementById('modal-fechas-nombre').textContent = nombre;
             document.getElementById('modal-fechas-email').textContent  = email;
-            document.querySelectorAll('input[name="fecha-soporte"]').forEach(r => r.checked = false);
+            generarFechasDisponibles();
             abrirModal('modal-soporte-overlay');
         } else {
             const radicado = generarRadicado();
@@ -1409,5 +1465,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCartView();
     actualizarNavUsuario();   // Restaurar sesión si existía
     cargarProductos();        // Carga desde MySQL 
+    generarFechasDisponibles();
 
 });
