@@ -80,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     async function cargarProductos() {
+        const bannerCatalogo = document.getElementById('catalogo-error-banner');
+        const bannerInicio   = document.getElementById('inicio-error-banner');
+
         try {
             const res = await fetch(`${API}/productos`);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -90,12 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     featured: Boolean(p.featured)
                 }));
                 console.log(`✅ ${products.length} productos cargados desde MySQL`);
+                if (bannerCatalogo) bannerCatalogo.style.display = 'none';
+                if (bannerInicio)   bannerInicio.style.display   = 'none';
             } else {
                 throw new Error('Sin datos en la API');
             }
         } catch (err) {
-            console.warn('⚠️ API no disponible, usando datos locales:', err.message);
-            products = productosFallback;
+            console.error('❌ Microservicio de Productos no disponible:', err.message);
+            products = []; // Sin simulación con datos falsos: muestra fallo real
+            if (bannerCatalogo) bannerCatalogo.style.display = 'block';
+            if (bannerInicio)   bannerInicio.style.display   = 'block';
         }
         // Inicializar vistas que dependen de los productos
         renderDestacados();
@@ -690,10 +697,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Confirmar pedido — guarda en la BD
     const btnConfirmarPedido = document.getElementById('btn-confirmar-pedido');
+    const msgCheckoutError   = document.getElementById('checkout-error-msg');
+
+    function mostrarErrorCheckout(texto) {
+        if (msgCheckoutError) {
+            msgCheckoutError.textContent = texto;
+            msgCheckoutError.style.display = 'block';
+            msgCheckoutError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            alert(texto);
+        }
+    }
+
+    function limpiarErrorCheckout() {
+        if (msgCheckoutError) {
+            msgCheckoutError.textContent = '';
+            msgCheckoutError.style.display = 'none';
+        }
+    }
+
     if (btnConfirmarPedido) {
         btnConfirmarPedido.addEventListener('click', async () => {
+            limpiarErrorCheckout();
+
             if (cart.length === 0) {
-                alert('Tu carrito está vacío.');
+                mostrarErrorCheckout('Tu carrito está vacío. Agrega productos antes de confirmar.');
+                return;
+            }
+
+            if (!sesionUsuario) {
+                mostrarErrorCheckout('Debes iniciar sesión con tu cuenta para procesar y registrar el pedido.');
                 return;
             }
 
@@ -711,47 +744,65 @@ document.addEventListener('DOMContentLoaded', () => {
                 costo       : shippingCost
             };
 
-            // Si el usuario está logueado, guardar el pedido en la BD
-            if (sesionUsuario) {
-                try {
-                    const res = await fetch(`${API}/pedidos`, {
-                        method : 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body   : JSON.stringify({
-                            id_usuario   : sesionUsuario.id_usuario,
-                            items        : cart,
-                            subtotal,
-                            impuestos,
-                            total,
-                            envio,
-                            id_metodo_pago: selectedPaymentId
-                        })
-                    });
-                    const json = await res.json();
-                    if (json.ok) {
-                        const numEl = document.getElementById('numero-pedido');
-                        if (numEl) numEl.textContent = `Pedido #${json.id_pedido}`;
-                    } else {
-                        console.warn('Advertencia al guardar pedido:', json.mensaje);
-                    }
-                } catch (err) {
-                    console.warn('No se pudo guardar el pedido en BD:', err.message);
-                }
-            } else {
-                // Sin sesión, solo número local
-                const orderNum = Math.floor(10000 + Math.random() * 90000);
-                const numEl = document.getElementById('numero-pedido');
-                if (numEl) numEl.textContent = `Pedido #${orderNum}`;
-            }
+            btnConfirmarPedido.disabled = true;
+            btnConfirmarPedido.textContent = 'Procesando con microservicio...';
 
-            // Limpiar carrito y navegar a confirmación
-            cart = [];
-            shippingCost = 0;
-            shippingLabel = 'Gratis';
-            selectedPayment = null;
-            selectedPaymentId = null;
-            updateCartBadge();
-            navigateTo('vista-confirmacion');
+            try {
+                const res = await fetch(`${API}/pedidos`, {
+                    method : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body   : JSON.stringify({
+                        id_usuario   : sesionUsuario.id_usuario,
+                        items        : cart,
+                        subtotal,
+                        impuestos,
+                        total,
+                        envio,
+                        id_metodo_pago: selectedPaymentId
+                    })
+                });
+
+                let json;
+                try {
+                    json = await res.json();
+                } catch (e) {
+                    json = { mensaje: 'Respuesta inválida del servidor.' };
+                }
+
+                if (!res.ok || !json.ok) {
+                    // FALLO REAL DE MICROSERVICIOS (ej: 503 Service Unavailable, 500, 400)
+                    btnConfirmarPedido.disabled = false;
+                    btnConfirmarPedido.textContent = 'Confirmar pedido';
+
+                    const motivo = json.mensaje || (res.status === 503 
+                        ? 'El microservicio de pedidos o catálogo no está disponible temporalmente.' 
+                        : 'No se pudo procesar la solicitud.');
+
+                    mostrarErrorCheckout(`🚨 Error al procesar el pedido (HTTP ${res.status}): ${motivo}`);
+                    return; // Detiene completamente el flujo: NO vacía carrito, NO avanza a confirmación
+                }
+
+                // ÉXITO REAL: Solo avanza si el microservicio guardó el pedido en MySQL
+                const numEl = document.getElementById('numero-pedido');
+                if (numEl) numEl.textContent = `Pedido #${json.id_pedido}`;
+
+                // Limpiar carrito y navegar a confirmación
+                cart = [];
+                shippingCost = 0;
+                shippingLabel = 'Gratis';
+                selectedPayment = null;
+                selectedPaymentId = null;
+                updateCartBadge();
+                btnConfirmarPedido.disabled = false;
+                btnConfirmarPedido.textContent = 'Confirmar pedido';
+                navigateTo('vista-confirmacion');
+
+            } catch (err) {
+                // Error de red / Microservicio de pedidos completamente inaccesible
+                btnConfirmarPedido.disabled = false;
+                btnConfirmarPedido.textContent = 'Confirmar pedido';
+                mostrarErrorCheckout(`🚨 Error de conexión con el microservicio de Pedidos: ${err.message}. Verifica que los servicios estén activos.`);
+            }
         });
     }
 

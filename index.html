@@ -58,6 +58,11 @@
         <!-- VISTA: INICIO -->
         <!-- ============================================ -->
         <section id="vista-inicio" class="vista active">
+            <div id="inicio-error-banner" class="container mt-20" style="display:none;">
+                <div class="auth-msg auth-msg--error" style="font-size: 0.95rem; padding: 14px; text-align: center;">
+                    ⚠️ <strong>Microservicio de Productos fuera de línea (Puerto 3001).</strong> No se pudo conectar con la base de datos de productos.
+                </div>
+            </div>
             <div class="hero-banner container mt-40">
                 <button id="prev-slide" class="slider-arrow">&lt;</button>
                 <div class="hero-content">
@@ -433,6 +438,12 @@
                     <p class="text-muted mt-10">Descubre nuestra selección de computadoras y accesorios.</p>
                 </div>
             </div>
+
+            <div id="catalogo-error-banner" class="container mt-20" style="display:none;">
+                <div class="auth-msg auth-msg--error" style="font-size: 0.95rem; padding: 14px; text-align: center;">
+                    ⚠️ <strong>Microservicio de Productos fuera de línea (Puerto 3001).</strong> No se pudo conectar con la base de datos de productos.
+                </div>
+            </div>
             
             <!-- Filtros superiores -->
             <div class="container mt-40">
@@ -714,6 +725,7 @@
                         <hr class="hr-claro">
                         <div class="resumen-linea total-line"><h3>Total:</h3><h3 class="checkout-total-value">$0.00</h3></div>
                         <button class="btn-primary w-100 mt-20" id="btn-confirmar-pedido">Confirmar pedido</button>
+                        <div id="checkout-error-msg" class="auth-msg auth-msg--error" style="display:none; margin-top:15px; text-align:left; font-size:0.85rem; line-height:1.4;"></div>
                     </aside>
                 </div>
             </div>
@@ -1088,7 +1100,7 @@
     <!-- TIDIO CHATBOT -->
     <script src="//code.tidio.co/mcjasqsrjsejlk0mhxo8veqme2879xpv.js" async></script>
     
-    <script src="./js/app.js?v=3"></script>
+    <script src="./js/app.js?v=4"></script>
 
     <!-- Three.js Visor 3D -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
