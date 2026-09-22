@@ -32,7 +32,7 @@ const pool = mysql.createPool({
     }
 })();
 
-// Health check (Requerido para pruebas de fallo / Fase 10)
+// Health check
 app.get('/health', (req, res) => {
     res.json({ status: 'UP', service: 'productos', timestamp: new Date() });
 });

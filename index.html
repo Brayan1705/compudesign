@@ -54,9 +54,7 @@
     </header>
 
     <main>
-        <!-- ============================================ -->
-        <!-- VISTA: INICIO -->
-        <!-- ============================================ -->
+        <!-- Vista: Inicio -->
         <section id="vista-inicio" class="vista active">
             <div id="inicio-error-banner" class="container mt-20" style="display:none;">
                 <div class="auth-msg auth-msg--error" style="font-size: 0.95rem; padding: 14px; text-align: center;">
@@ -106,7 +104,6 @@
                     <div id="productos-destacados-container" class="grid-productos mt-40"></div>
                 </div>
 
-                <!-- HEADER SERVICIOS -->
                 <div class="servicios-header-block mt-60">
                     <div>
                         <h1 style="font-size: 2.8rem; font-weight: 700; line-height:1.2;">Nuestros <span class="text-blue">servicios</span></h1>
@@ -118,25 +115,18 @@
                     </div>
                 </div>
 
-                <!-- LAYOUT PRINCIPAL SERVICIOS -->
                 <div class="servicios-layout mt-35">
 
-                    <!-- COLUMNA IZQUIERDA: Cards seleccionables -->
                     <div class="servicios-cards">
 
-                        <!-- Card Soporte Técnico -->
                         <div class="servicio-card" id="card-soporte" data-servicio="soporte">
                             <div class="servicio-card-selected-bar"></div>
                             <div class="servicio-card-inner">
-                                <!-- Imagen tipo Figma: herramientas/llave inglesa -->
                                 <div class="servicio-img-wrap servicio-img-soporte">
                                     <svg viewBox="0 0 80 80" width="72" height="72" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="40" cy="40" r="38" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-                                        <!-- laptop base -->
                                         <rect x="17" y="24" width="46" height="30" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
-                                        <!-- pantalla -->
                                         <rect x="21" y="27" width="38" height="22" rx="2" fill="#0f172a"/>
-                                        <!-- engranaje en pantalla -->
                                         <circle cx="40" cy="38" r="6" fill="none" stroke="#f97316" stroke-width="2"/>
                                         <circle cx="40" cy="38" r="2.5" fill="#f97316"/>
                                         <line x1="40" y1="30" x2="40" y2="32.5" stroke="#f97316" stroke-width="1.8" stroke-linecap="round"/>
@@ -147,7 +137,6 @@
                                         <line x1="43.9" y1="41.9" x2="45.7" y2="43.7" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
                                         <line x1="45.7" y1="32.3" x2="43.9" y2="34.1" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
                                         <line x1="36.1" y1="41.9" x2="34.3" y2="43.7" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
-                                        <!-- teclado base -->
                                         <path d="M13 54 h54 l-4 6 H17 z" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
                                     </svg>
                                 </div>
@@ -163,24 +152,17 @@
                             </div>
                         </div>
 
-                        <!-- Asesoría Virtual -->
                         <div class="servicio-card" id="card-asesoria" data-servicio="asesoria">
                             <div class="servicio-card-selected-bar"></div>
                             <div class="servicio-card-inner">
-                               
                                 <div class="servicio-img-wrap servicio-img-asesoria">
                                     <svg viewBox="0 0 80 80" width="72" height="72" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="40" cy="40" r="38" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-                                        <!-- cabeza -->
                                         <circle cx="40" cy="28" r="11" fill="#fdba74"/>
-                                        <!-- cuerpo -->
                                         <path d="M22 62 c0-10 8-16 18-16 s18 6 18 16z" fill="#3b82f6"/>
-                                        <!-- headset arco -->
                                         <path d="M27 26 a13 13 0 0 1 26 0" stroke="#1e293b" stroke-width="3" fill="none" stroke-linecap="round"/>
-                                        <!-- almohadillas -->
                                         <rect x="23" y="24" width="6" height="9" rx="3" fill="#1e293b"/>
                                         <rect x="51" y="24" width="6" height="9" rx="3" fill="#1e293b"/>
-                                        <!-- micrófono -->
                                         <path d="M54 30 q6 2 4 10" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
                                         <circle cx="58" cy="40" r="2.5" fill="#f97316"/>
                                     </svg>
@@ -197,11 +179,9 @@
                             </div>
                         </div>
 
-                    </div><!-- /servicios-TARJETAS -->
+                    </div>
 
-                    <!-- COLUMNA DERECHA: Formulario integrado -->
                     <div class="servicio-form-panel" id="servicio-form-panel">
-                        <!-- Header dinámico del form -->
                         <div class="servicio-form-header" id="servicio-form-header">
                             <div class="servicio-form-header-idle">
                                 <div class="servicio-form-header-icon">
@@ -262,7 +242,7 @@
             </div>
         </section>
 
-        <!-- VISTA: CATÁLOGO -->
+        <!-- Vista: Catálogo -->
         <section id="vista-catalogo" class="vista">
             <div class="vista-header-strip">
                 <div class="container">
@@ -277,7 +257,6 @@
                 </div>
             </div>
             
-            <!-- Filtros superiores -->
             <div class="container mt-40">
                 <div class="filtros-bar">
                     <select class="filtro-select" id="filtro-categoria-top">
@@ -337,7 +316,7 @@
             </div>
         </section>
 
-        <!-- VISTA: CARRITO -->
+        <!-- Vista: Carrito -->
         <section id="vista-carrito" class="vista">
             <div class="vista-header-strip">
                 <div class="container">
@@ -356,7 +335,6 @@
                     <div class="step"><div class="step-circle">4</div><span>Confirmación</span></div>
                 </div>
 
-                <!-- Carrito vacío -->
                 <div id="cart-empty-view" class="cart-empty mt-60" style="display:none;">
                     <div class="cart-empty-icon">🛒</div>
                     <h2 class="mt-20">Tu carrito está vacío</h2>
@@ -364,7 +342,6 @@
                     <button class="btn-primary mt-40 nav-btn" data-target="vista-catalogo">Ir al catálogo</button>
                 </div>
 
-                <!-- Carrito con productos -->
                 <div id="cart-filled-view" class="checkout-layout mt-60" style="display:none;">
                     <div class="checkout-main panel-claro" id="cart-items-container">
                         <h3>Tus productos</h3>
@@ -390,7 +367,7 @@
             </div>
         </section>
 
-        <!-- VISTA: ENVÍO -->
+        <!-- Vista: Envío -->
         <section id="vista-envio" class="vista">
             <div class="vista-header-strip">
                 <div class="container">
@@ -476,7 +453,7 @@
             </div>
         </section>
 
-        <!-- VISTA: PAGO -->
+        <!-- Vista: Pago -->
         <section id="vista-pago" class="vista">
             <div class="vista-header-strip">
                 <div class="container">
@@ -563,7 +540,7 @@
             </div>
         </section>
 
-        <!-- VISTA: CONFIRMACIÓN -->
+        <!-- Vista: Confirmación -->
         <section id="vista-confirmacion" class="vista text-center">
             <div class="container min-h-60 flex-col-center">
                 <div class="confirmacion-check mt-40">
@@ -588,7 +565,7 @@
             </div>
         </section>
 
-        <!-- VISTA: ACERCA DE -->
+        <!-- Vista: Acerca de -->
         <section id="vista-acerca" class="vista">
             <div class="acerca-hero">
                 <div class="container text-center">
@@ -643,7 +620,7 @@
             </div>
         </section>
 
-        <!-- VISTA: CONTÁCTANOS -->
+        <!-- Vista: Contáctanos -->
         <section id="vista-contacto" class="vista">
             <div class="acerca-hero">
                 <div class="container text-center">
@@ -691,131 +668,125 @@
             </div>
         </section>
 
-        <!-- VISTA: LOGIN -->
-            <section id="vista-login" class="vista">
-        <div class="auth-wrapper">
-            <div class="auth-box">
-                <div class="auth-logo">
-                    <img src="./assets/img/logo-compudesign.png" alt="Logo">
-                </div>
-                <div class="auth-tabs">
-                    <button class="auth-tab active" id="tab-login">Iniciar sesión</button>
-                    <button class="auth-tab" id="tab-registro">Registrarse</button>
-                </div>
-
-                <!-- ── FORM LOGIN ── -->
-                <div id="form-login" class="auth-form active">
-                    <h2 class="auth-title">Iniciar sesión</h2>
-
-                    <!-- Mensaje de error/éxito -->
-                    <div id="msg-login" class="auth-msg" style="display:none;"></div>
-
-                    <div class="form-group-auth mt-30">
-                        <label class="auth-label">E-mail</label>
-                        <input type="email" id="login-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+        <!-- Vista: Autenticación / Perfil -->
+        <section id="vista-login" class="vista">
+            <div class="auth-wrapper">
+                <div class="auth-box">
+                    <div class="auth-logo">
+                        <img src="./assets/img/logo-compudesign.png" alt="Logo">
                     </div>
-                    <div class="form-group-auth mt-20">
-                        <label class="auth-label">Contraseña</label>
-                        <input type="password" id="login-password" class="auth-input" placeholder="••••••••" autocomplete="current-password">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" id="tab-login">Iniciar sesión</button>
+                        <button class="auth-tab" id="tab-registro">Registrarse</button>
                     </div>
-                    <div class="text-center mt-15">
-                        <a href="javascript:void(0)" class="auth-link-small" id="link-olvido-password">¿Olvidaste tu contraseña?</a>
-                    </div>
-                    <button class="btn-auth mt-30" id="btn-login">Inicia sesión</button>
 
-                    <p class="auth-switch-text mt-20">¿No tienes cuenta?
-                        <button class="auth-switch-btn" id="switch-to-registro">Regístrate aquí</button>
-                    </p>
-                </div>
+                    <div id="form-login" class="auth-form active">
+                        <h2 class="auth-title">Iniciar sesión</h2>
 
-                <!-- ── FORM REGISTRO ── -->
-                <div id="form-registro" class="auth-form">
-                    <h2 class="auth-title">Registrarse</h2>
+                        <div id="msg-login" class="auth-msg" style="display:none;"></div>
 
-                    <!-- Mensaje de error/éxito -->
-                    <div id="msg-registro" class="auth-msg" style="display:none;"></div>
-
-                    <div class="form-group-auth mt-30">
-                        <label class="auth-label">Nombre y apellidos</label>
-                        <input type="text" id="registro-nombre" class="auth-input" placeholder="Tu nombre completo" autocomplete="name">
-                    </div>
-                    <div class="form-group-auth mt-20">
-                        <label class="auth-label">E-mail</label>
-                        <input type="email" id="registro-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
-                    </div>
-                    <div class="form-group-auth mt-20">
-                        <label class="auth-label">Contraseña</label>
-                        <input type="password" id="registro-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
-                    </div>
-                    <div class="form-group-auth mt-20">
-                        <label class="auth-label">Teléfono <span style="font-size:0.8em;opacity:0.6;">(opcional)</span></label>
-                        <input type="tel" id="registro-telefono" class="auth-input" placeholder="Ej: 3001234567">
-                    </div>
-                    <button class="btn-auth mt-30" id="btn-registro">Regístrate</button>
-                    <p class="auth-switch-text mt-20">¿Ya tienes cuenta?
-                        <button class="auth-switch-btn" id="switch-to-login">Inicia sesión aquí</button>
-                    </p>
-                </div>
-
-                <!-- ── FORM RECUPERAR CONTRASEÑA ── -->
-                <div id="form-recuperar" class="auth-form">
-                    <h2 class="auth-title">Recuperar contraseña</h2>
-                    <p class="auth-subtitle mt-10 text-center text-muted text-sm">Ingresa tu correo registrado y tu nueva contraseña.</p>
-
-                    <div id="msg-recuperar" class="auth-msg" style="display:none;"></div>
-
-                    <div class="form-group-auth mt-20">
-                        <label class="auth-label">E-mail registrado</label>
-                        <input type="email" id="recuperar-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
-                    </div>
-                    <div class="form-group-auth mt-20">
-                        <label class="auth-label">Nueva contraseña</label>
-                        <input type="password" id="recuperar-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
-                    </div>
-                    <button class="btn-auth mt-30" id="btn-recuperar-submit">Actualizar contraseña</button>
-
-                    <p class="auth-switch-text mt-20">
-                        <button class="auth-switch-btn" id="switch-recuperar-to-login">← Volver a Iniciar sesión</button>
-                    </p>
-                </div>
-
-                <!-- ── PANEL DE PERFIL (SESIÓN ACTIVA) ── -->
-                <div id="form-perfil" class="auth-form">
-                    <div class="perfil-card text-center">
-                        <div class="perfil-avatar-wrap">
-                            <div class="perfil-avatar" id="perfil-avatar-letra">U</div>
+                        <div class="form-group-auth mt-30">
+                            <label class="auth-label">E-mail</label>
+                            <input type="email" id="login-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
                         </div>
-                        <h2 class="perfil-saludo mt-15" id="perfil-saludo">¡Hola, Usuario!</h2>
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">Contraseña</label>
+                            <input type="password" id="login-password" class="auth-input" placeholder="••••••••" autocomplete="current-password">
+                        </div>
+                        <div class="text-center mt-15">
+                            <a href="javascript:void(0)" class="auth-link-small" id="link-olvido-password">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <button class="btn-auth mt-30" id="btn-login">Inicia sesión</button>
 
-                        <div class="perfil-info-list mt-25">
-                            <div class="perfil-info-item">
-                                <span class="perfil-info-label">Nombre completo</span>
-                                <span class="perfil-info-val" id="perfil-nombre">Usuario</span>
+                        <p class="auth-switch-text mt-20">¿No tienes cuenta?
+                            <button class="auth-switch-btn" id="switch-to-registro">Regístrate aquí</button>
+                        </p>
+                    </div>
+
+                    <div id="form-registro" class="auth-form">
+                        <h2 class="auth-title">Registrarse</h2>
+
+                        <div id="msg-registro" class="auth-msg" style="display:none;"></div>
+
+                        <div class="form-group-auth mt-30">
+                            <label class="auth-label">Nombre y apellidos</label>
+                            <input type="text" id="registro-nombre" class="auth-input" placeholder="Tu nombre completo" autocomplete="name">
+                        </div>
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">E-mail</label>
+                            <input type="email" id="registro-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+                        </div>
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">Contraseña</label>
+                            <input type="password" id="registro-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                        </div>
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">Teléfono <span style="font-size:0.8em;opacity:0.6;">(opcional)</span></label>
+                            <input type="tel" id="registro-telefono" class="auth-input" placeholder="Ej: 3001234567">
+                        </div>
+                        <button class="btn-auth mt-30" id="btn-registro">Regístrate</button>
+                        <p class="auth-switch-text mt-20">¿Ya tienes cuenta?
+                            <button class="auth-switch-btn" id="switch-to-login">Inicia sesión aquí</button>
+                        </p>
+                    </div>
+
+                    <div id="form-recuperar" class="auth-form">
+                        <h2 class="auth-title">Recuperar contraseña</h2>
+                        <p class="auth-subtitle mt-10 text-center text-muted text-sm">Ingresa tu correo registrado y tu nueva contraseña.</p>
+
+                        <div id="msg-recuperar" class="auth-msg" style="display:none;"></div>
+
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">E-mail registrado</label>
+                            <input type="email" id="recuperar-email" class="auth-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+                        </div>
+                        <div class="form-group-auth mt-20">
+                            <label class="auth-label">Nueva contraseña</label>
+                            <input type="password" id="recuperar-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                        </div>
+                        <button class="btn-auth mt-30" id="btn-recuperar-submit">Actualizar contraseña</button>
+
+                        <p class="auth-switch-text mt-20">
+                            <button class="auth-switch-btn" id="switch-recuperar-to-login">← Volver a Iniciar sesión</button>
+                        </p>
+                    </div>
+
+                    <div id="form-perfil" class="auth-form">
+                        <div class="perfil-card text-center">
+                            <div class="perfil-avatar-wrap">
+                                <div class="perfil-avatar" id="perfil-avatar-letra">U</div>
                             </div>
-                            <div class="perfil-info-item mt-10">
-                                <span class="perfil-info-label">Correo registrado</span>
-                                <span class="perfil-info-val" id="perfil-correo">correo@ejemplo.com</span>
+                            <h2 class="perfil-saludo mt-15" id="perfil-saludo">¡Hola, Usuario!</h2>
+
+                            <div class="perfil-info-list mt-25">
+                                <div class="perfil-info-item">
+                                    <span class="perfil-info-label">Nombre completo</span>
+                                    <span class="perfil-info-val" id="perfil-nombre">Usuario</span>
+                                </div>
+                                <div class="perfil-info-item mt-10">
+                                    <span class="perfil-info-label">Correo registrado</span>
+                                    <span class="perfil-info-val" id="perfil-correo">correo@ejemplo.com</span>
+                                </div>
+                            </div>
+
+                            <div class="perfil-actions mt-30">
+                                <button class="btn-auth" id="btn-perfil-catalogo">
+                                    Explorar catálogo
+                                </button>
+                                <button class="btn-auth-outline mt-15" id="btn-perfil-logout">
+                                    Cerrar sesión
+                                </button>
                             </div>
                         </div>
-
-                        <div class="perfil-actions mt-30">
-                            <button class="btn-auth" id="btn-perfil-catalogo">
-                                Explorar catálogo
-                            </button>
-                            <button class="btn-auth-outline mt-15" id="btn-perfil-logout">
-                                Cerrar sesión
-                            </button>
-                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
     </main>
 
-    <!-- MODAL: DETALLE DE PRODUCTO -->
+    <!-- Modal: Detalle de Producto -->
     <div id="product-modal-overlay" class="modal-overlay">
         <div class="modal-box">
             <button id="modal-close-btn" class="modal-close-btn" title="Cerrar">
@@ -823,11 +794,8 @@
             </button>
             <div class="modal-content">
                 <div class="modal-img-side" id="modal-img-side" style="display:flex; flex-direction:column; align-items:center; gap:14px;">
-                    <!-- Visor 3D -->
                     <div id="modal-3d-viewer" style="display:none; width:100%; height:300px; border-radius:12px; overflow:hidden; background:#0f172a;"></div>
-                    <!-- Imagen normal -->
                     <img id="modal-img" src="" alt="" style="width:100%; object-fit:contain;">
-                    <!-- Botón toggle debajo -->
                     <div id="modal-view-toggle" style="display:none; width:100%;">
                         <button id="btn-toggle-3d" style="
                             width:100%;
@@ -862,7 +830,7 @@
         </div>
     </div>
 
-    <!-- MODAL: Confirmación Contacto -->
+    <!-- Modal: Confirmación Contacto -->
     <div id="modal-contacto-overlay" class="modal-overlay">
         <div class="modal-box modal-confirm-pro" style="max-width:460px;">
             <div class="mcp-top-stripe mcp-stripe-blue"></div>
@@ -894,7 +862,7 @@
         </div>
     </div>
 
-    <!-- MODAL: Selector de Fechas — Soporte Técnico -->
+    <!-- Modal: Selector de Fechas - Soporte Técnico -->
     <div id="modal-soporte-overlay" class="modal-overlay">
         <div class="modal-box modal-fechas-box">
             <button class="modal-close-btn" id="btn-x-soporte" title="Cerrar">&times;</button>
@@ -965,7 +933,7 @@
         </div>
     </div>
 
-    <!-- MODAL: Confirmación — Soporte Técnico -->
+    <!-- Modal: Confirmación - Soporte Técnico -->
     <div id="modal-soporte-confirm-overlay" class="modal-overlay">
         <div class="modal-box modal-confirm-pro">
             <button class="modal-close-btn" id="btn-x-soporte-confirm" title="Cerrar">&times;</button>
@@ -1011,7 +979,7 @@
         </div>
     </div>
 
-    <!-- MODAL: Confirmación — Asesoría Virtual -->
+    <!-- Modal: Confirmación - Asesoría Virtual -->
     <div id="modal-asesoria-overlay" class="modal-overlay">
         <div class="modal-box modal-confirm-pro">
             <button class="modal-close-btn" id="btn-x-asesoria" title="Cerrar">&times;</button>
@@ -1096,12 +1064,12 @@
         </div>
     </footer>
 
-    <!-- TIDIO CHATBOT -->
+    <!-- Tidio Chatbot -->
     <script src="//code.tidio.co/mcjasqsrjsejlk0mhxo8veqme2879xpv.js" async></script>
     
     <script src="./js/app.js?v=7"></script>
 
-    <!-- Three.js Visor 3D -->
+    <!-- Visor 3D Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
     (function () {

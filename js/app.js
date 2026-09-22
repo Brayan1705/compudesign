@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const API = '/api';
 
-    // Estado de sesión 
+    // ── Autenticación y Sesión ──
     let sesionUsuario = JSON.parse(localStorage.getItem('compudesign_usuario')) || null;
 
     function guardarSesion(usuario) {
@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (userLabel) userLabel.textContent = nombre;
             if (userIcon) userIcon.title = `Sesión: ${sesionUsuario.nombre_completo}`;
 
-            // Rellenar datos en la tarjeta de perfil
             const perfilNombre = document.getElementById('perfil-nombre');
             const perfilCorreo = document.getElementById('perfil-correo');
             const perfilSaludo = document.getElementById('perfil-saludo');
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (perfilSaludo) perfilSaludo.textContent = `¡Hola, ${nombre}!`;
             if (perfilAvatar) perfilAvatar.textContent = nombre.charAt(0).toUpperCase();
 
-            // Ocultar pestañas y mostrar solo el panel de perfil
             if (authTabs) authTabs.style.display = 'none';
             formLogin?.classList.remove('active');
             formRegistro?.classList.remove('active');
@@ -52,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (userLabel) userLabel.textContent = '';
             if (userIcon) userIcon.title = 'Iniciar sesión';
 
-            // Restaurar pestañas y formulario de login
             if (authTabs) authTabs.style.display = 'flex';
             formPerfil?.classList.remove('active');
             formRecuperar?.classList.remove('active');
@@ -61,23 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 1. PRODUCTOS — carga desde la API
-
-    let products = [];   
-
-    // Datos de respaldo por si el servidor no responde
-    const productosFallback = [
-        { id: 1,  title: "ASUS ROG Gaming Desktop",  desc: "Intel Core i7 - 16GB - RTX 3060 - 1TB",      price: 6999000,  img: "./assets/img/rog-gaming-desktop.png",  category: "desktops",  featured: true,  specs: ["Procesador: Intel Core i7-12700KF", "RAM: 16GB DDR5 4800MHz", "Tarjeta gráfica: NVIDIA RTX 3060 12GB", "Almacenamiento: 1TB NVMe SSD", "Sistema operativo: Windows 11 Home", "Conectividad: WiFi 6, Bluetooth 5.2"] },
-        { id: 2,  title: "ASUS ROG Gaming Laptop",   desc: "Intel Core i7 - 16GB - RTX 3050 - 512GB",    price: 5499000,  img: "./assets/img/rog-gaming-laptop.png",   category: "laptops",   featured: true,  specs: ["Procesador: Intel Core i7-12700H", "RAM: 16GB DDR5", "Tarjeta gráfica: NVIDIA RTX 3050 4GB", "Pantalla: 15.6\" FHD 144Hz", "Almacenamiento: 512GB NVMe SSD", "Batería: 90Wh, hasta 8 horas"] },
-        { id: 3,  title: "MSI Aegis RS Desktop",     desc: "Intel i7 - 32GB - RTX 3080 - 2TB SSD",       price: 8999000,  img: "./assets/img/msi-aegis-desktop.png",   category: "desktops",  featured: true,  specs: ["Procesador: Intel Core i7-12700K", "RAM: 32GB DDR5 4800MHz", "Tarjeta gráfica: NVIDIA RTX 3080 10GB", "Almacenamiento: 2TB NVMe SSD", "Refrigeración: Líquida 240mm", "Fuente de poder: 850W 80+ Gold"] },
-        { id: 4,  title: "ASUS ProArt Monitor 4K",   desc: "27 pulgadas, OLED, Pantone Validated",        price: 4299000,  img: "./assets/img/proart-monitor-4k.png",   category: "monitores", featured: true,  specs: ["Panel: OLED 27\" 4K UHD (3840x2160)", "Respuesta: 0.1ms", "Frecuencia: 60Hz", "Color: 99% DCI-P3, Pantone Validated", "Puertos: 2x HDMI 2.0, 1x DisplayPort 1.4, USB-C", "Ajuste: Altura, inclinación y pivote"] },
-        { id: 5,  title: "ASUS ExpertBook Laptop",   desc: "Uso de oficina, equilibrado y confiable",     price: 3499000,  img: "./assets/img/expertbook-laptop.png",   category: "laptops",   featured: false, specs: ["Procesador: Intel Core i5-1235U", "RAM: 8GB DDR4 3200MHz", "Gráficos: Intel Iris Xe", "Pantalla: 14\" FHD IPS", "Almacenamiento: 256GB SSD", "Batería: 72Wh, hasta 12 horas"] },
-        { id: 6,  title: "ASUS TUF Desktop",         desc: "Rendimiento gaming de entrada",               price: 4799000,  img: "./assets/img/tuf-desktop.png",         category: "desktops",  featured: false, specs: ["Procesador: Intel Core i5-12400F", "RAM: 16GB DDR4 3200MHz", "Tarjeta gráfica: NVIDIA RTX 3060 Ti 8GB", "Almacenamiento: 512GB SSD + 1TB HDD", "Chasis: Torre ATX con ventilación optimizada", "Sistema operativo: Windows 11 Home"] },
-        { id: 7,  title: "ASUS VivoBook Laptop",     desc: "AMD Ryzen 5 - 8GB - 256GB SSD",              price: 2299000,  img: "./assets/img/vivobook-laptop.png",     category: "laptops",   featured: false, specs: ["Procesador: AMD Ryzen 5 5600H", "RAM: 8GB DDR4", "Gráficos: AMD Radeon RX Vega 7", "Pantalla: 15.6\" FHD IPS 60Hz", "Almacenamiento: 256GB NVMe SSD", "Peso: 1.8kg"] },
-        { id: 8,  title: "ASUS ROG Swift Monitor",   desc: "24 pulgadas, 165Hz, 1ms, FHD",               price: 1899000,  img: "./assets/img/rog-swift-monitor.png",   category: "monitores", featured: false, specs: ["Panel: IPS 24\" FHD (1920x1080)", "Frecuencia de refresco: 165Hz", "Tiempo de respuesta: 1ms (GTG)", "Compatibilidad: NVIDIA G-Sync", "Puertos: 1x HDMI 2.0, 1x DisplayPort 1.4", "ROG GamePlus: Crosshair, Timer, FPS Counter"] },
-        { id: 9,  title: "ASUS Zenbook 14 Laptop",   desc: "Intel Core i5 - 16GB - 512GB SSD",           price: 3299000,  img: "./assets/img/zenbook-14-laptop.png",   category: "laptops",   featured: false, specs: ["Procesador: Intel Core i5-1240P", "RAM: 16GB LPDDR5", "Gráficos: Intel Iris Xe Graphics", "Pantalla: 14\" OLED 2.8K 90Hz", "Almacenamiento: 512GB PCIe 4.0 SSD", "Peso: 1.39kg, Chasis: Aluminio cepillado"] },
-        { id: 10, title: "ASUS ProArt Desktop",      desc: "Intel Xeon - 64GB - RTX A4000 - 4TB",        price: 8999000,  img: "./assets/img/proart-desktop.png",      category: "desktops",  featured: false, specs: ["Procesador: Intel Xeon W-1290P", "RAM: 64GB ECC DDR4 3200MHz", "Tarjeta gráfica: NVIDIA RTX A4000 16GB", "Almacenamiento: 4TB NVMe SSD RAID", "Certificado: ISV para Adobe, Autodesk", "Puertos: Thunderbolt 4, USB 3.2 Gen 2"] },
-    ];
+    // ── Catálogo de Productos ──
+    let products = [];
 
     async function cargarProductos() {
         const bannerCatalogo = document.getElementById('catalogo-error-banner');
@@ -100,24 +82,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (err) {
             console.error('❌ Microservicio de Productos no disponible:', err.message);
-            products = []; // Sin simulación con datos falsos: muestra fallo real
+            products = [];
             if (bannerCatalogo) bannerCatalogo.style.display = 'block';
             if (bannerInicio)   bannerInicio.style.display   = 'block';
         }
-        // Inicializar vistas que dependen de los productos
         renderDestacados();
         aplicarFiltros();
     }
 
-    // 2. ESTADO GLOBAL
-
+    // ── Estado Global ──
     let cart = [];
     let shippingCost = 0;
     let shippingLabel = 'Gratis';
     let selectedPayment = null;
     let selectedPaymentId = null;  
 
-    // Filtros catálogo
     let filtroCategoria = '';
     let filtroMinPrecio = 0;
     let filtroMaxPrecio = 99999999;
@@ -125,13 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const ITEMS_POR_PAGINA = 8;
     let paginaActual = 1;
 
-    // Formateador de precios en pesos colombianos
     function formatCOP(amount) {
         return '$' + Math.round(amount).toLocaleString('es-CO');
     }
 
-    // 3. SISTEMA DE NAVEGACIÓN 
-
+    // ── Sistema de Navegación ──
     const navButtons = document.querySelectorAll('.nav-btn');
     const vistas = document.querySelectorAll('.vista');
     const cartBadge = document.getElementById('cart-count');
@@ -142,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetVista = document.getElementById(targetId);
         if (targetVista) targetVista.classList.add('active');
 
-        // Actualizar nav activo
         document.querySelectorAll('.nav-links > li > a').forEach(a => a.classList.remove('active'));
 
         if (clickedBtn) {
@@ -202,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3.1 MENÚ MÓVIL (hamburguesa)
+    // ── Menú Móvil ──
     const menuToggleBtn = document.getElementById('menu-toggle-btn');
     const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
     const navEl = document.querySelector('nav');
@@ -222,14 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggleBtn?.addEventListener('click', toggleMobileMenu);
     mobileNavOverlay?.addEventListener('click', closeMobileMenu);
 
-    // En móvil, el submenú de "Productos destacados" se abre al tocar la flecha,
-    // en vez de depender del hover (que no existe en pantallas táctiles).
     document.querySelectorAll('.dropdown-parent > a').forEach(dropdownLink => {
         dropdownLink.addEventListener('click', (e) => {
-            if (window.innerWidth > 900) return; // en desktop se comporta normal (hover)
+            if (window.innerWidth > 900) return;
             const parent = dropdownLink.closest('.dropdown-parent');
             const isOpen = parent.classList.contains('open');
-            // Primer tap solo despliega el submenú; un segundo tap navega normalmente
             if (!isOpen) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -241,9 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobileMenu(); });
 
-
-    // 4. CATÁLOGO: RENDERIZADO Y FILTROS
-
+    // ── Catálogo y Filtros ──
     function renderProductCard(product) {
         const div = document.createElement('div');
         div.className = 'card-producto';
@@ -264,9 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return div;
     }
 
-  
-    // MODAL DE DETALLE DE PRODUCTO
-   
+    // ── Modal de Detalle y Visor 3D ──
     const modalOverlay = document.getElementById('product-modal-overlay');
     const modalCloseBtn = document.getElementById('modal-close-btn');
     const categoryLabels = { laptops: 'Laptop', desktops: 'Desktop', monitores: 'Monitor' };
@@ -296,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
 
-        // Inicializar visor 3D
         if (window.init3DViewer) {
             window.init3DViewer(p.id, p.category);
         }
@@ -306,7 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!modalOverlay) return;
         modalOverlay.classList.remove('active');
         document.body.style.overflow = '';
-        // Limpiar visor 3D
         const v = document.getElementById('modal-3d-viewer');
         const i = document.getElementById('modal-img');
         const w = document.getElementById('modal-view-toggle');
@@ -325,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closeProductModal();
     });
 
-    // Render productos destacados
     const destacadosContainer = document.getElementById('productos-destacados-container');
     const filtroDestacadosLabel = document.getElementById('filtro-destacados-label');
     const categoryNames = { laptops: 'Laptops', desktops: 'Desktops', monitores: 'Monitores' };
@@ -429,7 +395,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectTop) selectTop.value = filtroCategoria;
     }
 
-    // Lista eventos filtros
     document.querySelectorAll('input[name="cat"]').forEach(radio => {
         radio.addEventListener('change', () => {
             filtroCategoria = radio.value;
@@ -499,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. CARRITO DE COMPRAS
+    // ── Carrito de Compras ──
 
     function addToCart(productId) {
         const productToAdd = products.find(p => p.id === productId);
@@ -631,8 +596,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. EVENTO DELEGACION — CARRITO
-
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('add-to-cart-btn')) {
             const productId = parseInt(e.target.getAttribute('data-id'));
@@ -648,8 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 7. ENVÍO
-
+    // ── Opciones de Envío ──
     document.querySelectorAll('.select-envio').forEach(card => {
         card.addEventListener('click', () => {
             document.querySelectorAll('.select-envio').forEach(c => c.classList.remove('active'));
@@ -669,9 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 8. PAGO
-   
-    // Mapeo nombre método → id en la BD
+    // ── Proceso de Pago ──
     const metodoPagoIds = { 'nequi': 1, 'daviplata': 2, 'tarjeta': 3, 'contraentrega': 4 };
 
     document.querySelectorAll('.btn-pago').forEach(btn => {
@@ -695,7 +655,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (envioDireccion && pagoDireccion && !pagoDireccion.value) pagoDireccion.value = envioDireccion.value;
     }
 
-    // Confirmar pedido — guarda en la BD
     const btnConfirmarPedido = document.getElementById('btn-confirmar-pedido');
     const msgCheckoutError   = document.getElementById('checkout-error-msg');
 
@@ -770,7 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (!res.ok || !json || !json.ok) {
-                    // FALLO REAL DE MICROSERVICIOS (ej: 503 Service Unavailable, 500, 400)
+                    // Validación de respuesta del microservicio de pedidos
                     btnConfirmarPedido.disabled = false;
                     btnConfirmarPedido.textContent = 'Confirmar pedido';
 
@@ -786,14 +745,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     mostrarErrorCheckout(`🚨 Error al procesar el pedido (HTTP ${res.status}): ${motivo}`);
-                    return; // Detiene completamente el flujo: NO vacía carrito, NO avanza a confirmación
+                    return;
                 }
 
-                // ÉXITO REAL: Solo avanza si el microservicio guardó el pedido en MySQL
                 const numEl = document.getElementById('numero-pedido');
                 if (numEl) numEl.textContent = `Pedido #${json.id_pedido}`;
 
-                // Limpiar carrito y navegar a confirmación
                 cart = [];
                 shippingCost = 0;
                 shippingLabel = 'Gratis';
@@ -805,7 +762,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 navigateTo('vista-confirmacion');
 
             } catch (err) {
-                // Error de red / Microservicio de pedidos completamente inaccesible
                 btnConfirmarPedido.disabled = false;
                 btnConfirmarPedido.textContent = 'Confirmar pedido';
                 mostrarErrorCheckout(`🚨 Error de conexión con el microservicio de Pedidos: ${err.message}. Verifica que los servicios estén activos.`);
@@ -820,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 9. BANNER HERO / SLIDER
+    // ── Banner Principal ──
 
     const banners = [
         {
@@ -863,20 +819,17 @@ document.addEventListener('DOMContentLoaded', () => {
         updateBanner(currentSlide);
     });
 
-    // 10. AUTENTICACIÓN — LOGIN Y REGISTRO
-
+    // ── Autenticación de Usuarios ──
     const formLogin    = document.getElementById('form-login');
     const formRegistro = document.getElementById('form-registro');
     const tabLogin     = document.getElementById('tab-login');
     const tabRegistro  = document.getElementById('tab-registro');
 
-    // Elementos del form de LOGIN
     const loginEmail    = document.getElementById('login-email');
     const loginPassword = document.getElementById('login-password');
     const btnLogin      = document.getElementById('btn-login');
     const msgLogin      = document.getElementById('msg-login');
 
-    // Elementos del form de REGISTRO
     const regNombre   = document.getElementById('registro-nombre');
     const regEmail    = document.getElementById('registro-email');
     const regPassword = document.getElementById('registro-password');
@@ -884,7 +837,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRegistro = document.getElementById('btn-registro');
     const msgRegistro = document.getElementById('msg-registro');
 
-    // Función para mostrar mensajes en los formularios
     function mostrarMensaje(el, texto, tipo = 'error') {
         if (!el) return;
         el.textContent = texto;
@@ -906,7 +858,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgRecuperar   = document.getElementById('msg-recuperar');
     const authTabsWrap   = document.querySelector('.auth-tabs');
 
-    // Mostrar form login
     function showLoginForm() {
         formLogin?.classList.add('active');
         formRegistro?.classList.remove('active');
@@ -918,7 +869,6 @@ document.addEventListener('DOMContentLoaded', () => {
         limpiarMensaje(msgLogin);
     }
 
-    // Mostrar form registro
     function showRegistroForm() {
         formRegistro?.classList.add('active');
         formLogin?.classList.remove('active');
@@ -930,7 +880,6 @@ document.addEventListener('DOMContentLoaded', () => {
         limpiarMensaje(msgRegistro);
     }
 
-    // Mostrar form recuperar contraseña
     function showRecuperarForm() {
         formRecuperar?.classList.add('active');
         formLogin?.classList.remove('active');
@@ -951,7 +900,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('switch-recuperar-to-login')?.addEventListener('click', showLoginForm);
 
-    // Botones del panel de perfil
     document.getElementById('btn-perfil-catalogo')?.addEventListener('click', () => {
         navigateTo('vista-catalogo');
     });
@@ -960,13 +908,11 @@ document.addEventListener('DOMContentLoaded', () => {
         showLoginForm();
     });
 
-    // Ícono de usuario en el navbar
     document.getElementById('user-nav-icon')?.addEventListener('click', () => {
         navigateTo('vista-login');
         actualizarNavUsuario();
     });
 
-    // ── ENVIAR LOGIN ──
     btnLogin?.addEventListener('click', async () => {
         const correo    = loginEmail?.value.trim();
         const contrasena = loginPassword?.value;
@@ -976,7 +922,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Estado de carga
         btnLogin.disabled = true;
         btnLogin.textContent = 'Iniciando sesión...';
         limpiarMensaje(msgLogin);
@@ -992,7 +937,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (json.ok) {
                 guardarSesion(json.usuario);
                 actualizarNavUsuario();
-                // Limpiar campos
                 if (loginEmail)    loginEmail.value    = '';
                 if (loginPassword) loginPassword.value = '';
             } else {
@@ -1007,14 +951,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── ENVIAR REGISTRO ───
     btnRegistro?.addEventListener('click', async () => {
         const nombre_completo = regNombre?.value.trim();
         const correo          = regEmail?.value.trim();
         const contrasena      = regPassword?.value;
         const telefono        = regTelefono?.value.trim();
 
-        // Validaciones en el cliente
         if (!nombre_completo) { mostrarMensaje(msgRegistro, 'El nombre es obligatorio.'); return; }
         if (!correo || !correo.includes('@')) { mostrarMensaje(msgRegistro, 'Ingresa un correo válido.'); return; }
         if (!contrasena || contrasena.length < 8) { mostrarMensaje(msgRegistro, 'La contraseña debe tener mínimo 8 caracteres.'); return; }
@@ -1032,10 +974,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const json = await res.json();
 
             if (json.ok) {
-                // Auto-login después de registrarse
                 guardarSesion(json.usuario);
                 actualizarNavUsuario();
-                // Limpiar campos
                 if (regNombre)    regNombre.value    = '';
                 if (regEmail)     regEmail.value     = '';
                 if (regPassword)  regPassword.value  = '';
@@ -1052,7 +992,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── ENVIAR RECUPERACIÓN DE CONTRASEÑA ──
     const btnRecuperarSubmit = document.getElementById('btn-recuperar-submit');
     const recuperarEmailEl   = document.getElementById('recuperar-email');
     const recuperarPassEl    = document.getElementById('recuperar-password');
@@ -1091,7 +1030,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (recuperarEmailEl) recuperarEmailEl.value = '';
                 if (recuperarPassEl)  recuperarPassEl.value  = '';
 
-                // Volver a login tras 2 segundos con el correo pre-rellenado
                 setTimeout(() => {
                     showLoginForm();
                     if (loginEmail) loginEmail.value = correo;
@@ -1108,7 +1046,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Permitir submit con Enter en los inputs de auth
     [loginEmail, loginPassword].forEach(el => {
         el?.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnLogin?.click(); });
     });
@@ -1119,14 +1056,12 @@ document.addEventListener('DOMContentLoaded', () => {
         el?.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnRecuperarSubmit?.click(); });
     });
 
-    // Botón cerrar sesión general
     document.getElementById('btn-cerrar-sesion')?.addEventListener('click', () => {
         cerrarSesion();
         showLoginForm();
     });
 
-    // 11. DEPARTAMENTOS Y CIUDADES DE COLOMBIA
-
+    // ── Datos Geográficos ──
     const colombiaData = {
         "Amazonas":         ["Leticia","Puerto Nariño","El Encanto","La Chorrera","La Pedrera","Tarapacá"],
         "Antioquia":        ["Medellín","Bello","Itagüí","Envigado","Apartadó","Turbo","Rionegro","Caucasia","Marinilla","La Ceja","Sabaneta","Copacabana","Girardota","Barbosa","El Carmen de Viboral","Andes","Yarumal","Santa Fe de Antioquia","Jericó","Sonsón"],
@@ -1197,8 +1132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 12. SERVICIOS
-
+    // ── Servicios Técnicos y Asesoría ──
     let servicioSeleccionado = null;
 
     const cardSoporte  = document.getElementById('card-soporte');
@@ -1288,7 +1222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const fecha = new Date(hoy);
             fecha.setDate(hoy.getDate() + slot.offset);
 
-            if (fecha.getDay() === 0) { // Si es domingo, pasar a lunes
+            if (fecha.getDay() === 0) {
                 fecha.setDate(fecha.getDate() + 1);
             }
 
@@ -1334,7 +1268,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Enviar solicitud — guarda en la BD
     btnEnviar?.addEventListener('click', async () => {
         const nombre  = document.getElementById('servicio-nombre')?.value.trim();
         const email   = document.getElementById('servicio-email')?.value.trim();
@@ -1345,7 +1278,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!mensaje) { alert('Por favor describe tu solicitud o problema.'); return; }
         if (!servicioSeleccionado) { alert('Selecciona primero un servicio.'); return; }
 
-        // Guardar en la BD (id_servicio: 1=soporte, 2=asesoría)
         const id_servicio = servicioSeleccionado === 'soporte' ? 1 : 2;
         try {
             await fetch(`${API}/servicios/solicitud`, {
@@ -1427,8 +1359,7 @@ document.addEventListener('DOMContentLoaded', () => {
         limpiarFormServicio();
     });
 
-    // 13. FORMULARIO DE CONTACTO
-
+    // ── Formulario de Contacto ──
     const btnEnviarContacto = document.getElementById('btn-enviar-contacto');
     btnEnviarContacto?.addEventListener('click', () => {
         const nombre  = document.getElementById('contacto-nombre')?.value.trim();
@@ -1459,12 +1390,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === document.getElementById('modal-contacto-overlay')) cerrarContactoModal();
     });
 
-    // INICIALIZACIÓN
-    
+    // ── Inicialización ──
     updateCartBadge();
     renderCartView();
-    actualizarNavUsuario();   // Restaurar sesión si existía
-    cargarProductos();        // Carga desde MySQL 
+    actualizarNavUsuario();
+    cargarProductos();
     generarFechasDisponibles();
 
 });

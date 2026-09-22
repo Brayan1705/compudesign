@@ -1,9 +1,8 @@
 -- ============================================================
 --  COMPUDESIGN — Base de datos para Arquitectura de Microservicios
---  Cumple con la FASE 7 del Laboratorio Uniminuto:
---  "Misma instancia de MySQL, pero con esquemas separados
---   sin consultar directamente tablas pertenecientes a otro servicio"
+--  Esquemas desacoplados por servicio (Database-per-Service Pattern)
 -- ============================================================
+
 
 -- ============================================================
 -- 1. ESQUEMA: compudesign_productos (Microservicio de Catálogo)

@@ -22,7 +22,7 @@ const pool = mysql.createPool({
     charset           : 'utf8mb4'
 });
 
-// URL del microservicio de Productos para comunicación interna (Fase 8)
+// URL del microservicio de Productos para validación de catálogo
 const PRODUCTS_SERVICE_URL = process.env.PRODUCTS_SERVICE_URL || 'http://localhost:3001';
 
 (async () => {
@@ -40,7 +40,7 @@ app.get('/health', (req, res) => {
     res.json({ status: 'UP', service: 'pedidos', timestamp: new Date() });
 });
 
-// POST /api/pedidos — Crea pedido validando productos vía HTTP al microservicio de Productos (Fases 8 y 10)
+// POST /api/pedidos — Registro de pedidos y validación inter-servicios
 app.post('/api/pedidos', async (req, res) => {
     const {
         id_usuario, items, subtotal, impuestos, total,
@@ -51,12 +51,12 @@ app.post('/api/pedidos', async (req, res) => {
         return res.status(400).json({ ok: false, mensaje: 'Datos de pedido incompletos.' });
     }
 
-    // --- FASE 8 & 10: COMUNICACIÓN ENTRE MICROSERVICIOS CON TIMEOUT Y MANEJO DE FALLO ---
+    // Validación síncrona de disponibilidad y precio con Productos
     const verifiedItems = [];
     for (const item of items) {
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3000); // Timeout de 3 segundos (Fase 10)
+            const timeoutId = setTimeout(() => controller.abort(), 3000); // Timeout defensivo de 3 segundos
 
             const response = await fetch(`${PRODUCTS_SERVICE_URL}/api/productos/${item.id}`, {
                 signal: controller.signal
@@ -79,7 +79,6 @@ app.post('/api/pedidos', async (req, res) => {
 
         } catch (err) {
             console.error('❌ Error de comunicación con microservicio de Productos:', err.message);
-            // Simulación de fallo controlado (Fase 10)
             return res.status(503).json({
                 ok: false,
                 error: 'SERVICIO_NO_DISPONIBLE',
@@ -88,7 +87,6 @@ app.post('/api/pedidos', async (req, res) => {
             });
         }
     }
-    // ---------------------------------------------------------------------------------
 
     const conn = await pool.getConnection();
     try {
