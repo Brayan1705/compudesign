@@ -718,7 +718,17 @@
                         </div>
                         <div class="form-group-auth mt-20">
                             <label class="auth-label">Contraseña</label>
-                            <input type="password" id="registro-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                            <input type="password" id="registro-password" class="auth-input" placeholder="Ingresa una contraseña segura" autocomplete="new-password">
+                            <div class="password-rules-box" id="reg-password-rules">
+                                <span class="rules-header">La contraseña debe incluir:</span>
+                                <ul class="rules-list">
+                                    <li class="rule-item" id="rule-reg-length"><span class="rule-icon">✕</span> Mínimo 8 caracteres</li>
+                                    <li class="rule-item" id="rule-reg-upper"><span class="rule-icon">✕</span> Una letra mayúscula (A-Z)</li>
+                                    <li class="rule-item" id="rule-reg-lower"><span class="rule-icon">✕</span> Una letra minúscula (a-z)</li>
+                                    <li class="rule-item" id="rule-reg-number"><span class="rule-icon">✕</span> Al menos un número (0-9)</li>
+                                    <li class="rule-item" id="rule-reg-special"><span class="rule-icon">✕</span> Un caracter especial (@, #, $, %, etc.)</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="form-group-auth mt-20">
                             <label class="auth-label">Teléfono <span style="font-size:0.8em;opacity:0.6;">(opcional)</span></label>
@@ -742,7 +752,17 @@
                         </div>
                         <div class="form-group-auth mt-20">
                             <label class="auth-label">Nueva contraseña</label>
-                            <input type="password" id="recuperar-password" class="auth-input" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                            <input type="password" id="recuperar-password" class="auth-input" placeholder="Ingresa una contraseña segura" autocomplete="new-password">
+                            <div class="password-rules-box" id="rec-password-rules">
+                                <span class="rules-header">La nueva contraseña debe incluir:</span>
+                                <ul class="rules-list">
+                                    <li class="rule-item" id="rule-rec-length"><span class="rule-icon">✕</span> Mínimo 8 caracteres</li>
+                                    <li class="rule-item" id="rule-rec-upper"><span class="rule-icon">✕</span> Una letra mayúscula (A-Z)</li>
+                                    <li class="rule-item" id="rule-rec-lower"><span class="rule-icon">✕</span> Una letra minúscula (a-z)</li>
+                                    <li class="rule-item" id="rule-rec-number"><span class="rule-icon">✕</span> Al menos un número (0-9)</li>
+                                    <li class="rule-item" id="rule-rec-special"><span class="rule-icon">✕</span> Un caracter especial (@, #, $, %, etc.)</li>
+                                </ul>
+                            </div>
                         </div>
                         <button class="btn-auth mt-30" id="btn-recuperar-submit">Actualizar contraseña</button>
 

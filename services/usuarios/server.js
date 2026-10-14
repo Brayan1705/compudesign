@@ -38,6 +38,16 @@ app.get('/health', (req, res) => {
     res.json({ status: 'UP', service: 'usuarios', timestamp: new Date() });
 });
 
+// Validación de complejidad de contraseña (mínimo 8 caracteres, mayúscula, minúscula, número y especial)
+function validarComplejidadContrasena(pass) {
+    if (!pass || pass.length < 8) return false;
+    const tieneMayus = /[A-Z]/.test(pass);
+    const tieneMinus = /[a-z]/.test(pass);
+    const tieneNum   = /[0-9]/.test(pass);
+    const tieneEsp   = /[^A-Za-z0-9]/.test(pass);
+    return tieneMayus && tieneMinus && tieneNum && tieneEsp;
+}
+
 // POST /api/registro
 app.post('/api/registro', async (req, res) => {
     const { nombre_completo, correo, contrasena, telefono } = req.body;
@@ -45,8 +55,11 @@ app.post('/api/registro', async (req, res) => {
     if (!nombre_completo || !correo || !contrasena) {
         return res.status(400).json({ ok: false, mensaje: 'Nombre, correo y contraseña son obligatorios.' });
     }
-    if (contrasena.length < 8) {
-        return res.status(400).json({ ok: false, mensaje: 'La contraseña debe tener al menos 8 caracteres.' });
+    if (!validarComplejidadContrasena(contrasena)) {
+        return res.status(400).json({
+            ok: false,
+            mensaje: 'La contraseña debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un caracter especial.'
+        });
     }
     if (!/\S+@\S+\.\S+/.test(correo)) {
         return res.status(400).json({ ok: false, mensaje: 'El correo no tiene un formato válido.' });
@@ -158,8 +171,11 @@ app.post('/api/usuarios/recuperar-password', async (req, res) => {
     if (!correo || !nueva_contrasena) {
         return res.status(400).json({ ok: false, mensaje: 'El correo y la nueva contraseña son obligatorios.' });
     }
-    if (nueva_contrasena.length < 8) {
-        return res.status(400).json({ ok: false, mensaje: 'La nueva contraseña debe tener al menos 8 caracteres.' });
+    if (!validarComplejidadContrasena(nueva_contrasena)) {
+        return res.status(400).json({
+            ok: false,
+            mensaje: 'La nueva contraseña debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un caracter especial.'
+        });
     }
     if (!/\S+@\S+\.\S+/.test(correo)) {
         return res.status(400).json({ ok: false, mensaje: 'El correo no tiene un formato válido.' });

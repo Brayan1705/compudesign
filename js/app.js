@@ -857,6 +857,66 @@ document.addEventListener('DOMContentLoaded', () => {
     const formRecuperar  = document.getElementById('form-recuperar');
     const msgRecuperar   = document.getElementById('msg-recuperar');
     const authTabsWrap   = document.querySelector('.auth-tabs');
+    const recuperarEmailEl   = document.getElementById('recuperar-email');
+    const recuperarPassEl    = document.getElementById('recuperar-password');
+    const btnRecuperarSubmit = document.getElementById('btn-recuperar-submit');
+
+    function verificarRequisitosContrasena(pass) {
+        return {
+            length : (pass || '').length >= 8,
+            upper  : /[A-Z]/.test(pass || ''),
+            lower  : /[a-z]/.test(pass || ''),
+            number : /[0-9]/.test(pass || ''),
+            special: /[^A-Za-z0-9]/.test(pass || '')
+        };
+    }
+
+    function actualizarUIRequisitos(prefix, pass) {
+        const reqs = verificarRequisitosContrasena(pass);
+        const map = {
+            [`rule-${prefix}-length`] : reqs.length,
+            [`rule-${prefix}-upper`]  : reqs.upper,
+            [`rule-${prefix}-lower`]  : reqs.lower,
+            [`rule-${prefix}-number`] : reqs.number,
+            [`rule-${prefix}-special`]: reqs.special
+        };
+
+        let todosValidos = true;
+        for (const [id, valido] of Object.entries(map)) {
+            const item = document.getElementById(id);
+            if (item) {
+                const icon = item.querySelector('.rule-icon');
+                if (valido) {
+                    item.classList.add('valid');
+                    if (icon) icon.textContent = '✓';
+                } else {
+                    item.classList.remove('valid');
+                    if (icon) icon.textContent = '✕';
+                    todosValidos = false;
+                }
+            }
+        }
+        return todosValidos;
+    }
+
+    function resetChecklist(prefix) {
+        ['length', 'upper', 'lower', 'number', 'special'].forEach(key => {
+            const item = document.getElementById(`rule-${prefix}-${key}`);
+            if (item) {
+                item.classList.remove('valid');
+                const icon = item.querySelector('.rule-icon');
+                if (icon) icon.textContent = '✕';
+            }
+        });
+    }
+
+    regPassword?.addEventListener('input', () => {
+        actualizarUIRequisitos('reg', regPassword.value);
+    });
+
+    recuperarPassEl?.addEventListener('input', () => {
+        actualizarUIRequisitos('rec', recuperarPassEl.value);
+    });
 
     function showLoginForm() {
         formLogin?.classList.add('active');
@@ -878,6 +938,10 @@ document.addEventListener('DOMContentLoaded', () => {
         tabLogin?.classList.remove('active');
         if (authTabsWrap) authTabsWrap.style.display = 'flex';
         limpiarMensaje(msgRegistro);
+        resetChecklist('reg');
+        if (regPassword && regPassword.value) {
+            actualizarUIRequisitos('reg', regPassword.value);
+        }
     }
 
     function showRecuperarForm() {
@@ -887,6 +951,10 @@ document.addEventListener('DOMContentLoaded', () => {
         formPerfil?.classList.remove('active');
         if (authTabsWrap) authTabsWrap.style.display = 'none';
         limpiarMensaje(msgRecuperar);
+        resetChecklist('rec');
+        if (recuperarPassEl && recuperarPassEl.value) {
+            actualizarUIRequisitos('rec', recuperarPassEl.value);
+        }
     }
 
     tabLogin?.addEventListener('click', showLoginForm);
@@ -959,7 +1027,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!nombre_completo) { mostrarMensaje(msgRegistro, 'El nombre es obligatorio.'); return; }
         if (!correo || !correo.includes('@')) { mostrarMensaje(msgRegistro, 'Ingresa un correo válido.'); return; }
-        if (!contrasena || contrasena.length < 8) { mostrarMensaje(msgRegistro, 'La contraseña debe tener mínimo 8 caracteres.'); return; }
+        if (!actualizarUIRequisitos('reg', contrasena || '')) {
+            mostrarMensaje(msgRegistro, 'La contraseña debe cumplir con todos los requisitos de seguridad.');
+            return;
+        }
 
         btnRegistro.disabled = true;
         btnRegistro.textContent = 'Registrando...';
@@ -980,6 +1051,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (regEmail)     regEmail.value     = '';
                 if (regPassword)  regPassword.value  = '';
                 if (regTelefono)  regTelefono.value  = '';
+                resetChecklist('reg');
             } else {
                 mostrarMensaje(msgRegistro, json.mensaje || 'Error al registrar la cuenta.');
             }
@@ -991,10 +1063,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btnRegistro.textContent = 'Regístrate';
         }
     });
-
-    const btnRecuperarSubmit = document.getElementById('btn-recuperar-submit');
-    const recuperarEmailEl   = document.getElementById('recuperar-email');
-    const recuperarPassEl    = document.getElementById('recuperar-password');
 
     btnRecuperarSubmit?.addEventListener('click', async () => {
         const correo         = recuperarEmailEl?.value.trim();
@@ -1008,8 +1076,8 @@ document.addEventListener('DOMContentLoaded', () => {
             mostrarMensaje(msgRecuperar, 'Ingresa un correo electrónico válido.');
             return;
         }
-        if (nuevaContrasena.length < 8) {
-            mostrarMensaje(msgRecuperar, 'La nueva contraseña debe tener al menos 8 caracteres.');
+        if (!actualizarUIRequisitos('rec', nuevaContrasena || '')) {
+            mostrarMensaje(msgRecuperar, 'La nueva contraseña debe cumplir con todos los requisitos de seguridad.');
             return;
         }
 
@@ -1029,6 +1097,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mostrarMensaje(msgRecuperar, json.mensaje, 'success');
                 if (recuperarEmailEl) recuperarEmailEl.value = '';
                 if (recuperarPassEl)  recuperarPassEl.value  = '';
+                resetChecklist('rec');
 
                 setTimeout(() => {
                     showLoginForm();
