@@ -882,6 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         let todosValidos = true;
+        let cumplidos = 0;
         for (const [id, valido] of Object.entries(map)) {
             const item = document.getElementById(id);
             if (item) {
@@ -889,6 +890,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (valido) {
                     item.classList.add('valid');
                     if (icon) icon.textContent = '✓';
+                    cumplidos++;
                 } else {
                     item.classList.remove('valid');
                     if (icon) icon.textContent = '✕';
@@ -896,6 +898,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+
+        const bar = document.getElementById(`${prefix}-strength-bar`);
+        const label = document.getElementById(`${prefix}-strength-label`);
+        if (bar && label) {
+            bar.className = 'password-strength-bar';
+            if (!pass || pass.length === 0) {
+                bar.style.width = '0%';
+                label.textContent = 'Sin ingresar';
+                label.style.color = 'rgba(255, 255, 255, 0.4)';
+            } else if (cumplidos <= 2) {
+                bar.classList.add('weak');
+                label.textContent = 'Débil';
+                label.style.color = '#ef4444';
+            } else if (cumplidos <= 4) {
+                bar.classList.add('medium');
+                label.textContent = 'Media';
+                label.style.color = '#f59e0b';
+            } else {
+                bar.classList.add('strong');
+                label.textContent = '¡Fuerte!';
+                label.style.color = '#10b981';
+            }
+        }
+
         return todosValidos;
     }
 
@@ -908,14 +934,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (icon) icon.textContent = '✕';
             }
         });
+        const bar = document.getElementById(`${prefix}-strength-bar`);
+        const label = document.getElementById(`${prefix}-strength-label`);
+        if (bar) { bar.className = 'password-strength-bar'; bar.style.width = '0%'; }
+        if (label) { label.textContent = 'Sin ingresar'; label.style.color = 'rgba(255, 255, 255, 0.4)'; }
     }
 
-    regPassword?.addEventListener('input', () => {
-        actualizarUIRequisitos('reg', regPassword.value);
+    ['input', 'keyup', 'change'].forEach(evt => {
+        regPassword?.addEventListener(evt, () => {
+            actualizarUIRequisitos('reg', regPassword.value);
+        });
+        recuperarPassEl?.addEventListener(evt, () => {
+            actualizarUIRequisitos('rec', recuperarPassEl.value);
+        });
     });
 
-    recuperarPassEl?.addEventListener('input', () => {
-        actualizarUIRequisitos('rec', recuperarPassEl.value);
+    document.querySelectorAll('.btn-toggle-password').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = btn.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            if (!input) return;
+            const eyeOpen = btn.querySelector('.eye-open');
+            const eyeClosed = btn.querySelector('.eye-closed');
+            if (input.type === 'password') {
+                input.type = 'text';
+                if (eyeOpen) eyeOpen.style.display = 'none';
+                if (eyeClosed) eyeClosed.style.display = 'block';
+                btn.title = 'Ocultar contraseña';
+            } else {
+                input.type = 'password';
+                if (eyeOpen) eyeOpen.style.display = 'block';
+                if (eyeClosed) eyeClosed.style.display = 'none';
+                btn.title = 'Mostrar contraseña';
+            }
+        });
     });
 
     function showLoginForm() {

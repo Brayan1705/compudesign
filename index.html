@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CompuDesign | Tu tienda de tecnología</title>
-    <link rel="stylesheet" href="./css/styles.css?v=7">
+    <link rel="stylesheet" href="./css/styles.css?v=9">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -691,7 +691,19 @@
                         </div>
                         <div class="form-group-auth mt-20">
                             <label class="auth-label">Contraseña</label>
-                            <input type="password" id="login-password" class="auth-input" placeholder="••••••••" autocomplete="current-password">
+                            <div class="password-input-wrapper">
+                                <input type="password" id="login-password" class="auth-input" placeholder="••••••••" autocomplete="current-password">
+                                <button type="button" class="btn-toggle-password" data-target="login-password" title="Mostrar contraseña" aria-label="Mostrar contraseña">
+                                    <svg class="eye-icon eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-icon eye-closed" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                         <div class="text-center mt-15">
                             <a href="javascript:void(0)" class="auth-link-small" id="link-olvido-password">¿Olvidaste tu contraseña?</a>
@@ -718,9 +730,27 @@
                         </div>
                         <div class="form-group-auth mt-20">
                             <label class="auth-label">Contraseña</label>
-                            <input type="password" id="registro-password" class="auth-input" placeholder="Ingresa una contraseña segura" autocomplete="new-password">
+                            <div class="password-input-wrapper">
+                                <input type="password" id="registro-password" class="auth-input" placeholder="Ingresa una contraseña segura" autocomplete="new-password">
+                                <button type="button" class="btn-toggle-password" data-target="registro-password" title="Mostrar contraseña" aria-label="Mostrar contraseña">
+                                    <svg class="eye-icon eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-icon eye-closed" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
                             <div class="password-rules-box" id="reg-password-rules">
-                                <span class="rules-header">La contraseña debe incluir:</span>
+                                <div class="password-strength-header">
+                                    <span class="rules-header">La contraseña debe incluir:</span>
+                                    <span class="strength-label" id="reg-strength-label">Sin ingresar</span>
+                                </div>
+                                <div class="password-strength-bar-wrap">
+                                    <div class="password-strength-bar" id="reg-strength-bar"></div>
+                                </div>
                                 <ul class="rules-list">
                                     <li class="rule-item" id="rule-reg-length"><span class="rule-icon">✕</span> Mínimo 8 caracteres</li>
                                     <li class="rule-item" id="rule-reg-upper"><span class="rule-icon">✕</span> Una letra mayúscula (A-Z)</li>
@@ -752,9 +782,27 @@
                         </div>
                         <div class="form-group-auth mt-20">
                             <label class="auth-label">Nueva contraseña</label>
-                            <input type="password" id="recuperar-password" class="auth-input" placeholder="Ingresa una contraseña segura" autocomplete="new-password">
+                            <div class="password-input-wrapper">
+                                <input type="password" id="recuperar-password" class="auth-input" placeholder="Ingresa una contraseña segura" autocomplete="new-password">
+                                <button type="button" class="btn-toggle-password" data-target="recuperar-password" title="Mostrar contraseña" aria-label="Mostrar contraseña">
+                                    <svg class="eye-icon eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-icon eye-closed" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
                             <div class="password-rules-box" id="rec-password-rules">
-                                <span class="rules-header">La nueva contraseña debe incluir:</span>
+                                <div class="password-strength-header">
+                                    <span class="rules-header">La nueva contraseña debe incluir:</span>
+                                    <span class="strength-label" id="rec-strength-label">Sin ingresar</span>
+                                </div>
+                                <div class="password-strength-bar-wrap">
+                                    <div class="password-strength-bar" id="rec-strength-bar"></div>
+                                </div>
                                 <ul class="rules-list">
                                     <li class="rule-item" id="rule-rec-length"><span class="rule-icon">✕</span> Mínimo 8 caracteres</li>
                                     <li class="rule-item" id="rule-rec-upper"><span class="rule-icon">✕</span> Una letra mayúscula (A-Z)</li>
@@ -1087,7 +1135,7 @@
     <!-- Tidio Chatbot -->
     <script src="//code.tidio.co/mcjasqsrjsejlk0mhxo8veqme2879xpv.js" async></script>
     
-    <script src="./js/app.js?v=7"></script>
+    <script src="./js/app.js?v=9"></script>
 
     <!-- Visor 3D Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

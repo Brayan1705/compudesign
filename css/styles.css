@@ -938,49 +938,132 @@ select.input-transparente {
 }
 .auth-switch-btn:hover { color: #4d9fff; text-decoration: underline; }
 
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.password-input-wrapper .auth-input {
+    padding-right: 46px;
+}
+.btn-toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border-radius: 6px;
+    transition: color 0.2s, background-color 0.2s;
+    z-index: 2;
+}
+.btn-toggle-password:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+.btn-toggle-password svg {
+    pointer-events: none;
+}
+
 .password-rules-box {
     margin-top: 10px;
     padding: 12px 14px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 10px;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
+}
+.password-strength-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
 }
 .rules-header {
-    display: block;
     font-size: 0.78rem;
     color: var(--text-muted);
-    margin-bottom: 8px;
     font-weight: 500;
 }
+.strength-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.3s ease;
+}
+.password-strength-bar-wrap {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.password-strength-bar {
+    height: 100%;
+    width: 0%;
+    background-color: transparent;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    border-radius: 4px;
+}
+.password-strength-bar.weak {
+    width: 25%;
+    background-color: #ef4444;
+}
+.password-strength-bar.medium {
+    width: 65%;
+    background-color: #f59e0b;
+}
+.password-strength-bar.strong {
+    width: 100%;
+    background-color: #10b981;
+}
+
 .rules-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    list-style: none !important;
+    list-style-type: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
 }
 .rule-item {
+    list-style: none !important;
+    list-style-type: none !important;
     font-size: 0.78rem;
     color: rgba(255, 255, 255, 0.45);
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     transition: color 0.2s ease;
 }
 .rule-item .rule-icon {
     font-size: 0.75rem;
-    width: 14px;
-    display: inline-block;
-    text-align: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-weight: 700;
+    background: rgba(239, 68, 68, 0.15);
     color: #ef4444;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 .rule-item.valid {
-    color: #10b981;
+    color: #34d399;
+    font-weight: 500;
 }
 .rule-item.valid .rule-icon {
+    background: rgba(16, 185, 129, 0.2);
     color: #10b981;
 }
 
