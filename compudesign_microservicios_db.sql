@@ -147,6 +147,8 @@ CREATE TABLE IF NOT EXISTS USUARIOS (
     telefono        VARCHAR(20),
     fecha_registro  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     activo          TINYINT(1)    NOT NULL DEFAULT 1,
+    mfa_activo      TINYINT(1)    NOT NULL DEFAULT 0,
+    mfa_secret      VARCHAR(100)  DEFAULT NULL,
     CONSTRAINT pk_usuarios PRIMARY KEY (id_usuario),
     CONSTRAINT uq_usuarios_correo UNIQUE (correo)
 );

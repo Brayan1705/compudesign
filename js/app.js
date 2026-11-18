@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formLogin = document.getElementById('form-login');
         const formRegistro = document.getElementById('form-registro');
         const formRecuperar = document.getElementById('form-recuperar');
+        const formMfa = document.getElementById('form-mfa');
 
         if (sesionUsuario) {
             const nombre = sesionUsuario.nombre_completo ? sesionUsuario.nombre_completo.split(' ')[0] : 'Usuario';
@@ -44,7 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             formLogin?.classList.remove('active');
             formRegistro?.classList.remove('active');
             formRecuperar?.classList.remove('active');
+            formMfa?.classList.remove('active');
             formPerfil?.classList.add('active');
+            if (typeof actualizarEstadoMfaPerfil === 'function') actualizarEstadoMfaPerfil();
 
         } else {
             if (userLabel) userLabel.textContent = '';
@@ -971,7 +974,195 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const formMfa            = document.getElementById('form-mfa');
+    const msgMfaLogin        = document.getElementById('msg-mfa-login');
+    const mfaLoginCodeEl     = document.getElementById('mfa-login-code');
+    const btnMfaVerifyLogin  = document.getElementById('btn-mfa-verify-login');
+    const mfaStatusBadge     = document.getElementById('mfa-status-badge');
+    const btnMfaSetup        = document.getElementById('btn-mfa-setup');
+    const msgMfaPerfil       = document.getElementById('msg-mfa-perfil');
+    const mfaQrPanel         = document.getElementById('mfa-qr-panel');
+    const mfaQrImg           = document.getElementById('mfa-qr-img');
+    const mfaSecretCode      = document.getElementById('mfa-secret-code');
+    const mfaConfirmInput    = document.getElementById('mfa-confirm-input');
+    const btnMfaConfirmAct   = document.getElementById('btn-mfa-confirm-activate');
+    let pendingMfaUserId     = null;
+
+    function actualizarEstadoMfaPerfil() {
+        if (!sesionUsuario) return;
+        const activo = Boolean(sesionUsuario.mfa_activo);
+        if (mfaStatusBadge) {
+            mfaStatusBadge.textContent = activo ? 'Activado' : 'Desactivado';
+            mfaStatusBadge.classList.toggle('active', activo);
+        }
+        if (btnMfaSetup) {
+            btnMfaSetup.textContent = activo ? 'Desactivar 2FA' : 'Activar 2FA';
+            btnMfaSetup.classList.toggle('danger', activo);
+        }
+        if (mfaQrPanel) mfaQrPanel.style.display = 'none';
+        if (mfaConfirmInput) mfaConfirmInput.value = '';
+        limpiarMensaje(msgMfaPerfil);
+    }
+
+    function showMfaForm(idUsuario) {
+        pendingMfaUserId = idUsuario;
+        formMfa?.classList.add('active');
+        formLogin?.classList.remove('active');
+        formRegistro?.classList.remove('active');
+        formRecuperar?.classList.remove('active');
+        formPerfil?.classList.remove('active');
+        if (authTabsWrap) authTabsWrap.style.display = 'none';
+        limpiarMensaje(msgMfaLogin);
+        if (mfaLoginCodeEl) {
+            mfaLoginCodeEl.value = '';
+            mfaLoginCodeEl.focus();
+        }
+    }
+
+    document.getElementById('switch-mfa-to-login')?.addEventListener('click', showLoginForm);
+
+    btnMfaVerifyLogin?.addEventListener('click', async () => {
+        const codigo = mfaLoginCodeEl?.value.trim();
+        if (!codigo || codigo.length !== 6) {
+            mostrarMensaje(msgMfaLogin, 'Ingresa el código de 6 dígitos de Google Authenticator.');
+            return;
+        }
+
+        btnMfaVerifyLogin.disabled = true;
+        btnMfaVerifyLogin.textContent = 'Verificando...';
+        limpiarMensaje(msgMfaLogin);
+
+        try {
+            const res = await fetch(`${API}/usuarios/mfa/verificar-login`, {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body   : JSON.stringify({ id_usuario: pendingMfaUserId, codigo })
+            });
+            const json = await res.json();
+
+            if (json.ok) {
+                if (json.requiere_mfa) {
+                    showMfaForm(json.id_usuario);
+                    return;
+                }
+                guardarSesion(json.usuario);
+                actualizarNavUsuario();
+                if (loginEmail)    loginEmail.value    = '';
+                if (loginPassword) loginPassword.value = '';
+                if (mfaLoginCodeEl) mfaLoginCodeEl.value = '';
+            } else {
+                mostrarMensaje(msgMfaLogin, json.mensaje || 'Código incorrecto.');
+            }
+        } catch (err) {
+            mostrarMensaje(msgMfaLogin, 'Error de conexión al verificar el código.');
+            console.error('Error MFA login:', err);
+        } finally {
+            btnMfaVerifyLogin.disabled = false;
+            btnMfaVerifyLogin.textContent = 'Verificar e Iniciar sesión';
+        }
+    });
+
+    mfaLoginCodeEl?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') btnMfaVerifyLogin?.click();
+    });
+
+    btnMfaSetup?.addEventListener('click', async () => {
+        if (!sesionUsuario) return;
+        limpiarMensaje(msgMfaPerfil);
+
+        if (sesionUsuario.mfa_activo) {
+            btnMfaSetup.disabled = true;
+            try {
+                const res = await fetch(`${API}/usuarios/mfa/desactivar`, {
+                    method : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body   : JSON.stringify({ id_usuario: sesionUsuario.id_usuario })
+                });
+                const json = await res.json();
+                if (json.ok) {
+                    sesionUsuario.mfa_activo = false;
+                    guardarSesion(sesionUsuario);
+                    actualizarEstadoMfaPerfil();
+                    mostrarMensaje(msgMfaPerfil, json.mensaje, 'success');
+                } else {
+                    mostrarMensaje(msgMfaPerfil, json.mensaje || 'Error al desactivar 2FA.');
+                }
+            } catch (err) {
+                mostrarMensaje(msgMfaPerfil, 'Error de conexión con el servidor.');
+            } finally {
+                btnMfaSetup.disabled = false;
+            }
+        } else {
+            btnMfaSetup.disabled = true;
+            btnMfaSetup.textContent = 'Generando QR...';
+            try {
+                const res = await fetch(`${API}/usuarios/mfa/generar`, {
+                    method : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body   : JSON.stringify({ id_usuario: sesionUsuario.id_usuario })
+                });
+                const json = await res.json();
+                if (json.ok) {
+                    if (mfaQrImg) mfaQrImg.src = json.qr_url;
+                    if (mfaSecretCode) mfaSecretCode.textContent = json.secret;
+                    if (mfaQrPanel) mfaQrPanel.style.display = 'block';
+                    if (mfaConfirmInput) {
+                        mfaConfirmInput.value = '';
+                        mfaConfirmInput.focus();
+                    }
+                } else {
+                    mostrarMensaje(msgMfaPerfil, json.mensaje || 'No se pudo generar el QR.');
+                }
+            } catch (err) {
+                mostrarMensaje(msgMfaPerfil, 'Error de conexión con el servidor.');
+            } finally {
+                btnMfaSetup.disabled = false;
+                btnMfaSetup.textContent = 'Activar 2FA';
+            }
+        }
+    });
+
+    btnMfaConfirmAct?.addEventListener('click', async () => {
+        if (!sesionUsuario) return;
+        const codigo = mfaConfirmInput?.value.trim();
+        if (!codigo || codigo.length !== 6) {
+            mostrarMensaje(msgMfaPerfil, 'Ingresa el código de 6 dígitos que muestra la app.');
+            return;
+        }
+
+        btnMfaConfirmAct.disabled = true;
+        btnMfaConfirmAct.textContent = 'Validando...';
+        limpiarMensaje(msgMfaPerfil);
+
+        try {
+            const res = await fetch(`${API}/usuarios/mfa/activar`, {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body   : JSON.stringify({ id_usuario: sesionUsuario.id_usuario, codigo })
+            });
+            const json = await res.json();
+            if (json.ok) {
+                sesionUsuario.mfa_activo = true;
+                guardarSesion(sesionUsuario);
+                actualizarEstadoMfaPerfil();
+                mostrarMensaje(msgMfaPerfil, json.mensaje, 'success');
+            } else {
+                mostrarMensaje(msgMfaPerfil, json.mensaje || 'Código inválido.');
+            }
+        } catch (err) {
+            mostrarMensaje(msgMfaPerfil, 'Error de conexión al activar 2FA.');
+        } finally {
+            btnMfaConfirmAct.disabled = false;
+            btnMfaConfirmAct.textContent = 'Confirmar';
+        }
+    });
+
+    mfaConfirmInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') btnMfaConfirmAct?.click();
+    });
+
     function showLoginForm() {
+        formMfa?.classList.remove('active');
         formLogin?.classList.add('active');
         formRegistro?.classList.remove('active');
         formRecuperar?.classList.remove('active');
@@ -983,6 +1174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showRegistroForm() {
+        formMfa?.classList.remove('active');
         formRegistro?.classList.add('active');
         formLogin?.classList.remove('active');
         formRecuperar?.classList.remove('active');
@@ -998,6 +1190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showRecuperarForm() {
+        formMfa?.classList.remove('active');
         formRecuperar?.classList.add('active');
         formLogin?.classList.remove('active');
         formRegistro?.classList.remove('active');
@@ -1056,6 +1249,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const json = await res.json();
 
             if (json.ok) {
+                if (json.requiere_mfa) {
+                    showMfaForm(json.id_usuario);
+                    return;
+                }
                 guardarSesion(json.usuario);
                 actualizarNavUsuario();
                 if (loginEmail)    loginEmail.value    = '';
@@ -1098,6 +1295,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const json = await res.json();
 
             if (json.ok) {
+                if (json.requiere_mfa) {
+                    showMfaForm(json.id_usuario);
+                    return;
+                }
                 guardarSesion(json.usuario);
                 actualizarNavUsuario();
                 if (regNombre)    regNombre.value    = '';

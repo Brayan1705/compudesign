@@ -1,10 +1,12 @@
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
-const express = require('express');
-const mysql   = require('mysql2/promise');
-const bcrypt  = require('bcryptjs');
-const cors    = require('cors');
-const path    = require('path');
+const express   = require('express');
+const mysql     = require('mysql2/promise');
+const bcrypt    = require('bcryptjs');
+const speakeasy = require('speakeasy');
+const qrcode    = require('qrcode');
+const cors      = require('cors');
+const path      = require('path');
 
 const app  = express();
 const PORT = process.env.USERS_PORT || 3002;
@@ -26,6 +28,10 @@ const pool = mysql.createPool({
 (async () => {
     try {
         const conn = await pool.getConnection();
+        const [cols] = await conn.query("SHOW COLUMNS FROM USUARIOS LIKE 'mfa_activo'");
+        if (cols.length === 0) {
+            await conn.query("ALTER TABLE USUARIOS ADD COLUMN mfa_activo TINYINT(1) NOT NULL DEFAULT 0, ADD COLUMN mfa_secret VARCHAR(100) DEFAULT NULL");
+        }
         conn.release();
         console.log('✅ Microservicio de Usuarios conectado a la BD compudesign_usuarios');
     } catch (err) {
@@ -84,7 +90,8 @@ app.post('/api/registro', async (req, res) => {
         const usuario = {
             id_usuario     : result.insertId,
             nombre_completo: nombre_completo.trim(),
-            correo         : correo.toLowerCase().trim()
+            correo         : correo.toLowerCase().trim(),
+            mfa_activo     : false
         };
 
         res.status(201).json({
@@ -109,7 +116,7 @@ app.post('/api/login', async (req, res) => {
 
     try {
         const [rows] = await pool.query(
-            `SELECT id_usuario, nombre_completo, correo, contrasena_hash, activo
+            `SELECT id_usuario, nombre_completo, correo, contrasena_hash, activo, mfa_activo
              FROM USUARIOS WHERE correo = ?`,
             [correo.toLowerCase().trim()]
         );
@@ -129,10 +136,21 @@ app.post('/api/login', async (req, res) => {
             return res.status(401).json({ ok: false, mensaje: 'Correo o contraseña incorrectos.' });
         }
 
+        if (user.mfa_activo === 1) {
+            return res.json({
+                ok          : true,
+                requiere_mfa: true,
+                id_usuario  : user.id_usuario,
+                correo      : user.correo,
+                mensaje     : 'Ingresa el código de 6 dígitos de tu aplicación autenticadora.'
+            });
+        }
+
         const usuario = {
             id_usuario     : user.id_usuario,
             nombre_completo: user.nombre_completo,
-            correo         : user.correo
+            correo         : user.correo,
+            mfa_activo     : false
         };
 
         res.json({
@@ -144,6 +162,142 @@ app.post('/api/login', async (req, res) => {
     } catch (err) {
         console.error('Error /api/login:', err);
         res.status(500).json({ ok: false, mensaje: 'Error interno. Intenta de nuevo más tarde.' });
+    }
+});
+
+// POST /api/usuarios/mfa/verificar-login
+app.post('/api/usuarios/mfa/verificar-login', async (req, res) => {
+    const { id_usuario, codigo } = req.body;
+
+    if (!id_usuario || !codigo) {
+        return res.status(400).json({ ok: false, mensaje: 'El código de verificación es obligatorio.' });
+    }
+
+    try {
+        const [rows] = await pool.query(
+            'SELECT id_usuario, nombre_completo, correo, mfa_secret, mfa_activo FROM USUARIOS WHERE id_usuario = ?',
+            [id_usuario]
+        );
+
+        if (rows.length === 0 || !rows[0].mfa_secret) {
+            return res.status(404).json({ ok: false, mensaje: 'Configuración MFA no encontrada.' });
+        }
+
+        const user = rows[0];
+        const verificado = speakeasy.totp.verify({
+            secret  : user.mfa_secret,
+            encoding: 'base32',
+            token   : String(codigo).trim(),
+            window  : 1
+        });
+
+        if (!verificado) {
+            return res.status(401).json({ ok: false, mensaje: 'Código incorrecto o expirado. Verifica tu aplicación.' });
+        }
+
+        res.json({
+            ok     : true,
+            mensaje: `¡Bienvenido/a de nuevo, ${user.nombre_completo.split(' ')[0]}!`,
+            usuario: {
+                id_usuario     : user.id_usuario,
+                nombre_completo: user.nombre_completo,
+                correo         : user.correo,
+                mfa_activo     : true
+            }
+        });
+    } catch (err) {
+        console.error('Error /api/usuarios/mfa/verificar-login:', err);
+        res.status(500).json({ ok: false, mensaje: 'Error interno al verificar el código.' });
+    }
+});
+
+// POST /api/usuarios/mfa/generar
+app.post('/api/usuarios/mfa/generar', async (req, res) => {
+    const { id_usuario } = req.body;
+
+    if (!id_usuario) {
+        return res.status(400).json({ ok: false, mensaje: 'ID de usuario requerido.' });
+    }
+
+    try {
+        const [rows] = await pool.query('SELECT correo FROM USUARIOS WHERE id_usuario = ?', [id_usuario]);
+        if (rows.length === 0) {
+            return res.status(404).json({ ok: false, mensaje: 'Usuario no encontrado.' });
+        }
+
+        const secret = speakeasy.generateSecret({
+            name  : `CompuDesign (${rows[0].correo})`,
+            issuer: 'CompuDesign'
+        });
+
+        await pool.query('UPDATE USUARIOS SET mfa_secret = ? WHERE id_usuario = ?', [secret.base32, id_usuario]);
+        const qrDataUrl = await qrcode.toDataURL(secret.otpauth_url);
+
+        res.json({
+            ok    : true,
+            qr_url: qrDataUrl,
+            secret: secret.base32
+        });
+    } catch (err) {
+        console.error('Error /api/usuarios/mfa/generar:', err);
+        res.status(500).json({ ok: false, mensaje: 'Error al generar el código QR.' });
+    }
+});
+
+// POST /api/usuarios/mfa/activar
+app.post('/api/usuarios/mfa/activar', async (req, res) => {
+    const { id_usuario, codigo } = req.body;
+
+    if (!id_usuario || !codigo) {
+        return res.status(400).json({ ok: false, mensaje: 'Ingresa el código de 6 dígitos para confirmar.' });
+    }
+
+    try {
+        const [rows] = await pool.query('SELECT mfa_secret FROM USUARIOS WHERE id_usuario = ?', [id_usuario]);
+        if (rows.length === 0 || !rows[0].mfa_secret) {
+            return res.status(400).json({ ok: false, mensaje: 'Primero debes generar el código QR.' });
+        }
+
+        const verificado = speakeasy.totp.verify({
+            secret  : rows[0].mfa_secret,
+            encoding: 'base32',
+            token   : String(codigo).trim(),
+            window  : 1
+        });
+
+        if (!verificado) {
+            return res.status(400).json({ ok: false, mensaje: 'Código inválido. Escanea el QR e ingresa el código actual.' });
+        }
+
+        await pool.query('UPDATE USUARIOS SET mfa_activo = 1 WHERE id_usuario = ?', [id_usuario]);
+
+        res.json({
+            ok     : true,
+            mensaje: '¡Autenticación de dos factores (2FA) activada exitosamente!'
+        });
+    } catch (err) {
+        console.error('Error /api/usuarios/mfa/activar:', err);
+        res.status(500).json({ ok: false, mensaje: 'Error al activar 2FA.' });
+    }
+});
+
+// POST /api/usuarios/mfa/desactivar
+app.post('/api/usuarios/mfa/desactivar', async (req, res) => {
+    const { id_usuario } = req.body;
+
+    if (!id_usuario) {
+        return res.status(400).json({ ok: false, mensaje: 'ID de usuario requerido.' });
+    }
+
+    try {
+        await pool.query('UPDATE USUARIOS SET mfa_activo = 0, mfa_secret = NULL WHERE id_usuario = ?', [id_usuario]);
+        res.json({
+            ok     : true,
+            mensaje: 'Autenticación de dos factores desactivada.'
+        });
+    } catch (err) {
+        console.error('Error /api/usuarios/mfa/desactivar:', err);
+        res.status(500).json({ ok: false, mensaje: 'Error al desactivar 2FA.' });
     }
 });
 

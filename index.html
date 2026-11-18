@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CompuDesign | Tu tienda de tecnología</title>
-    <link rel="stylesheet" href="./css/styles.css?v=9">
+    <link rel="stylesheet" href="./css/styles.css?v=10">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -819,6 +819,24 @@
                         </p>
                     </div>
 
+                    <div id="form-mfa" class="auth-form">
+                        <h2 class="auth-title">Verificación en 2 pasos</h2>
+                        <p class="auth-subtitle mt-10 text-center text-muted text-sm">Abre Google Authenticator en tu celular e ingresa el código de 6 dígitos.</p>
+
+                        <div id="msg-mfa-login" class="auth-msg" style="display:none;"></div>
+
+                        <div class="form-group-auth mt-25">
+                            <label class="auth-label text-center">Código de seguridad (6 dígitos)</label>
+                            <input type="text" id="mfa-login-code" class="auth-input mfa-code-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                        </div>
+
+                        <button class="btn-auth mt-25" id="btn-mfa-verify-login">Verificar e Iniciar sesión</button>
+
+                        <p class="auth-switch-text mt-20">
+                            <button class="auth-switch-btn" id="switch-mfa-to-login">← Volver a Iniciar sesión</button>
+                        </p>
+                    </div>
+
                     <div id="form-perfil" class="auth-form">
                         <div class="perfil-card text-center">
                             <div class="perfil-avatar-wrap">
@@ -834,6 +852,31 @@
                                 <div class="perfil-info-item mt-10">
                                     <span class="perfil-info-label">Correo registrado</span>
                                     <span class="perfil-info-val" id="perfil-correo">correo@ejemplo.com</span>
+                                </div>
+                            </div>
+
+                            <div class="mfa-profile-box mt-25">
+                                <div class="mfa-profile-header">
+                                    <div class="mfa-profile-title-wrap">
+                                        <span class="mfa-profile-title">Autenticación 2FA (Google Authenticator)</span>
+                                        <span class="mfa-status-badge" id="mfa-status-badge">Desactivado</span>
+                                    </div>
+                                    <button type="button" class="btn-mfa-toggle" id="btn-mfa-setup">Activar 2FA</button>
+                                </div>
+
+                                <div id="msg-mfa-perfil" class="auth-msg mt-10" style="display:none;"></div>
+
+                                <div class="mfa-qr-panel" id="mfa-qr-panel" style="display:none;">
+                                    <p class="mfa-qr-instructions">1. Escanea este código QR con la app <strong>Google Authenticator</strong> en tu celular:</p>
+                                    <div class="mfa-qr-img-wrap">
+                                        <img id="mfa-qr-img" src="" alt="Código QR 2FA">
+                                    </div>
+                                    <p class="mfa-secret-text">Clave manual: <code id="mfa-secret-code">----</code></p>
+                                    <p class="mfa-qr-instructions mt-10">2. Ingresa el código de 6 dígitos que muestra la app para confirmar:</p>
+                                    <div class="mfa-confirm-row">
+                                        <input type="text" id="mfa-confirm-input" class="auth-input mfa-code-input-sm" placeholder="000000" maxlength="6" inputmode="numeric">
+                                        <button type="button" class="btn-mfa-confirm" id="btn-mfa-confirm-activate">Confirmar</button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1135,7 +1178,7 @@
     <!-- Tidio Chatbot -->
     <script src="//code.tidio.co/mcjasqsrjsejlk0mhxo8veqme2879xpv.js" async></script>
     
-    <script src="./js/app.js?v=9"></script>
+    <script src="./js/app.js?v=10"></script>
 
     <!-- Visor 3D Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
