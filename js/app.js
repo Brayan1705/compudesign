@@ -1306,6 +1306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (regPassword)  regPassword.value  = '';
                 if (regTelefono)  regTelefono.value  = '';
                 resetChecklist('reg');
+                setTimeout(() => { btnMfaSetup?.click(); }, 300);
             } else {
                 mostrarMensaje(msgRegistro, json.mensaje || 'Error al registrar la cuenta.');
             }
@@ -1321,6 +1322,8 @@ document.addEventListener('DOMContentLoaded', () => {
     btnRecuperarSubmit?.addEventListener('click', async () => {
         const correo         = recuperarEmailEl?.value.trim();
         const nuevaContrasena = recuperarPassEl?.value;
+        const recuperarMfaEl  = document.getElementById('recuperar-mfa-code');
+        const codigoMfa       = recuperarMfaEl?.value.trim();
 
         if (!correo || !nuevaContrasena) {
             mostrarMensaje(msgRecuperar, 'Por favor completa todos los campos.');
@@ -1335,6 +1338,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (!codigoMfa || codigoMfa.length !== 6) {
+            mostrarMensaje(msgRecuperar, 'Ingresa el código de 6 dígitos de Google Authenticator.');
+            return;
+        }
+
         btnRecuperarSubmit.disabled = true;
         btnRecuperarSubmit.textContent = 'Actualizando...';
         limpiarMensaje(msgRecuperar);
@@ -1343,7 +1351,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch(`${API}/usuarios/recuperar-password`, {
                 method : 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body   : JSON.stringify({ correo, nueva_contrasena: nuevaContrasena })
+                body   : JSON.stringify({ correo, nueva_contrasena: nuevaContrasena, codigo_mfa: codigoMfa })
             });
             const json = await res.json();
 
@@ -1351,6 +1359,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mostrarMensaje(msgRecuperar, json.mensaje, 'success');
                 if (recuperarEmailEl) recuperarEmailEl.value = '';
                 if (recuperarPassEl)  recuperarPassEl.value  = '';
+                if (recuperarMfaEl)   recuperarMfaEl.value   = '';
                 resetChecklist('rec');
 
                 setTimeout(() => {

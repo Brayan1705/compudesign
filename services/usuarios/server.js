@@ -318,12 +318,12 @@ app.get('/api/usuarios/:id', async (req, res) => {
     }
 });
 
-// POST /api/usuarios/recuperar-password (Restablecer contraseña)
+// POST /api/usuarios/recuperar-password (Restablecer contraseña con validación 2FA)
 app.post('/api/usuarios/recuperar-password', async (req, res) => {
-    const { correo, nueva_contrasena } = req.body;
+    const { correo, nueva_contrasena, codigo_mfa } = req.body;
 
-    if (!correo || !nueva_contrasena) {
-        return res.status(400).json({ ok: false, mensaje: 'El correo y la nueva contraseña son obligatorios.' });
+    if (!correo || !nueva_contrasena || !codigo_mfa) {
+        return res.status(400).json({ ok: false, mensaje: 'El correo, la nueva contraseña y el código 2FA son obligatorios.' });
     }
     if (!validarComplejidadContrasena(nueva_contrasena)) {
         return res.status(400).json({
@@ -337,12 +337,34 @@ app.post('/api/usuarios/recuperar-password', async (req, res) => {
 
     try {
         const [rows] = await pool.query(
-            'SELECT id_usuario FROM USUARIOS WHERE correo = ?',
+            'SELECT id_usuario, mfa_secret, mfa_activo FROM USUARIOS WHERE correo = ?',
             [correo.toLowerCase().trim()]
         );
 
         if (rows.length === 0) {
             return res.status(404).json({ ok: false, mensaje: 'No encontramos ninguna cuenta registrada con este correo.' });
+        }
+
+        const user = rows[0];
+        if (!user.mfa_activo || !user.mfa_secret) {
+            return res.status(403).json({
+                ok: false,
+                mensaje: 'Esta cuenta no tiene Google Authenticator (2FA) activo. Debes tener 2FA vinculado para recuperar la contraseña.'
+            });
+        }
+
+        const verificado = speakeasy.totp.verify({
+            secret  : user.mfa_secret,
+            encoding: 'base32',
+            token   : String(codigo_mfa).trim(),
+            window  : 1
+        });
+
+        if (!verificado) {
+            return res.status(401).json({
+                ok: false,
+                mensaje: 'Código de Google Authenticator incorrecto o expirado.'
+            });
         }
 
         const hash = await bcrypt.hash(nueva_contrasena, 10);
