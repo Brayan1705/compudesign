@@ -4,15 +4,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Autenticación y Sesión ──
     let sesionUsuario = JSON.parse(localStorage.getItem('compudesign_usuario')) || null;
+    let tokenSesion = localStorage.getItem('compudesign_token') || null;
 
-    function guardarSesion(usuario) {
+    function obtenerHeadersAuth() {
+        const headers = { 'Content-Type': 'application/json' };
+        if (tokenSesion) {
+            headers['Authorization'] = `Bearer ${tokenSesion}`;
+        }
+        return headers;
+    }
+
+    function guardarSesion(usuario, token) {
         sesionUsuario = usuario;
         localStorage.setItem('compudesign_usuario', JSON.stringify(usuario));
+        if (token) {
+            tokenSesion = token;
+            localStorage.setItem('compudesign_token', token);
+        }
     }
 
     function cerrarSesion() {
         sesionUsuario = null;
+        tokenSesion = null;
         localStorage.removeItem('compudesign_usuario');
+        localStorage.removeItem('compudesign_token');
         actualizarNavUsuario();
     }
 
@@ -1045,7 +1060,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showMfaForm(json.id_usuario);
                     return;
                 }
-                guardarSesion(json.usuario);
+                guardarSesion(json.usuario, json.token);
                 actualizarNavUsuario();
                 if (loginEmail)    loginEmail.value    = '';
                 if (loginPassword) loginPassword.value = '';
@@ -1075,7 +1090,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const res = await fetch(`${API}/usuarios/mfa/desactivar`, {
                     method : 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: obtenerHeadersAuth(),
                     body   : JSON.stringify({ id_usuario: sesionUsuario.id_usuario })
                 });
                 const json = await res.json();
@@ -1098,7 +1113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const res = await fetch(`${API}/usuarios/mfa/generar`, {
                     method : 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: obtenerHeadersAuth(),
                     body   : JSON.stringify({ id_usuario: sesionUsuario.id_usuario })
                 });
                 const json = await res.json();
@@ -1137,7 +1152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetch(`${API}/usuarios/mfa/activar`, {
                 method : 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: obtenerHeadersAuth(),
                 body   : JSON.stringify({ id_usuario: sesionUsuario.id_usuario, codigo })
             });
             const json = await res.json();
@@ -1253,7 +1268,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showMfaForm(json.id_usuario);
                     return;
                 }
-                guardarSesion(json.usuario);
+                guardarSesion(json.usuario, json.token);
                 actualizarNavUsuario();
                 if (loginEmail)    loginEmail.value    = '';
                 if (loginPassword) loginPassword.value = '';
@@ -1299,7 +1314,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showMfaForm(json.id_usuario);
                     return;
                 }
-                guardarSesion(json.usuario);
+                guardarSesion(json.usuario, json.token);
                 actualizarNavUsuario();
                 if (regNombre)    regNombre.value    = '';
                 if (regEmail)     regEmail.value     = '';

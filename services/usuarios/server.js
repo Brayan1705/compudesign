@@ -5,11 +5,41 @@ const mysql     = require('mysql2/promise');
 const bcrypt    = require('bcryptjs');
 const speakeasy = require('speakeasy');
 const qrcode    = require('qrcode');
+const jwt       = require('jsonwebtoken');
 const cors      = require('cors');
 const path      = require('path');
 
-const app  = express();
-const PORT = process.env.USERS_PORT || 3002;
+const app        = express();
+const PORT       = process.env.USERS_PORT || 3002;
+const JWT_SECRET = process.env.JWT_SECRET || 'compudesign_jwt_secret_2026';
+
+function generarToken(usuario) {
+    return jwt.sign(
+        {
+            id_usuario     : usuario.id_usuario,
+            correo         : usuario.correo,
+            nombre_completo: usuario.nombre_completo
+        },
+        JWT_SECRET,
+        { expiresIn: '24h' }
+    );
+}
+
+function verificarToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ ok: false, mensaje: 'Acceso denegado. Token JWT requerido.' });
+    }
+
+    try {
+        req.usuario = jwt.verify(token, JWT_SECRET);
+        next();
+    } catch (err) {
+        return res.status(403).json({ ok: false, mensaje: 'Token JWT inválido o expirado.' });
+    }
+}
 
 app.use(cors());
 app.use(express.json());
@@ -94,9 +124,12 @@ app.post('/api/registro', async (req, res) => {
             mfa_activo     : false
         };
 
+        const token = generarToken(usuario);
+
         res.status(201).json({
             ok     : true,
             mensaje: '¡Cuenta creada exitosamente! Bienvenido/a a CompuDesign.',
+            token,
             usuario
         });
 
@@ -153,9 +186,12 @@ app.post('/api/login', async (req, res) => {
             mfa_activo     : false
         };
 
+        const token = generarToken(usuario);
+
         res.json({
             ok     : true,
             mensaje: `¡Bienvenido/a de nuevo, ${user.nombre_completo.split(' ')[0]}!`,
+            token,
             usuario
         });
 
@@ -195,20 +231,33 @@ app.post('/api/usuarios/mfa/verificar-login', async (req, res) => {
             return res.status(401).json({ ok: false, mensaje: 'Código incorrecto o expirado. Verifica tu aplicación.' });
         }
 
+        const usuario = {
+            id_usuario     : user.id_usuario,
+            nombre_completo: user.nombre_completo,
+            correo         : user.correo,
+            mfa_activo     : true
+        };
+        const token = generarToken(usuario);
+
         res.json({
             ok     : true,
             mensaje: `¡Bienvenido/a de nuevo, ${user.nombre_completo.split(' ')[0]}!`,
-            usuario: {
-                id_usuario     : user.id_usuario,
-                nombre_completo: user.nombre_completo,
-                correo         : user.correo,
-                mfa_activo     : true
-            }
+            token,
+            usuario
         });
     } catch (err) {
         console.error('Error /api/usuarios/mfa/verificar-login:', err);
         res.status(500).json({ ok: false, mensaje: 'Error interno al verificar el código.' });
     }
+});
+
+// GET /api/usuarios/verificar-token
+app.get('/api/usuarios/verificar-token', verificarToken, (req, res) => {
+    res.json({
+        ok     : true,
+        mensaje: 'Token JWT válido y activo.',
+        usuario: req.usuario
+    });
 });
 
 // POST /api/usuarios/mfa/generar
